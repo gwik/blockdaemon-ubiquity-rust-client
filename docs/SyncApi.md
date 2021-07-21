@@ -1,0 +1,68 @@
+# \SyncApi
+
+All URIs are relative to *https://ubiquity.api.blockdaemon.com/v2*
+
+Method | HTTP request | Description
+------------- | ------------- | -------------
+[**current_block_id**](SyncApi.md#current_block_id) | **GET** /{platform}/{network}/sync/block_id | Get current block ID
+[**current_block_number**](SyncApi.md#current_block_number) | **GET** /{platform}/{network}/sync/block_number | Get current block number
+
+
+
+## current_block_id
+
+> String current_block_id(platform, network)
+Get current block ID
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**platform** | **String** | Coin platform handle | [required] |
+**network** | **String** | Which network to target. Available networks can be found with /{platform} | [required] |
+
+### Return type
+
+**String**
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## current_block_number
+
+> i64 current_block_number(platform, network)
+Get current block number
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**platform** | **String** | Coin platform handle | [required] |
+**network** | **String** | Which network to target. Available networks can be found with /{platform} | [required] |
+
+### Return type
+
+**i64**
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
