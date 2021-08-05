@@ -44,17 +44,20 @@ fn setup() -> Result<Setup, io::Error> {
   });
 }
 
+fn config_from_url(url: String) -> configuration::Configuration {
+  return configuration::Configuration {
+    base_path: url,
+    ..configuration::Configuration::new()
+  };
+}
+
 #[tokio::test]
 async fn sync_block_number() {
   match setup() {
     Ok(setup_data) => {
-      let url = setup_data.url;
       let _m = setup_data.mocks;
 
-      let config = configuration::Configuration {
-        base_path: url,
-        ..configuration::Configuration::new()
-      };
+      let config = config_from_url(setup_data.url);
 
       let test_platform_pairs = [("bitcoin", "mainnet"), ("ethereum", "mainnet")];
 
@@ -74,21 +77,19 @@ async fn sync_block_number() {
 async fn sync_block_id() {
   match setup() {
     Ok(setup_data) => {
-      let url = setup_data.url;
       let _m = setup_data.mocks;
 
-      let config = configuration::Configuration {
-        base_path: url,
-        ..configuration::Configuration::new()
-      };
-      let platform = "bitcoin";
-      let network = "mainnet";
+      let config = config_from_url(setup_data.url);
 
-      let res = sync_api::current_block_id(&config, platform, network).await;
-      match res {
-        Ok(_) => {}
-        Err(e) => panic!("{}", e),
-      };
+      let test_platform_pairs = [("bitcoin", "mainnet"), ("ethereum", "mainnet")];
+
+      for (platform, network) in test_platform_pairs {
+        let res = sync_api::current_block_id(&config, platform, network).await;
+        match res {
+          Ok(_) => {}
+          Err(e) => panic!("{}", e),
+        };
+      }
     }
     Err(e) => panic!("{}", e),
   }
