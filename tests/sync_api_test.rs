@@ -44,13 +44,6 @@ fn setup() -> Result<Setup, io::Error> {
   });
 }
 
-fn config_from_url(url: String) -> configuration::Configuration {
-  return configuration::Configuration {
-    base_path: url,
-    ..configuration::Configuration::new()
-  };
-}
-
 async fn sync_test<F, Fut>(func: F)
 where
   F: Fn(configuration::Configuration) -> Fut,
@@ -60,7 +53,7 @@ where
     Ok(setup_data) => {
       let _m = setup_data.mocks;
 
-      let config = config_from_url(setup_data.url);
+      let config = utils::config_from_url(setup_data.url);
 
       func(config).await;
     }

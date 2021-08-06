@@ -1,0 +1,13 @@
+{
+  "handle": "algorand",
+  "source": "algod v1 REST API",
+  "genesis_number": 0,
+  "endpoints": [
+    "/account/:address",
+    "/account/:address/report",
+    "/block/:number",
+    "/block_identifier/:number",
+    "/sync/block_id",
+    "/sync/block_number"
+  ]
+}

@@ -1,6 +1,14 @@
 use std::{io, fs};
 
+use ubiquity::configuration;
 use mockito;
+
+pub fn config_from_url(url: String) -> configuration::Configuration {
+  return configuration::Configuration {
+    base_path: url,
+    ..configuration::Configuration::new()
+  };
+}
 
 pub fn create_mock_from_file(
   filepath: &str,
