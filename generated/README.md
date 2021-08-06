@@ -15,6 +15,8 @@ The following protocols are currently supported:
 * algorand
 * stellar
 * dogecoin
+* oasis
+* stacks
 
 #### Testnet
 * bitcoin/testnet
@@ -61,6 +63,7 @@ Class | Method | HTTP request | Description
 *BlocksApi* | [**get_block**](docs/BlocksApi.md#get_block) | **GET** /{platform}/{network}/block/{key} | Block By Number/Hash
 *BlocksApi* | [**get_block_identifier**](docs/BlocksApi.md#get_block_identifier) | **GET** /{platform}/{network}/block_identifier/{key} | Block Identifier By Number/Hash
 *PlatformsApi* | [**get_platform**](docs/PlatformsApi.md#get_platform) | **GET** /{platform}/{network} | Platform Info
+*PlatformsApi* | [**get_platforms**](docs/PlatformsApi.md#get_platforms) | **GET** / | Platforms overview
 *SyncApi* | [**current_block_id**](docs/SyncApi.md#current_block_id) | **GET** /{platform}/{network}/sync/block_id | Get current block ID
 *SyncApi* | [**current_block_number**](docs/SyncApi.md#current_block_number) | **GET** /{platform}/{network}/sync/block_number | Get current block number
 *TransactionsApi* | [**estimate_fee**](docs/TransactionsApi.md#estimate_fee) | **GET** /{platform}/{network}/tx/estimate_fee | Get fee estimate
@@ -87,6 +90,8 @@ Class | Method | HTTP request | Description
  - [Operation](docs/Operation.md)
  - [PlatformDetail](docs/PlatformDetail.md)
  - [PlatformEndpoint](docs/PlatformEndpoint.md)
+ - [PlatformsOverview](docs/PlatformsOverview.md)
+ - [PlatformsOverviewPlatforms](docs/PlatformsOverviewPlatforms.md)
  - [Report](docs/Report.md)
  - [ReportField](docs/ReportField.md)
  - [ReportFieldMeta](docs/ReportFieldMeta.md)

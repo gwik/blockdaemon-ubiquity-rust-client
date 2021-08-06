@@ -21,6 +21,8 @@ docs/Operation.md
 docs/PlatformDetail.md
 docs/PlatformEndpoint.md
 docs/PlatformsApi.md
+docs/PlatformsOverview.md
+docs/PlatformsOverviewPlatforms.md
 docs/Report.md
 docs/ReportField.md
 docs/ReportFieldMeta.md
@@ -66,6 +68,8 @@ src/models/native_currency.rs
 src/models/operation.rs
 src/models/platform_detail.rs
 src/models/platform_endpoint.rs
+src/models/platforms_overview.rs
+src/models/platforms_overview_platforms.rs
 src/models/report.rs
 src/models/report_field.rs
 src/models/report_field_meta.rs
