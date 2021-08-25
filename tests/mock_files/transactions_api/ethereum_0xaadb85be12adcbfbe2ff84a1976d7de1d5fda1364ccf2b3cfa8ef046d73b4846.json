@@ -1,0 +1,69 @@
+{
+  "id": "0xaadb85be12adcbfbe2ff84a1976d7de1d5fda1364ccf2b3cfa8ef046d73b4846",
+  "coin": 60,
+  "addresses": [
+    "0x30B2f83e291f952850DFB13380F6c71b24FDF97c",
+    "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
+    "0x9C18A2F9545112AB2FCBDd228536562406A53232",
+    "transaction_fees"
+  ],
+  "assets": [
+    "ethereum/contract/0x630d98424efe0ea27fb1b3ab7741907dffeaad78/erc-20",
+    "ethereum/contract/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2/erc-20",
+    "ethereum/native/eth"
+  ],
+  "date": 1623327033,
+  "height": 12606687,
+  "block_id": "0xc0f438f24eacdc1263a8bd83bab8a897c5f1065b1b7a93d5d170c3806498534a",
+  "status": "completed",
+  "operations": {
+    "fee": {
+      "type": "transfer",
+      "detail": {
+        "from": "0x30B2f83e291f952850DFB13380F6c71b24FDF97c",
+        "to": "transaction_fees",
+        "currency": {
+          "asset_path": "ethereum/native/eth",
+          "symbol": "ETH",
+          "name": "Ether",
+          "decimals": 18,
+          "type": "native"
+        },
+        "value": "1425646200000000"
+      }
+    },
+    "log-156-transfer": {
+      "type": "transfer",
+      "detail": {
+        "from": "0x30B2f83e291f952850DFB13380F6c71b24FDF97c",
+        "to": "0x9C18A2F9545112AB2FCBDd228536562406A53232",
+        "currency": {
+          "asset_path": "ethereum/contract/0x630d98424efe0ea27fb1b3ab7741907dffeaad78/erc-20",
+          "type": "smart_token",
+          "detail": {
+            "type": "ERC-20",
+            "contract": "0x630d98424eFe0Ea27fB1b3Ab7741907DFFEaAd78"
+          }
+        },
+        "value": "0"
+      }
+    },
+    "log-158-transfer": {
+      "type": "transfer",
+      "detail": {
+        "from": "0x9C18A2F9545112AB2FCBDd228536562406A53232",
+        "to": "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
+        "currency": {
+          "asset_path": "ethereum/contract/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2/erc-20",
+          "type": "smart_token",
+          "detail": {
+            "type": "ERC-20",
+            "contract": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+          }
+        },
+        "value": "0"
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,0 +1,51 @@
+{
+  "id": "d020dcbae21454aa6c042083cc21c35359f5d14a06162e29ac6ec82b9f81b5db",
+  "coin": 0,
+  "addresses": [
+    "3E9VJUbaN2Zzfxky6rTQTQWuPFtXFjan82",
+    "bc1qj5g27jrlmpj89ahcxk2r7r9rdmc9yjzy97gqsx",
+    "bc1qng38fexdrvqes4ft66f7apu0qjactc0pqxa8xl"
+  ],
+  "assets": ["bitcoin/native/btc"],
+  "date": 1623264422,
+  "height": 686974,
+  "block_id": "00000000000000000001114efbe51b75e6a0fec83042e22ea837336f951dfdcf",
+  "status": "completed",
+  "operations": {
+    "script": {
+      "type": "multi_transfer",
+      "detail": {
+        "inputs": [
+          {
+            "asset_path": "bitcoin/native/btc",
+            "address": "bc1qj5g27jrlmpj89ahcxk2r7r9rdmc9yjzy97gqsx",
+            "value": "6568469"
+          }
+        ],
+        "outputs": [
+          {
+            "asset_path": "bitcoin/native/btc",
+            "address": "bc1qng38fexdrvqes4ft66f7apu0qjactc0pqxa8xl",
+            "value": "6425069"
+          },
+          {
+            "asset_path": "bitcoin/native/btc",
+            "address": "3E9VJUbaN2Zzfxky6rTQTQWuPFtXFjan82",
+            "value": "140126"
+          }
+        ],
+        "currency": {
+          "asset_path": "bitcoin/native/btc",
+          "symbol": "BTC",
+          "name": "Bitcoin",
+          "decimals": 8,
+          "type": "native"
+        },
+        "total_in": "6568469",
+        "total_out": "6565195",
+        "unspent": "3274"
+      }
+    }
+  },
+  "tags": []
+}

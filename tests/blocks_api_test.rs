@@ -74,8 +74,8 @@ async fn blocks_by_id() {
 
       let config = utils::config_from_url(setup_data.url);
 
-      for (platform, network, address) in test_blocks_data {
-        let res = blocks_api::get_block(&config, platform, network, address).await;
+      for (platform, network, ident) in test_blocks_data {
+        let res = blocks_api::get_block(&config, platform, network, ident).await;
         match res {
           Ok(_) => {}
           Err(e) => panic!("{}", e),
@@ -108,8 +108,8 @@ async fn blocks_by_number() {
 
       let config = utils::config_from_url(setup_data.url);
 
-      for (platform, network, address) in test_blocks_data {
-        let res = blocks_api::get_block(&config, platform, network, address).await;
+      for (platform, network, ident) in test_blocks_data {
+        let res = blocks_api::get_block(&config, platform, network, ident).await;
         match res {
           Ok(_) => {}
           Err(e) => panic!("{}", e),
@@ -142,8 +142,8 @@ async fn block_ids_by_id() {
 
       let config = utils::config_from_url(setup_data.url);
 
-      for (platform, network, address) in test_blocks_data {
-        let res = blocks_api::get_block_identifier(&config, platform, network, address).await;
+      for (platform, network, ident) in test_blocks_data {
+        let res = blocks_api::get_block_identifier(&config, platform, network, ident).await;
         match res {
           Ok(_) => {}
           Err(e) => panic!("{}", e),
@@ -176,8 +176,8 @@ async fn block_ids_by_number() {
 
       let config = utils::config_from_url(setup_data.url);
 
-      for (platform, network, address) in test_blocks_data {
-        let res = blocks_api::get_block_identifier(&config, platform, network, address).await;
+      for (platform, network, ident) in test_blocks_data {
+        let res = blocks_api::get_block_identifier(&config, platform, network, ident).await;
         match res {
           Ok(_) => {}
           Err(e) => panic!("{}", e),
