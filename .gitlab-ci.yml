@@ -27,7 +27,7 @@ generate:
         - spec/openapi.yaml
 
 # Use cargo to test the project
-test:cargo:
+test:
   stage: test
   script:
     - rustc --version && cargo --version  # Print version info for debugging
