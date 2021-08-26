@@ -20,12 +20,11 @@ generate:
     - git add ./generated ./docs
     - git commit -m "UB-00 Updating generated code with changes from ${CI_JOB_ID}"
     - git push http://gitlab-ci-token:${AUTH_TOKEN_UBIQUITY_RUST_CLIENT}@gitlab.com/Blockdaemon/ubiquity/ubiquity-rust-client.git HEAD:master
-      # TODO: DON'T FORGET TO UNCOMMENT THIS!
-      #  only:
-      #      refs:
-      #        - master
-      #      changes:
-      #        - spec/openapi.yaml
+  only:
+      refs:
+        - master
+      changes:
+        - spec/openapi.yaml
 
 # Use cargo to test the project
 test:cargo:
