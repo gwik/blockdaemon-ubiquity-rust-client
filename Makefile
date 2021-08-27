@@ -28,4 +28,14 @@ clean: clean_generated clean_library
 
 .PHONY: test
 test: clean_generated
-	pytest
+	cargo test
+
+.PHONY: examples
+examples:
+	cd examples/get-block/; pwd; \
+      echo "Building get-block example"; \
+	  cargo build
+	#cd ../../
+	cd examples/pagination/; pwd; \
+      echo "Building pagination example"; \
+	  cargo build;

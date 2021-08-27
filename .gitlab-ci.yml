@@ -1,5 +1,6 @@
 stages:
   - generate
+  - build-examples
   - test
 
 # Official language image. Look for the different tagged releases at:
@@ -26,9 +27,15 @@ generate:
       changes:
         - spec/openapi.yaml
 
+build-examples:
+  stage: build-examples
+  script: make examples
+
 # Use cargo to test the project
 test:cargo:
   stage: test
   script:
     - rustc --version && cargo --version  # Print version info for debugging
     - cargo test --workspace --verbose
+  dependencies:
+    - generate
