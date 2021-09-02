@@ -1,4 +1,3 @@
-use mockito;
 use ubiquity::api::platforms_api;
 
 pub mod utils;

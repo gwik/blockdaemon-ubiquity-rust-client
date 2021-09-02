@@ -3,8 +3,6 @@ use std::{future::Future, io};
 use ubiquity::api::sync_api;
 use ubiquity::configuration;
 
-use mockito;
-
 pub mod utils;
 
 struct Setup {
@@ -33,7 +31,7 @@ fn setup() -> Result<Setup, io::Error> {
     "/ethereum/mainnet/sync/block_id",
   )?;
 
-  return Ok(Setup {
+  Ok(Setup {
     url,
     mocks: vec![
       block_number_bitcoin_mock,
@@ -41,7 +39,7 @@ fn setup() -> Result<Setup, io::Error> {
       block_id_bitcoin_mock,
       block_id_ethereum_mock,
     ],
-  });
+  })
 }
 
 async fn sync_test<F, Fut>(func: F)
