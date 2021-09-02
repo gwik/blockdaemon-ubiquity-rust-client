@@ -2,8 +2,6 @@ use std::io;
 
 use ubiquity::api::accounts_api;
 
-use mockito;
-
 pub mod utils;
 
 struct Setup {
@@ -11,7 +9,7 @@ struct Setup {
   mocks: Vec<mockito::Mock>,
 }
 
-fn setup_balances_endpoints(test_accounts_data: &Vec<(&str, &str, &str)>) -> Result<Setup, io::Error> {
+fn setup_balances_endpoints(test_accounts_data: &[(&str, &str, &str)]) -> Result<Setup, io::Error> {
   let url = mockito::server_url();
 
   let mut mocks = vec![];
@@ -26,13 +24,13 @@ fn setup_balances_endpoints(test_accounts_data: &Vec<(&str, &str, &str)>) -> Res
     mocks.push(mock);
   }
   
-  return Ok(Setup {
+  Ok(Setup {
     url,
     mocks,
-  });
+  })
 }
 
-fn setup_txs_endpoints(test_accounts_data: &Vec<(&str, &str, &str)>) -> Result<Setup, io::Error> {
+fn setup_txs_endpoints(test_accounts_data: &[(&str, &str, &str)]) -> Result<Setup, io::Error> {
   let url = mockito::server_url();
 
   let mut mocks = vec![];
@@ -47,10 +45,10 @@ fn setup_txs_endpoints(test_accounts_data: &Vec<(&str, &str, &str)>) -> Result<S
     mocks.push(mock);
   }
   
-  return Ok(Setup {
+  Ok(Setup {
     url,
     mocks,
-  });
+  })
 
 }
 

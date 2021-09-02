@@ -2,8 +2,6 @@ use std::io;
 
 use ubiquity::api::transactions_api;
 
-use mockito;
-
 pub mod utils;
 
 struct Setup {
@@ -11,7 +9,7 @@ struct Setup {
   mocks: Vec<mockito::Mock>,
 }
 
-fn setup_txs_by_id(test_txs_data: &Vec<(&str, &str, &str)>) -> Result<Setup, io::Error> {
+fn setup_txs_by_id(test_txs_data: &[(&str, &str, &str)]) -> Result<Setup, io::Error> {
   let url = mockito::server_url();
 
   let mut mocks = vec![];
@@ -26,10 +24,10 @@ fn setup_txs_by_id(test_txs_data: &Vec<(&str, &str, &str)>) -> Result<Setup, io:
     mocks.push(mock);
   }
 
-  return Ok(Setup { url, mocks });
+  Ok(Setup { url, mocks })
 }
 
-fn setup_txs(test_txs_data: &Vec<(&str, &str)>) -> Result<Setup, io::Error> {
+fn setup_txs(test_txs_data: &[(&str, &str)]) -> Result<Setup, io::Error> {
   let url = mockito::server_url();
 
   let mut mocks = vec![];
@@ -44,7 +42,7 @@ fn setup_txs(test_txs_data: &Vec<(&str, &str)>) -> Result<Setup, io::Error> {
     mocks.push(mock);
   }
 
-  return Ok(Setup { url, mocks });
+  Ok(Setup { url, mocks })
 }
 
 #[tokio::test]

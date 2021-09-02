@@ -37,5 +37,14 @@ test:cargo:
   script:
     - rustc --version && cargo --version  # Print version info for debugging
     - cargo test --workspace --verbose
+    - rustup component add clippy
+    - cargo clippy --all --all-features --tests
+
+# Run cargo clippy
+test:clippy:
+  stage: test
+  script:
+    - rustup component add clippy
+    - cargo clippy --all --all-features --tests
   dependencies:
     - generate
