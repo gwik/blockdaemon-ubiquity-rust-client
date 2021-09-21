@@ -17,17 +17,34 @@ The following protocols are currently supported:
 * dogecoin
 * oasis
 * stacks
+* near
 
 #### Testnet
 * bitcoin/testnet
 * ethereum/ropsten
 * dogecoin/testnet
 
+#### Native
+Ubiquity provides native access to all Blockchain nodes it supports.
+To access native functionality, use the protocol without the v2 prefix
+* bitcoin/(mainnet | testnet) - [RPC Documentation](https://developer.bitcoin.org/reference/rpc/)
+* ethereum/(mainnet | ropsten) - [RPC Documentation](https://ethereum.org/en/developers/docs/apis/json-rpc/)
+* polkadot/mainnet - [Sidecar API Documentation](https://paritytech.github.io/substrate-api-sidecar/dist/)
+* polkadot/mainnet/http-rpc - [Polkadot RPC Documentation](https://polkadot.js.org/docs/substrate/rpc/)
+* algorand/mainnet - [Algod API Documentation](https://developer.algorand.org/docs/reference/rest-apis/algod/v1/)
+* stellar/mainnet - [Stellar Horizon API Documentation](https://developers.stellar.org/api)
+* dogecoin/(mainnet | testnet) - [Dogecoin API Documentaion](https://developer.bitcoin.org/reference/rpc/)
+* oasis/mainnet - [Oasis Rosetta Gateway Documentation](https://www.rosetta-api.org/docs/api_identifiers.html#network-identifier)
+* stacks/mainnet - [Stacks API Documentation](https://blockstack.github.io/stacks-blockchain-api/)
+* near/mainnet - [NEAR RPC Documentation](https://docs.near.org/docs/api/rpc)
+
+A full URL example: https://ubiquity.api.blockdaemon.com/_**bitcoin/mainnet**
+
 ##### Pagination
 Certain resources contain a lot of data, more than what's practical
 to return for a single request.
 With the help of pagination, the data is split across multiple responses.
-Each response returns a subset of the items requested and a continuation token.
+Each response returns a subset of the items requested, and a continuation token.
 
 To get the next batch of items, copy the returned continuation token
 to the continuation query parameter and repeat the request with the new URL.
@@ -69,7 +86,6 @@ Class | Method | HTTP request | Description
 *TransactionsApi* | [**estimate_fee**](docs/TransactionsApi.md#estimate_fee) | **GET** /{platform}/{network}/tx/estimate_fee | Get fee estimate
 *TransactionsApi* | [**get_tx**](docs/TransactionsApi.md#get_tx) | **GET** /{platform}/{network}/tx/{id} | Transaction By Hash
 *TransactionsApi* | [**get_txs**](docs/TransactionsApi.md#get_txs) | **GET** /{platform}/{network}/txs | All Transactions
-*TransactionsApi* | [**tx_create**](docs/TransactionsApi.md#tx_create) | **POST** /{platform}/{network}/tx/create | Create an unsigned transaction
 *TransactionsApi* | [**tx_send**](docs/TransactionsApi.md#tx_send) | **POST** /{platform}/{network}/tx/send | Submit a signed transaction
 
 
@@ -104,11 +120,9 @@ Class | Method | HTTP request | Description
  - [Transfer](docs/Transfer.md)
  - [TransferOperation](docs/TransferOperation.md)
  - [Tx](docs/Tx.md)
- - [TxCreate](docs/TxCreate.md)
  - [TxDestination](docs/TxDestination.md)
  - [TxPage](docs/TxPage.md)
  - [TxReceipt](docs/TxReceipt.md)
- - [UnsignedTx](docs/UnsignedTx.md)
  - [Utxo](docs/Utxo.md)
 
 

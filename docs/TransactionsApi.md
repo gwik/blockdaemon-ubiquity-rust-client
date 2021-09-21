@@ -7,7 +7,6 @@ Method | HTTP request | Description
 [**estimate_fee**](TransactionsApi.md#estimate_fee) | **GET** /{platform}/{network}/tx/estimate_fee | Get fee estimate
 [**get_tx**](TransactionsApi.md#get_tx) | **GET** /{platform}/{network}/tx/{id} | Transaction By Hash
 [**get_txs**](TransactionsApi.md#get_txs) | **GET** /{platform}/{network}/txs | All Transactions
-[**tx_create**](TransactionsApi.md#tx_create) | **POST** /{platform}/{network}/tx/create | Create an unsigned transaction
 [**tx_send**](TransactionsApi.md#tx_send) | **POST** /{platform}/{network}/tx/send | Submit a signed transaction
 
 
@@ -104,38 +103,6 @@ Name | Type | Description  | Required | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/json, application/problem+json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-
-## tx_create
-
-> crate::models::UnsignedTx tx_create(platform, network, tx_create)
-Create an unsigned transaction
-
-Creates an unsigned transaction for BTC and ETH.  **Note** that Ethereum currently only supports singular transaction destinations 
-
-### Parameters
-
-
-Name | Type | Description  | Required | Notes
-------------- | ------------- | ------------- | ------------- | -------------
-**platform** | **String** | Coin platform handle | [required] |
-**network** | **String** | Which network to target. Available networks can be found with /{platform} | [required] |
-**tx_create** | [**TxCreate**](TxCreate.md) |  | [required] |
-
-### Return type
-
-[**crate::models::UnsignedTx**](unsigned_tx.md)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: application/json
 - **Accept**: application/json, application/problem+json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
