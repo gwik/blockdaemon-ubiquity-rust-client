@@ -75,6 +75,7 @@ All URIs are relative to *https://ubiquity.api.blockdaemon.com/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AccountsApi* | [**get_balances_by_address**](docs/AccountsApi.md#get_balances_by_address) | **GET** /{platform}/{network}/account/{address} | Balances Of Address
+*AccountsApi* | [**get_balances_by_addresses**](docs/AccountsApi.md#get_balances_by_addresses) | **POST** /{platform}/{network}/accounts | Balances Of Addresses
 *AccountsApi* | [**get_report_by_address**](docs/AccountsApi.md#get_report_by_address) | **GET** /{platform}/{network}/account/{address}/report | A financial report for an address between a time period. Default timescale is within the last 30 days
 *AccountsApi* | [**get_txs_by_address**](docs/AccountsApi.md#get_txs_by_address) | **GET** /{platform}/{network}/account/{address}/txs | Transactions Of Address
 *BlocksApi* | [**get_block**](docs/BlocksApi.md#get_block) | **GET** /{platform}/{network}/block/{key} | Block By Number/Hash
@@ -91,6 +92,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [AccountsObj](docs/AccountsObj.md)
  - [AlgorandMeta](docs/AlgorandMeta.md)
  - [BalanceChange](docs/BalanceChange.md)
  - [Block](docs/Block.md)

@@ -25,6 +25,16 @@ pub enum GetBalancesByAddressError {
     UnknownValue(serde_json::Value),
 }
 
+/// struct for typed errors of method `get_balances_by_addresses`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetBalancesByAddressesError {
+    Status400(crate::models::Error),
+    Status401(crate::models::Error),
+    Status429(crate::models::Error),
+    UnknownValue(serde_json::Value),
+}
+
 /// struct for typed errors of method `get_report_by_address`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
@@ -49,13 +59,16 @@ pub enum GetTxsByAddressError {
 
 
 /// Returns the account balances for all supported currencies. 
-pub async fn get_balances_by_address(configuration: &configuration::Configuration, platform: &str, network: &str, address: &str) -> Result<::std::collections::HashMap<String, serde_json::Value>, Error<GetBalancesByAddressError>> {
+pub async fn get_balances_by_address(configuration: &configuration::Configuration, platform: &str, network: &str, address: &str, assets: Option<&str>) -> Result<::std::collections::HashMap<String, serde_json::Value>, Error<GetBalancesByAddressError>> {
 
     let local_var_client = &configuration.client;
 
     let local_var_uri_str = format!("{}/{platform}/{network}/account/{address}", configuration.base_path, platform=crate::apis::urlencode(platform), network=crate::apis::urlencode(network), address=crate::apis::urlencode(address));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
+    if let Some(ref local_var_str) = assets {
+        local_var_req_builder = local_var_req_builder.query(&[("assets", &local_var_str.to_string())]);
+    }
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
@@ -73,6 +86,40 @@ pub async fn get_balances_by_address(configuration: &configuration::Configuratio
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
         let local_var_entity: Option<GetBalancesByAddressError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
+    }
+}
+
+/// Returns the balances of accounts for all supported currencies. 
+pub async fn get_balances_by_addresses(configuration: &configuration::Configuration, platform: &str, network: &str, accounts_obj: crate::models::AccountsObj, assets: Option<&str>) -> Result<::std::collections::HashMap<String, ::std::collections::HashMap<String, serde_json::Value>>, Error<GetBalancesByAddressesError>> {
+
+    let local_var_client = &configuration.client;
+
+    let local_var_uri_str = format!("{}/{platform}/{network}/accounts", configuration.base_path, platform=crate::apis::urlencode(platform), network=crate::apis::urlencode(network));
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
+
+    if let Some(ref local_var_str) = assets {
+        local_var_req_builder = local_var_req_builder.query(&[("assets", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_user_agent) = configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+    }
+    if let Some(ref local_var_token) = configuration.bearer_access_token {
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
+    };
+    local_var_req_builder = local_var_req_builder.json(&accounts_obj);
+
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
+
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        serde_json::from_str(&local_var_content).map_err(Error::from)
+    } else {
+        let local_var_entity: Option<GetBalancesByAddressesError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }
@@ -115,7 +162,7 @@ pub async fn get_report_by_address(configuration: &configuration::Configuration,
 }
 
 /// Gets transactions that an address was involved with, from newest to oldest. This call uses pagination. 
-pub async fn get_txs_by_address(configuration: &configuration::Configuration, platform: &str, network: &str, address: &str, order: Option<&str>, continuation: Option<&str>, limit: Option<i32>) -> Result<crate::models::TxPage, Error<GetTxsByAddressError>> {
+pub async fn get_txs_by_address(configuration: &configuration::Configuration, platform: &str, network: &str, address: &str, order: Option<&str>, continuation: Option<&str>, limit: Option<i32>, assets: Option<&str>) -> Result<crate::models::TxPage, Error<GetTxsByAddressError>> {
 
     let local_var_client = &configuration.client;
 
@@ -130,6 +177,9 @@ pub async fn get_txs_by_address(configuration: &configuration::Configuration, pl
     }
     if let Some(ref local_var_str) = limit {
         local_var_req_builder = local_var_req_builder.query(&[("limit", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = assets {
+        local_var_req_builder = local_var_req_builder.query(&[("assets", &local_var_str.to_string())]);
     }
     if let Some(ref local_var_user_agent) = configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());

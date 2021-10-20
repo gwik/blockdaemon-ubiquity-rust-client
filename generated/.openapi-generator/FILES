@@ -4,6 +4,7 @@
 Cargo.toml
 README.md
 docs/AccountsApi.md
+docs/AccountsObj.md
 docs/AlgorandMeta.md
 docs/BalanceChange.md
 docs/Block.md
@@ -50,6 +51,7 @@ src/apis/platforms_api.rs
 src/apis/sync_api.rs
 src/apis/transactions_api.rs
 src/lib.rs
+src/models/accounts_obj.rs
 src/models/algorand_meta.rs
 src/models/balance_change.rs
 src/models/block.rs

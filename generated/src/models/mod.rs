@@ -1,3 +1,5 @@
+pub mod accounts_obj;
+pub use self::accounts_obj::AccountsObj;
 pub mod algorand_meta;
 pub use self::algorand_meta::AlgorandMeta;
 pub mod balance_change;
