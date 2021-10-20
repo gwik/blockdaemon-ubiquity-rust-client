@@ -70,7 +70,7 @@ async fn account_balances() {
       let config = utils::config_from_url(setup_data.url);
 
       for (platform, network, address) in test_account_balances_data {
-        let res = accounts_api::get_balances_by_address(&config, platform, network, address).await;
+        let res = accounts_api::get_balances_by_address(&config, platform, network, address, None).await;
         match res {
           Ok(_) => {}
           Err(e) => panic!("{}", e),
@@ -106,7 +106,7 @@ async fn account_txs() {
 
       for (platform, network, address) in test_account_txs_data {
         let res =
-          accounts_api::get_txs_by_address(&config, platform, network, address, None, None, None)
+          accounts_api::get_txs_by_address(&config, platform, network, address, None, None, None, None)
             .await;
         match res {
           Ok(_) => {}
