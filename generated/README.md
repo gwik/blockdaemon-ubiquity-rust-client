@@ -38,7 +38,7 @@ To access native functionality, use the protocol without the v2 prefix
 * stacks/mainnet - [Stacks API Documentation](https://blockstack.github.io/stacks-blockchain-api/)
 * near/mainnet - [NEAR RPC Documentation](https://docs.near.org/docs/api/rpc)
 
-A full URL example: https://ubiquity.api.blockdaemon.com/_**bitcoin/mainnet**
+A full URL example: https://ubiquity.api.blockdaemon.com/bitcoin/mainnet
 
 ##### Pagination
 Certain resources contain a lot of data, more than what's practical
@@ -70,31 +70,41 @@ Put the package under your project folder and add the following to `Cargo.toml` 
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://ubiquity.api.blockdaemon.com/v2*
+All URIs are relative to *https://ubiquity.api.blockdaemon.com*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AccountsApi* | [**get_balances_by_address**](docs/AccountsApi.md#get_balances_by_address) | **GET** /{platform}/{network}/account/{address} | Balances Of Address
-*AccountsApi* | [**get_balances_by_addresses**](docs/AccountsApi.md#get_balances_by_addresses) | **POST** /{platform}/{network}/accounts | Balances Of Addresses
-*AccountsApi* | [**get_report_by_address**](docs/AccountsApi.md#get_report_by_address) | **GET** /{platform}/{network}/account/{address}/report | A financial report for an address between a time period. Default timescale is within the last 30 days
-*AccountsApi* | [**get_txs_by_address**](docs/AccountsApi.md#get_txs_by_address) | **GET** /{platform}/{network}/account/{address}/txs | Transactions Of Address
-*BlocksApi* | [**get_block**](docs/BlocksApi.md#get_block) | **GET** /{platform}/{network}/block/{key} | Block By Number/Hash
-*BlocksApi* | [**get_block_identifier**](docs/BlocksApi.md#get_block_identifier) | **GET** /{platform}/{network}/block_identifier/{key} | Block Identifier By Number/Hash
-*PlatformsApi* | [**get_platform**](docs/PlatformsApi.md#get_platform) | **GET** /{platform}/{network} | Platform Info
-*PlatformsApi* | [**get_platforms**](docs/PlatformsApi.md#get_platforms) | **GET** / | Platforms overview
-*SyncApi* | [**current_block_id**](docs/SyncApi.md#current_block_id) | **GET** /{platform}/{network}/sync/block_id | Get current block ID
-*SyncApi* | [**current_block_number**](docs/SyncApi.md#current_block_number) | **GET** /{platform}/{network}/sync/block_number | Get current block number
-*TransactionsApi* | [**estimate_fee**](docs/TransactionsApi.md#estimate_fee) | **GET** /{platform}/{network}/tx/estimate_fee | Get fee estimate
-*TransactionsApi* | [**get_tx**](docs/TransactionsApi.md#get_tx) | **GET** /{platform}/{network}/tx/{id} | Transaction By Hash
-*TransactionsApi* | [**get_txs**](docs/TransactionsApi.md#get_txs) | **GET** /{platform}/{network}/txs | All Transactions
-*TransactionsApi* | [**tx_send**](docs/TransactionsApi.md#tx_send) | **POST** /{platform}/{network}/tx/send | Submit a signed transaction
+*AccountsApi* | [**get_balances_by_address**](docs/AccountsApi.md#get_balances_by_address) | **GET** /v2/{platform}/{network}/account/{address} | Balances Of Address
+*AccountsApi* | [**get_balances_by_addresses**](docs/AccountsApi.md#get_balances_by_addresses) | **POST** /v2/{platform}/{network}/accounts | Balances Of Addresses
+*AccountsApi* | [**get_list_of_balances_by_address**](docs/AccountsApi.md#get_list_of_balances_by_address) | **GET** /v1/{platform}/{network}/account/{address} | Balances Of Address
+*AccountsApi* | [**get_list_of_balances_by_addresses**](docs/AccountsApi.md#get_list_of_balances_by_addresses) | **POST** /v1/{platform}/{network}/accounts | Balances Of Addresses
+*AccountsApi* | [**get_report_by_address**](docs/AccountsApi.md#get_report_by_address) | **GET** /v2/{platform}/{network}/account/{address}/report | A financial report for an address between a time period. Default timescale is within the last 30 days
+*AccountsApi* | [**get_txs_by_address**](docs/AccountsApi.md#get_txs_by_address) | **GET** /v2/{platform}/{network}/account/{address}/txs | Transactions Of Address
+*BlocksApi* | [**get_block**](docs/BlocksApi.md#get_block) | **GET** /v2/{platform}/{network}/block/{key} | Block By Number/Hash
+*BlocksApi* | [**get_block_identifier**](docs/BlocksApi.md#get_block_identifier) | **GET** /v2/{platform}/{network}/block_identifier/{key} | Block Identifier By Number/Hash
+*PlatformsApi* | [**get_platform**](docs/PlatformsApi.md#get_platform) | **GET** /v2/{platform}/{network} | Platform Info
+*PlatformsApi* | [**get_platform_endpoints**](docs/PlatformsApi.md#get_platform_endpoints) | **GET** /v1/{platform}/{network}/ | Platform Info
+*PlatformsApi* | [**get_platforms**](docs/PlatformsApi.md#get_platforms) | **GET** /v2/ | Platforms overview
+*PlatformsApi* | [**get_platforms_list**](docs/PlatformsApi.md#get_platforms_list) | **GET** /v1/ | Platforms overview
+*SyncApi* | [**current_block_id**](docs/SyncApi.md#current_block_id) | **GET** /v2/{platform}/{network}/sync/block_id | Get current block ID
+*SyncApi* | [**current_block_number**](docs/SyncApi.md#current_block_number) | **GET** /v2/{platform}/{network}/sync/block_number | Get current block number
+*TransactionsApi* | [**estimate_fee**](docs/TransactionsApi.md#estimate_fee) | **GET** /v2/{platform}/{network}/tx/estimate_fee | Get fee estimate
+*TransactionsApi* | [**fee_estimate**](docs/TransactionsApi.md#fee_estimate) | **GET** /v1/{platform}/{network}/tx/estimate_fee | Get fee estimate
+*TransactionsApi* | [**get_tx**](docs/TransactionsApi.md#get_tx) | **GET** /v2/{platform}/{network}/tx/{id} | Transaction By Hash
+*TransactionsApi* | [**get_txs**](docs/TransactionsApi.md#get_txs) | **GET** /v2/{platform}/{network}/txs | All Transactions
+*TransactionsApi* | [**tx_send**](docs/TransactionsApi.md#tx_send) | **POST** /v2/{platform}/{network}/tx/send | Submit a signed transaction
 
 
 ## Documentation For Models
 
+ - [AccountsBalancesMap](docs/AccountsBalancesMap.md)
+ - [AccountsBalancesMapV1](docs/AccountsBalancesMapV1.md)
  - [AccountsObj](docs/AccountsObj.md)
  - [AlgorandMeta](docs/AlgorandMeta.md)
  - [BalanceChange](docs/BalanceChange.md)
+ - [BalanceV1](docs/BalanceV1.md)
+ - [BalancesMap](docs/BalancesMap.md)
+ - [BalancesMapV1](docs/BalancesMapV1.md)
  - [Block](docs/Block.md)
  - [BlockIdentifier](docs/BlockIdentifier.md)
  - [Coin](docs/Coin.md)
@@ -102,6 +112,8 @@ Class | Method | HTTP request | Description
  - [Effect](docs/Effect.md)
  - [Error](docs/Error.md)
  - [Fee](docs/Fee.md)
+ - [FeeEstimate](docs/FeeEstimate.md)
+ - [FeeEstimateEstimatedFees](docs/FeeEstimateEstimatedFees.md)
  - [MultiTransfer](docs/MultiTransfer.md)
  - [MultiTransferOperation](docs/MultiTransferOperation.md)
  - [NativeCurrency](docs/NativeCurrency.md)

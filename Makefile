@@ -10,7 +10,7 @@ endif
 all: clean generate build
 generate:
 	@echo "Generating code..."
-	java -jar $(openapi_jar_path) generate -v -i spec/openapi.yaml -c open-api-conf.yaml -g rust -o generated 
+	java -jar $(openapi_jar_path) generate -v -i spec/openapi.yaml -c open-api-conf.yaml -g rust -o generated --additional-properties=generateAliasAsModel=true
 	/bin/cp -r generated/docs . # use /bin/cp to prevent aliasing from cp to cp -i
 
 build:

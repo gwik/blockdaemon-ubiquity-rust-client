@@ -19,7 +19,7 @@ fn setup_blocks_by_identifier(test_blocks_data: &[(&str, &str, &str)]) -> Result
         "./tests/mock_files/blocks_api/{}.json",
         platform
       ),
-      &format!("/{}/{}/block/{}", platform, network, id),
+      &format!("/v2/{}/{}/block/{}", platform, network, id),
     )?;
     mocks.push(mock);
   }
@@ -40,7 +40,7 @@ fn setup_block_ids_by_identifier(test_blocks_data: &[(&str, &str, &str)]) -> Res
         "./tests/mock_files/blocks_api/block_identifiers/{}.json",
         platform
       ),
-      &format!("/{}/{}/block_identifier/{}", platform, network, id),
+      &format!("/v2/{}/{}/block_identifier/{}", platform, network, id),
     )?;
     mocks.push(mock);
   }

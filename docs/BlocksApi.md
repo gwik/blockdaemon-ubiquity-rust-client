@@ -1,11 +1,11 @@
 # \BlocksApi
 
-All URIs are relative to *https://ubiquity.api.blockdaemon.com/v2*
+All URIs are relative to *https://ubiquity.api.blockdaemon.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_block**](BlocksApi.md#get_block) | **GET** /{platform}/{network}/block/{key} | Block By Number/Hash
-[**get_block_identifier**](BlocksApi.md#get_block_identifier) | **GET** /{platform}/{network}/block_identifier/{key} | Block Identifier By Number/Hash
+[**get_block**](BlocksApi.md#get_block) | **GET** /v2/{platform}/{network}/block/{key} | Block By Number/Hash
+[**get_block_identifier**](BlocksApi.md#get_block_identifier) | **GET** /v2/{platform}/{network}/block_identifier/{key} | Block Identifier By Number/Hash
 
 
 
