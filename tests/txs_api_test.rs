@@ -19,7 +19,7 @@ fn setup_txs_by_id(test_txs_data: &[(&str, &str, &str)]) -> Result<Setup, io::Er
         "./tests/mock_files/transactions_api/{}_{}.json",
         platform, id
       ),
-      &format!("/{}/{}/tx/{}", platform, network, id),
+      &format!("/v2/{}/{}/tx/{}", platform, network, id),
     )?;
     mocks.push(mock);
   }
@@ -37,7 +37,7 @@ fn setup_txs(test_txs_data: &[(&str, &str)]) -> Result<Setup, io::Error> {
         "./tests/mock_files/transactions_api/get_txs_{}.json",
         platform
       ),
-      &format!("/{}/{}/txs", platform, network),
+      &format!("/v2/{}/{}/txs", platform, network),
     )?;
     mocks.push(mock);
   }
@@ -108,7 +108,7 @@ async fn estimate_fee() {
 
   let _mock = utils::create_mock_from_file(
     "./tests/mock_files/transactions_api/estimate_fee.json",
-    "/bitcoin/mainnet/tx/estimate_fee",
+    "/v2/bitcoin/mainnet/tx/estimate_fee",
   );
 
   let res = transactions_api::estimate_fee(&config, "bitcoin", "mainnet", None).await;

@@ -1,13 +1,14 @@
 # \TransactionsApi
 
-All URIs are relative to *https://ubiquity.api.blockdaemon.com/v2*
+All URIs are relative to *https://ubiquity.api.blockdaemon.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**estimate_fee**](TransactionsApi.md#estimate_fee) | **GET** /{platform}/{network}/tx/estimate_fee | Get fee estimate
-[**get_tx**](TransactionsApi.md#get_tx) | **GET** /{platform}/{network}/tx/{id} | Transaction By Hash
-[**get_txs**](TransactionsApi.md#get_txs) | **GET** /{platform}/{network}/txs | All Transactions
-[**tx_send**](TransactionsApi.md#tx_send) | **POST** /{platform}/{network}/tx/send | Submit a signed transaction
+[**estimate_fee**](TransactionsApi.md#estimate_fee) | **GET** /v2/{platform}/{network}/tx/estimate_fee | Get fee estimate
+[**fee_estimate**](TransactionsApi.md#fee_estimate) | **GET** /v1/{platform}/{network}/tx/estimate_fee | Get fee estimate
+[**get_tx**](TransactionsApi.md#get_tx) | **GET** /v2/{platform}/{network}/tx/{id} | Transaction By Hash
+[**get_txs**](TransactionsApi.md#get_txs) | **GET** /v2/{platform}/{network}/txs | All Transactions
+[**tx_send**](TransactionsApi.md#tx_send) | **POST** /v2/{platform}/{network}/tx/send | Submit a signed transaction
 
 
 
@@ -39,6 +40,37 @@ Name | Type | Description  | Required | Notes
 
 - **Content-Type**: Not defined
 - **Accept**: text/plain, application/json, application/problem+json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## fee_estimate
+
+> crate::models::FeeEstimate fee_estimate(platform, network)
+Get fee estimate
+
+Get a fee estimation in decimals from the ubiquity fee estimation service. Currently supported for Bitcoin and Ethereum. Endpoint will return 3 fee estimations fast, medium and slow 
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**platform** | **String** | Coin platform handle | [required] |
+**network** | **String** | Which network to target. Available networks can be found with /{platform} | [required] |
+
+### Return type
+
+[**crate::models::FeeEstimate**](fee_estimate.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

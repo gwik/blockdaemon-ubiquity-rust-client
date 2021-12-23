@@ -4,9 +4,14 @@
 Cargo.toml
 README.md
 docs/AccountsApi.md
+docs/AccountsBalancesMap.md
+docs/AccountsBalancesMapV1.md
 docs/AccountsObj.md
 docs/AlgorandMeta.md
 docs/BalanceChange.md
+docs/BalanceV1.md
+docs/BalancesMap.md
+docs/BalancesMapV1.md
 docs/Block.md
 docs/BlockIdentifier.md
 docs/BlocksApi.md
@@ -15,6 +20,8 @@ docs/Currency.md
 docs/Effect.md
 docs/Error.md
 docs/Fee.md
+docs/FeeEstimate.md
+docs/FeeEstimateEstimatedFees.md
 docs/MultiTransfer.md
 docs/MultiTransferOperation.md
 docs/NativeCurrency.md
@@ -51,9 +58,14 @@ src/apis/platforms_api.rs
 src/apis/sync_api.rs
 src/apis/transactions_api.rs
 src/lib.rs
+src/models/accounts_balances_map.rs
+src/models/accounts_balances_map_v1.rs
 src/models/accounts_obj.rs
 src/models/algorand_meta.rs
 src/models/balance_change.rs
+src/models/balance_v1.rs
+src/models/balances_map.rs
+src/models/balances_map_v1.rs
 src/models/block.rs
 src/models/block_identifier.rs
 src/models/coin.rs
@@ -61,6 +73,8 @@ src/models/currency.rs
 src/models/effect.rs
 src/models/error.rs
 src/models/fee.rs
+src/models/fee_estimate.rs
+src/models/fee_estimate_estimated_fees.rs
 src/models/mod.rs
 src/models/multi_transfer.rs
 src/models/multi_transfer_operation.rs
