@@ -11,7 +11,7 @@ async fn test_get_platform() {
     "testnet",
     utils::create_mock_from_file(
       "./tests/mock_files/platforms_api/platform_algorand_testnet.json",
-      "/v2/algorand/testnet",
+      "/algorand/testnet",
     ),
   );
 
@@ -20,7 +20,7 @@ async fn test_get_platform() {
     "mainnet",
     utils::create_mock_from_file(
       "./tests/mock_files/platforms_api/platform_polkadot_mainnet.json",
-      "/v2/polkadot/mainnet",
+      "/polkadot/mainnet",
     ),
   );
 
@@ -48,7 +48,7 @@ async fn test_get_platforms_overview() {
 
   let get_platforms_overview_mock = utils::create_mock_from_file(
     "./tests/mock_files/platforms_api/platforms_overview.json",
-    &format!("/v2/"),
+    "/",
   );
 
   let config = utils::config_from_url(url);

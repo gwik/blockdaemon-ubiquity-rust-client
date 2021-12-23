@@ -16,5 +16,3 @@ Cargo.lock
 # OpenAPI generator files
 generated/docs
 generated/git_push.sh
-
-.idea/*

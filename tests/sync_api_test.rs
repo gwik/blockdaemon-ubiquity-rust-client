@@ -15,20 +15,20 @@ fn setup() -> Result<Setup, io::Error> {
 
   let block_number_bitcoin_mock = utils::create_mock_from_file(
     "./tests/mock_files/sync_api/sync_block_number_bitcoin.json",
-    "/v2/bitcoin/mainnet/sync/block_number",
+    "/bitcoin/mainnet/sync/block_number",
   )?;
   let block_number_ethereum_mock = utils::create_mock_from_file(
     "./tests/mock_files/sync_api/sync_block_number_ethereum.json",
-    "/v2/ethereum/mainnet/sync/block_number",
+    "/ethereum/mainnet/sync/block_number",
   )?;
 
   let block_id_bitcoin_mock = utils::create_mock_from_file(
     "./tests/mock_files/sync_api/sync_block_id_bitcoin.json",
-    "/v2/bitcoin/mainnet/sync/block_id",
+    "/bitcoin/mainnet/sync/block_id",
   )?;
   let block_id_ethereum_mock = utils::create_mock_from_file(
     "./tests/mock_files/sync_api/sync_block_id_ethereum.json",
-    "/v2/ethereum/mainnet/sync/block_id",
+    "/ethereum/mainnet/sync/block_id",
   )?;
 
   Ok(Setup {
