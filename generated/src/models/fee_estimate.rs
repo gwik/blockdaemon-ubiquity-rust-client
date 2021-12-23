@@ -12,18 +12,19 @@
 
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-pub struct PlatformsOverviewPlatforms {
-    #[serde(rename = "handle", skip_serializing_if = "Option::is_none")]
-    pub handle: Option<String>,
-    #[serde(rename = "network", skip_serializing_if = "Option::is_none")]
-    pub network: Option<String>,
+pub struct FeeEstimate {
+    /// Most recent block
+    #[serde(rename = "most_recent_block", skip_serializing_if = "Option::is_none")]
+    pub most_recent_block: Option<i32>,
+    #[serde(rename = "estimated_fees", skip_serializing_if = "Option::is_none")]
+    pub estimated_fees: Option<Box<crate::models::FeeEstimateEstimatedFees>>,
 }
 
-impl PlatformsOverviewPlatforms {
-    pub fn new() -> PlatformsOverviewPlatforms {
-        PlatformsOverviewPlatforms {
-            handle: None,
-            network: None,
+impl FeeEstimate {
+    pub fn new() -> FeeEstimate {
+        FeeEstimate {
+            most_recent_block: None,
+            estimated_fees: None,
         }
     }
 }
