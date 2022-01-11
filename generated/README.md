@@ -16,7 +16,6 @@ The following protocols are currently supported:
 * stellar
 * dogecoin
 * oasis
-* stacks
 * near
 
 #### Testnet
@@ -35,7 +34,6 @@ To access native functionality, use the protocol without the v2 prefix
 * stellar/mainnet - [Stellar Horizon API Documentation](https://developers.stellar.org/api)
 * dogecoin/(mainnet | testnet) - [Dogecoin API Documentaion](https://developer.bitcoin.org/reference/rpc/)
 * oasis/mainnet - [Oasis Rosetta Gateway Documentation](https://www.rosetta-api.org/docs/api_identifiers.html#network-identifier)
-* stacks/mainnet - [Stacks API Documentation](https://blockstack.github.io/stacks-blockchain-api/)
 * near/mainnet - [NEAR RPC Documentation](https://docs.near.org/docs/api/rpc)
 
 A full URL example: https://ubiquity.api.blockdaemon.com/bitcoin/mainnet

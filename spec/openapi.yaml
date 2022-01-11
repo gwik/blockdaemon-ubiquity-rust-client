@@ -20,7 +20,6 @@ info:
     * stellar
     * dogecoin
     * oasis
-    * stacks
     * near
 
     #### Testnet
@@ -39,7 +38,6 @@ info:
     * stellar/mainnet - [Stellar Horizon API Documentation](https://developers.stellar.org/api)
     * dogecoin/(mainnet | testnet) - [Dogecoin API Documentaion](https://developer.bitcoin.org/reference/rpc/)
     * oasis/mainnet - [Oasis Rosetta Gateway Documentation](https://www.rosetta-api.org/docs/api_identifiers.html#network-identifier)
-    * stacks/mainnet - [Stacks API Documentation](https://blockstack.github.io/stacks-blockchain-api/)
     * near/mainnet - [NEAR RPC Documentation](https://docs.near.org/docs/api/rpc)
 
     A full URL example: https://ubiquity.api.blockdaemon.com/bitcoin/mainnet
@@ -996,18 +994,18 @@ components:
         confirmed_block:
           type: integer
       example: {
-        "currency": {
-          "asset_path": "ethereum/native/eth",
-          "symbol": "ETH",
-          "name": "Ether",
-          "decimals": 18,
-          "type": "native"
-        },
-        "confirmed_balance": "99999",
-        "pending_balance": "999999",
-        "confirmed_nonce": 9999,
-        "confirmed_block": 99999999
-      }
+          "currency": {
+            "asset_path": "ethereum/native/eth",
+            "symbol": "ETH",
+            "name": "Ether",
+            "decimals": 18,
+            "type": "native"
+          },
+          "confirmed_balance": "99999",
+          "pending_balance": "999999",
+          "confirmed_nonce": 9999,
+          "confirmed_block": 99999999
+        }
     tx:
       type: object
       properties:
