@@ -1,16 +1,16 @@
 .PHONY: all generate clean
 
-default_openapi_jar_path = openapi-generator-cli.jar
-ifeq "$(OPENAPI_GENERATOR_JAR_PATH)" ""
-	openapi_jar_path := $(default_openapi_jar_path)
-else
-	openapi_jar_path := $(OPENAPI_GENERATOR_JAR_PATH)
-endif
-
 all: clean generate build
 generate:
 	@echo "Generating code..."
-	java -jar $(openapi_jar_path) generate -v -i spec/openapi.yaml -c open-api-conf.yaml -g rust -o generated --additional-properties=generateAliasAsModel=true
+	docker run --rm -v "$$(pwd):/local" \
+		--user $(shell id -u):$(shell id -g) \
+		openapitools/openapi-generator-cli:v5.2.0 generate -v \
+		-i /local/spec/openapi.yaml \
+		-g rust \
+		-o /local/src/generated \
+		-c /local/open-api-conf.yaml \
+	  -o /local/generated --additional-properties=generateAliasAsModel=true
 	/bin/cp -r generated/docs . # use /bin/cp to prevent aliasing from cp to cp -i
 
 build:
