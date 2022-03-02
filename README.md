@@ -1,4 +1,4 @@
-# ubiquity-rust-client
+# Ubiquity Rust client
 A Rust client to the Ubiquity service of blockdaemon.com.
 
 # Requirements
@@ -51,7 +51,8 @@ async fn get_block(token: String) -> Option<()>{
 }
 ```
 
-An API URL may also be specified if you have a personal ubiquity endpoint 
+An API URL may also be specified if you have a personal Ubiquity endpoint:
+
 ```rust
 use ubiquity::api::blocks_api;
 use ubiquity::configuration;
@@ -71,15 +72,17 @@ async fn get_block(token: String) -> Option<()>{
 }
 ```
 
-## Paginated API's
+## Paginated APIs
 
-Certain resources contain more data than can practically returned in a single request. In these resources the data is split across multiple responses where each response returns a subset of the items requested and a continuation token. Requests for the first page of data should not contain a continuation token. To get the next batch of items the continuation token should be passed with the subsequent request. If no continuation token is returned all of the available data has been returned.
+Certain resources contain more data than can be practically returned in a single request. In these resources the data is split across multiple responses where each response returns a subset of the items requested and a continuation token.
 
-Initial request to paged API's should not include a continuation. If no limit is supplied the default of 25 will be applied.
+Requests for the first page of data should not contain a continuation token. To get the next batch of items, the continuation token should be passed with the subsequent request. If no continuation token is returned, all of the available data has been returned.
+
+Initial request to paged APIs should not include a continuation. If no limit is supplied, the default of 25 will be applied.
 
 ### Example
 
-(Full example can be found in [`src/lib.rs`](src/lib.rs)'s docs).
+(The full example can be found in [`src/lib.rs`](src/lib.rs)'s docs.)
 
 ```rust
 use transactions_api::GetTxsError;
@@ -138,6 +141,6 @@ async fn get_paginated_txs(token: String) -> Result<(), String> {
 ```
 
 ## Docs
-To generate the crate's documentation run `cargo doc`.
+To generate the crate's documentation, run `cargo doc`.
 
 Additional documentation and examples can be found in the `docs` directory.
