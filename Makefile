@@ -27,7 +27,7 @@ clean_library:
 clean: clean_generated clean_library
 
 .PHONY: test
-test: clean_generated
+test:
 	cargo test
 
 .PHONY: examples
