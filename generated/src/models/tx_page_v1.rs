@@ -12,19 +12,23 @@
 
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-pub struct FeeEstimate {
-    /// Most recent block
-    #[serde(rename = "most_recent_block", skip_serializing_if = "Option::is_none")]
-    pub most_recent_block: Option<i32>,
-    #[serde(rename = "estimated_fees", skip_serializing_if = "Option::is_none")]
-    pub estimated_fees: Option<Box<crate::models::FeeEstimateEstimatedFees>>,
+pub struct TxPageV1 {
+    /// Number of items in txs
+    #[serde(rename = "total", skip_serializing_if = "Option::is_none")]
+    pub total: Option<i32>,
+    #[serde(rename = "items", skip_serializing_if = "Option::is_none")]
+    pub items: Option<Vec<crate::models::TxV1>>,
+    /// Token to get the next page
+    #[serde(rename = "continuation", skip_serializing_if = "Option::is_none")]
+    pub continuation: Option<String>,
 }
 
-impl FeeEstimate {
-    pub fn new() -> FeeEstimate {
-        FeeEstimate {
-            most_recent_block: None,
-            estimated_fees: None,
+impl TxPageV1 {
+    pub fn new() -> TxPageV1 {
+        TxPageV1 {
+            total: None,
+            items: None,
+            continuation: None,
         }
     }
 }

@@ -12,19 +12,48 @@
 
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-pub struct FeeEstimate {
-    /// Most recent block
-    #[serde(rename = "most_recent_block", skip_serializing_if = "Option::is_none")]
-    pub most_recent_block: Option<i32>,
-    #[serde(rename = "estimated_fees", skip_serializing_if = "Option::is_none")]
-    pub estimated_fees: Option<Box<crate::models::FeeEstimateEstimatedFees>>,
+pub struct Event {
+    #[serde(rename = "amount", skip_serializing_if = "Option::is_none")]
+    pub amount: Option<i32>,
+    #[serde(rename = "block_id", skip_serializing_if = "Option::is_none")]
+    pub block_id: Option<String>,
+    #[serde(rename = "block_number", skip_serializing_if = "Option::is_none")]
+    pub block_number: Option<i32>,
+    #[serde(rename = "date", skip_serializing_if = "Option::is_none")]
+    pub date: Option<i32>,
+    #[serde(rename = "decimals", skip_serializing_if = "Option::is_none")]
+    pub decimals: Option<i32>,
+    #[serde(rename = "denomination", skip_serializing_if = "Option::is_none")]
+    pub denomination: Option<String>,
+    #[serde(rename = "destination", skip_serializing_if = "Option::is_none")]
+    pub destination: Option<String>,
+    #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
+    pub id: Option<String>,
+    #[serde(rename = "meta", skip_serializing_if = "Option::is_none")]
+    pub meta: Option<serde_json::Value>,
+    #[serde(rename = "source", skip_serializing_if = "Option::is_none")]
+    pub source: Option<String>,
+    #[serde(rename = "transaction_id", skip_serializing_if = "Option::is_none")]
+    pub transaction_id: Option<String>,
+    #[serde(rename = "type", skip_serializing_if = "Option::is_none")]
+    pub _type: Option<String>,
 }
 
-impl FeeEstimate {
-    pub fn new() -> FeeEstimate {
-        FeeEstimate {
-            most_recent_block: None,
-            estimated_fees: None,
+impl Event {
+    pub fn new() -> Event {
+        Event {
+            amount: None,
+            block_id: None,
+            block_number: None,
+            date: None,
+            decimals: None,
+            denomination: None,
+            destination: None,
+            id: None,
+            meta: None,
+            source: None,
+            transaction_id: None,
+            _type: None,
         }
     }
 }

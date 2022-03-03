@@ -12,21 +12,50 @@
 
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-pub struct FeeEstimate {
-    /// Most recent block
-    #[serde(rename = "most_recent_block", skip_serializing_if = "Option::is_none")]
-    pub most_recent_block: Option<i32>,
-    #[serde(rename = "estimated_fees", skip_serializing_if = "Option::is_none")]
-    pub estimated_fees: Option<Box<crate::models::FeeEstimateEstimatedFees>>,
+pub struct TxV1 {
+    /// Unique transaction identifier
+    #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
+    pub id: Option<String>,
+    /// Unix timestamp
+    #[serde(rename = "date", skip_serializing_if = "Option::is_none")]
+    pub date: Option<i64>,
+    /// ID of block if mined, otherwise omitted.
+    #[serde(rename = "block_id", skip_serializing_if = "Option::is_none")]
+    pub block_id: Option<String>,
+    /// Result status of the transaction.
+    #[serde(rename = "status", skip_serializing_if = "Option::is_none")]
+    pub status: Option<Status>,
+    #[serde(rename = "nonce", skip_serializing_if = "Option::is_none")]
+    pub nonce: Option<i32>,
+    #[serde(rename = "num_events", skip_serializing_if = "Option::is_none")]
+    pub num_events: Option<i32>,
+    #[serde(rename = "meta", skip_serializing_if = "Option::is_none")]
+    pub meta: Option<serde_json::Value>,
+    #[serde(rename = "events", skip_serializing_if = "Option::is_none")]
+    pub events: Option<Vec<crate::models::Event>>,
 }
 
-impl FeeEstimate {
-    pub fn new() -> FeeEstimate {
-        FeeEstimate {
-            most_recent_block: None,
-            estimated_fees: None,
+impl TxV1 {
+    pub fn new() -> TxV1 {
+        TxV1 {
+            id: None,
+            date: None,
+            block_id: None,
+            status: None,
+            nonce: None,
+            num_events: None,
+            meta: None,
+            events: None,
         }
     }
 }
 
+/// Result status of the transaction.
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum Status {
+    #[serde(rename = "completed")]
+    Completed,
+    #[serde(rename = "failed")]
+    Failed,
+}
 

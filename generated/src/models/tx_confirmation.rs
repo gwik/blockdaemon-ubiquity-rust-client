@@ -12,19 +12,24 @@
 
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-pub struct FeeEstimate {
-    /// Most recent block
-    #[serde(rename = "most_recent_block", skip_serializing_if = "Option::is_none")]
-    pub most_recent_block: Option<i32>,
-    #[serde(rename = "estimated_fees", skip_serializing_if = "Option::is_none")]
-    pub estimated_fees: Option<Box<crate::models::FeeEstimateEstimatedFees>>,
+pub struct TxConfirmation {
+    /// Current Block Number
+    #[serde(rename = "current_height", skip_serializing_if = "Option::is_none")]
+    pub current_height: Option<i64>,
+    /// Transaction hash
+    #[serde(rename = "tx_id", skip_serializing_if = "Option::is_none")]
+    pub tx_id: Option<String>,
+    /// Total transaction confirmations
+    #[serde(rename = "confirmations", skip_serializing_if = "Option::is_none")]
+    pub confirmations: Option<i64>,
 }
 
-impl FeeEstimate {
-    pub fn new() -> FeeEstimate {
-        FeeEstimate {
-            most_recent_block: None,
-            estimated_fees: None,
+impl TxConfirmation {
+    pub fn new() -> TxConfirmation {
+        TxConfirmation {
+            current_height: None,
+            tx_id: None,
+            confirmations: None,
         }
     }
 }

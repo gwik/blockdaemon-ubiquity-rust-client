@@ -18,6 +18,7 @@ docs/Coin.md
 docs/Currency.md
 docs/Effect.md
 docs/Error.md
+docs/Event.md
 docs/Fee.md
 docs/FeeEstimate.md
 docs/FeeEstimateEstimatedFees.md
@@ -44,9 +45,12 @@ docs/TransactionsApi.md
 docs/Transfer.md
 docs/TransferOperation.md
 docs/Tx.md
+docs/TxConfirmation.md
 docs/TxDestination.md
 docs/TxPage.md
+docs/TxPageV1.md
 docs/TxReceipt.md
+docs/TxV1.md
 docs/Utxo.md
 git_push.sh
 src/apis/accounts_api.rs
@@ -71,6 +75,7 @@ src/models/coin.rs
 src/models/currency.rs
 src/models/effect.rs
 src/models/error.rs
+src/models/event.rs
 src/models/fee.rs
 src/models/fee_estimate.rs
 src/models/fee_estimate_estimated_fees.rs
@@ -95,7 +100,10 @@ src/models/token_currency.rs
 src/models/transfer.rs
 src/models/transfer_operation.rs
 src/models/tx.rs
+src/models/tx_confirmation.rs
 src/models/tx_destination.rs
 src/models/tx_page.rs
+src/models/tx_page_v1.rs
 src/models/tx_receipt.rs
+src/models/tx_v1.rs
 src/models/utxo.rs

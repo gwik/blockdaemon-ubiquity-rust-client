@@ -17,11 +17,16 @@ The following protocols are currently supported:
 * dogecoin
 * oasis
 * near
+* terra
+* litecoin
+* bitcoincash
 
 #### Testnet
 * bitcoin/testnet
 * ethereum/ropsten
 * dogecoin/testnet
+* litecoin/testnet
+* bitcoincash/testnet
 
 #### Native
 Ubiquity provides native access to all Blockchain nodes it supports.
@@ -35,6 +40,9 @@ To access native functionality, use the protocol without the v2 prefix
 * dogecoin/(mainnet | testnet) - [Dogecoin API Documentaion](https://developer.bitcoin.org/reference/rpc/)
 * oasis/mainnet - [Oasis Rosetta Gateway Documentation](https://www.rosetta-api.org/docs/api_identifiers.html#network-identifier)
 * near/mainnet - [NEAR RPC Documentation](https://docs.near.org/docs/api/rpc)
+* terra/mainnet - [Terra RPC Documentation](https://docs.terra.money/docs/develop/how-to/endpoints.html)
+* litecoin/mainnet - [Litecoin RPC Documentation](https://litecoin.info/index.php/Litecoin_API)
+* bitcoincash/mainnet - [Bitcoin Cash RPC Documentation](https://docs.bitcoincashnode.org/doc/json-rpc/)
 
 A full URL example: https://ubiquity.api.blockdaemon.com/bitcoin/mainnet
 
@@ -76,8 +84,10 @@ Class | Method | HTTP request | Description
 *AccountsApi* | [**get_balances_by_addresses**](docs/AccountsApi.md#get_balances_by_addresses) | **POST** /v2/{platform}/{network}/accounts | Balances Of Addresses
 *AccountsApi* | [**get_list_of_balances_by_address**](docs/AccountsApi.md#get_list_of_balances_by_address) | **GET** /v1/{platform}/{network}/account/{address} | Balances Of Address
 *AccountsApi* | [**get_list_of_balances_by_addresses**](docs/AccountsApi.md#get_list_of_balances_by_addresses) | **POST** /v1/{platform}/{network}/accounts | Balances Of Addresses
-*AccountsApi* | [**get_report_by_address**](docs/AccountsApi.md#get_report_by_address) | **GET** /v2/{platform}/{network}/account/{address}/report | A financial report for an address between a time period. Default timescale is within the last 30 days
-*AccountsApi* | [**get_txs_by_address**](docs/AccountsApi.md#get_txs_by_address) | **GET** /v2/{platform}/{network}/account/{address}/txs | Transactions Of Address
+*AccountsApi* | [**get_report_by_address**](docs/AccountsApi.md#get_report_by_address) | **GET** /v1/{platform}/{network}/account/{address}/report | A financial report for an address between a time period. Default timescale is within the last 30 days
+*AccountsApi* | [**get_txs_by_address**](docs/AccountsApi.md#get_txs_by_address) | **GET** /v1/{platform}/{network}/account/{address}/txs | Transactions Of Address
+*AccountsApi* | [**v2_get_report_by_address**](docs/AccountsApi.md#v2_get_report_by_address) | **GET** /v2/{platform}/{network}/account/{address}/report | A financial report for an address between a time period. Default timescale is within the last 30 days
+*AccountsApi* | [**v2_get_txs_by_address**](docs/AccountsApi.md#v2_get_txs_by_address) | **GET** /v2/{platform}/{network}/account/{address}/txs | Transactions Of Address
 *BlocksApi* | [**get_block**](docs/BlocksApi.md#get_block) | **GET** /v2/{platform}/{network}/block/{key} | Block By Number/Hash
 *BlocksApi* | [**get_block_identifier**](docs/BlocksApi.md#get_block_identifier) | **GET** /v2/{platform}/{network}/block_identifier/{key} | Block Identifier By Number/Hash
 *PlatformsApi* | [**get_platform**](docs/PlatformsApi.md#get_platform) | **GET** /v2/{platform}/{network} | Platform Info
@@ -89,6 +99,7 @@ Class | Method | HTTP request | Description
 *TransactionsApi* | [**estimate_fee**](docs/TransactionsApi.md#estimate_fee) | **GET** /v2/{platform}/{network}/tx/estimate_fee | Get fee estimate
 *TransactionsApi* | [**fee_estimate**](docs/TransactionsApi.md#fee_estimate) | **GET** /v1/{platform}/{network}/tx/estimate_fee | Get fee estimate
 *TransactionsApi* | [**get_tx**](docs/TransactionsApi.md#get_tx) | **GET** /v2/{platform}/{network}/tx/{id} | Transaction By Hash
+*TransactionsApi* | [**get_tx_confirmations**](docs/TransactionsApi.md#get_tx_confirmations) | **GET** /v1/{platform}/{network}/tx/{id}/confirmations | Transaction confirmations By Hash
 *TransactionsApi* | [**get_txs**](docs/TransactionsApi.md#get_txs) | **GET** /v2/{platform}/{network}/txs | All Transactions
 *TransactionsApi* | [**tx_send**](docs/TransactionsApi.md#tx_send) | **POST** /v2/{platform}/{network}/tx/send | Submit a signed transaction
 
@@ -109,6 +120,7 @@ Class | Method | HTTP request | Description
  - [Currency](docs/Currency.md)
  - [Effect](docs/Effect.md)
  - [Error](docs/Error.md)
+ - [Event](docs/Event.md)
  - [Fee](docs/Fee.md)
  - [FeeEstimate](docs/FeeEstimate.md)
  - [FeeEstimateEstimatedFees](docs/FeeEstimateEstimatedFees.md)
@@ -132,9 +144,12 @@ Class | Method | HTTP request | Description
  - [Transfer](docs/Transfer.md)
  - [TransferOperation](docs/TransferOperation.md)
  - [Tx](docs/Tx.md)
+ - [TxConfirmation](docs/TxConfirmation.md)
  - [TxDestination](docs/TxDestination.md)
  - [TxPage](docs/TxPage.md)
+ - [TxPageV1](docs/TxPageV1.md)
  - [TxReceipt](docs/TxReceipt.md)
+ - [TxV1](docs/TxV1.md)
  - [Utxo](docs/Utxo.md)
 
 

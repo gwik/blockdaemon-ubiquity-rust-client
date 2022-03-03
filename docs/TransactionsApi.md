@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**estimate_fee**](TransactionsApi.md#estimate_fee) | **GET** /v2/{platform}/{network}/tx/estimate_fee | Get fee estimate
 [**fee_estimate**](TransactionsApi.md#fee_estimate) | **GET** /v1/{platform}/{network}/tx/estimate_fee | Get fee estimate
 [**get_tx**](TransactionsApi.md#get_tx) | **GET** /v2/{platform}/{network}/tx/{id} | Transaction By Hash
+[**get_tx_confirmations**](TransactionsApi.md#get_tx_confirmations) | **GET** /v1/{platform}/{network}/tx/{id}/confirmations | Transaction confirmations By Hash
 [**get_txs**](TransactionsApi.md#get_txs) | **GET** /v2/{platform}/{network}/txs | All Transactions
 [**tx_send**](TransactionsApi.md#tx_send) | **POST** /v2/{platform}/{network}/tx/send | Submit a signed transaction
 
@@ -92,6 +93,36 @@ Name | Type | Description  | Required | Notes
 ### Return type
 
 [**crate::models::Tx**](tx.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json, application/problem+json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## get_tx_confirmations
+
+> crate::models::TxConfirmation get_tx_confirmations(platform, network, id)
+Transaction confirmations By Hash
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**platform** | **String** | Coin platform handle | [required] |
+**network** | **String** | Which network to target. Available networks can be found with /{platform} | [required] |
+**id** | **String** | Transaction ID/Hash | [required] |
+
+### Return type
+
+[**crate::models::TxConfirmation**](tx_confirmation.md)
 
 ### Authorization
 
