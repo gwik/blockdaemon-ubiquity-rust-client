@@ -40,7 +40,7 @@ fn setup_txs_endpoints(test_accounts_data: &[(&str, &str, &str)]) -> Result<Setu
         "./tests/mock_files/accounts_api/{}_account_{}_txs.json",
         platform, address
       ),
-      &format!("/v2/{}/mainnet/account/{}/txs", platform, address),
+      &format!("/v1/{}/mainnet/account/{}/txs", platform, address),
     )?;
     mocks.push(mock);
   }
