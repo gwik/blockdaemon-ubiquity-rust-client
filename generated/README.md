@@ -20,6 +20,7 @@ The following protocols are currently supported:
 * terra
 * litecoin
 * bitcoincash
+* solana
 
 #### Testnet
 * bitcoin/testnet
@@ -43,6 +44,7 @@ To access native functionality, use the protocol without the v2 prefix
 * terra/mainnet - [Terra RPC Documentation](https://docs.terra.money/docs/develop/how-to/endpoints.html)
 * litecoin/mainnet - [Litecoin RPC Documentation](https://litecoin.info/index.php/Litecoin_API)
 * bitcoincash/mainnet - [Bitcoin Cash RPC Documentation](https://docs.bitcoincashnode.org/doc/json-rpc/)
+* solana/mainnet - [Solana RPC Documentation](https://docs.solana.com/developing/clients/jsonrpc-api)
 
 A full URL example: https://ubiquity.api.blockdaemon.com/bitcoin/mainnet
 
