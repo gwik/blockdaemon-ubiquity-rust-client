@@ -4,12 +4,7 @@ use ubiquity::api::transactions_api;
 
 pub mod utils;
 
-struct Setup {
-  url: String,
-  mocks: Vec<mockito::Mock>,
-}
-
-fn setup_txs_by_id(test_txs_data: &[(&str, &str, &str)]) -> Result<Setup, io::Error> {
+fn setup_txs_by_id(test_txs_data: &[(&str, &str, &str)]) -> Result<utils::Setup, io::Error> {
   let url = mockito::server_url();
 
   let mut mocks = vec![];
@@ -19,15 +14,15 @@ fn setup_txs_by_id(test_txs_data: &[(&str, &str, &str)]) -> Result<Setup, io::Er
         "./tests/mock_files/transactions_api/{}_{}.json",
         platform, id
       ),
-      &format!("/v2/{}/{}/tx/{}", platform, network, id),
+      &format!("/{}/{}/tx/{}", platform, network, id),
     )?;
     mocks.push(mock);
   }
 
-  Ok(Setup { url, mocks })
+  Ok(utils::new_setup(url, mocks))
 }
 
-fn setup_txs(test_txs_data: &[(&str, &str)]) -> Result<Setup, io::Error> {
+fn setup_txs(test_txs_data: &[(&str, &str)]) -> Result<utils::Setup, io::Error> {
   let url = mockito::server_url();
 
   let mut mocks = vec![];
@@ -37,12 +32,12 @@ fn setup_txs(test_txs_data: &[(&str, &str)]) -> Result<Setup, io::Error> {
         "./tests/mock_files/transactions_api/get_txs_{}.json",
         platform
       ),
-      &format!("/v2/{}/{}/txs", platform, network),
+      &format!("/{}/{}/txs", platform, network),
     )?;
     mocks.push(mock);
   }
 
-  Ok(Setup { url, mocks })
+  Ok(utils::new_setup(url, mocks ))
 }
 
 #[tokio::test]
@@ -64,10 +59,10 @@ async fn tx_by_id() {
     Ok(setup_data) => {
       let _m = setup_data.mocks;
 
-      let config = utils::config_from_url(setup_data.url);
+      // let config = utils::config_from_url(setup_data.url);
 
       for (platform, network, id) in test_txs_data {
-        let res = transactions_api::get_tx(&config, platform, network, id).await;
+        let res = transactions_api::get_tx(&setup_data.config, platform, network, id).await;
         match res {
           Ok(_) => {}
           Err(e) => panic!("{}", e),
@@ -86,11 +81,9 @@ async fn txs() {
     Ok(setup_data) => {
       let _m = setup_data.mocks;
 
-      let config = utils::config_from_url(setup_data.url);
-
       for (platform, network) in test_txs_data {
         let res =
-          transactions_api::get_txs(&config, platform, network, None, None, None, None).await;
+          transactions_api::get_txs(&setup_data.config, platform, network, None, None, None).await;
         match res {
           Ok(_) => {}
           Err(e) => panic!("{}", e),
@@ -108,10 +101,10 @@ async fn estimate_fee() {
 
   let _mock = utils::create_mock_from_file(
     "./tests/mock_files/transactions_api/estimate_fee.json",
-    "/v2/bitcoin/mainnet/tx/estimate_fee",
+    "/bitcoin/mainnet/tx/estimate_fee",
   );
 
-  let res = transactions_api::estimate_fee(&config, "bitcoin", "mainnet", None).await;
+  let res = transactions_api::fee_estimate(&config, "bitcoin", "mainnet").await;
   match res {
     Ok(_) => {}
     Err(e) => panic!("{}", e),

@@ -940,7 +940,9 @@ components:
       type: object
       description: Accounts balances with account addressses as keys
       additionalProperties:
-        $ref: "#/components/schemas/balances_map"
+        type: array
+        items:
+          $ref: "#/components/schemas/balance"
     balances_map:
       description: Currency balances with asset paths as keys
       type: array

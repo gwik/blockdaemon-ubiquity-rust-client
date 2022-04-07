@@ -30,7 +30,7 @@ generate:
       refs:
         - master
       changes:
-        - spec/openapi.yaml
+        - spec/openapi-v1.yaml
 
 build-examples:
   stage: build-examples

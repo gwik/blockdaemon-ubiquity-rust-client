@@ -51,7 +51,6 @@ pub use ubiquity_openapi_client;
 ///     network: &str,
 ///     order: Option<&str>,
 ///     limit: Option<i32>,
-///     assets: Option<&str>,
 ///     tx_page: &TxPage,
 /// ) -> Result<TxPage, String> {
 ///     return transactions_api::get_txs(
@@ -61,7 +60,6 @@ pub use ubiquity_openapi_client;
 ///         order,
 ///         tx_page.continuation.as_deref(),
 ///         limit,
-///         assets,
 ///     )
 ///     .await
 ///     .map_err(format_get_tx_error);
@@ -81,11 +79,10 @@ pub use ubiquity_openapi_client;
 ///     network: &str,
 ///     order: Option<&str>,
 ///     limit: Option<i32>,
-///     assets: Option<&str>,
 ///     tx_page: &TxPage,
 /// ) -> Result<TxPage, String> {
 ///     print_tx_page_ids(tx_page)?;
-///     return get_continuated_txs(&conf, platform, network, order, limit, assets, &tx_page).await;
+///     return get_continuated_txs(&conf, platform, network, order, limit, &tx_page).await;
 /// }
 ///
 /// async fn get_paginated_txs(token: String) -> Result<(), String> {
@@ -100,14 +97,13 @@ pub use ubiquity_openapi_client;
 ///     let order = Some("desc");
 ///     let continuation = None;
 ///     let limit = Some(10);
-///     let assets = None;
 ///
 ///     // get last 10 transactions
 ///     let tx_result =
-///         transactions_api::get_txs(&conf, platform, network, order, continuation, limit, assets).await.map_err(format_get_tx_error)?;
+///         transactions_api::get_txs(&conf, platform, network, order, continuation, limit).await.map_err(format_get_tx_error)?;
 ///
 ///     let tx_page = print_and_get_continuated_txs(
-///         &conf, platform, network, order, limit, assets, &tx_result,
+///         &conf, platform, network, order, limit, &tx_result,
 ///     ).await?;
 ///
 ///     print_tx_page_ids(&tx_page)

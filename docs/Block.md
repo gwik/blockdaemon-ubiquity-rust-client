@@ -8,9 +8,8 @@ Name | Type | Description | Notes
 **id** | Option<**String**> | Block hash | [optional]
 **parent_id** | Option<**String**> | Parent block hash | [optional]
 **date** | Option<**i64**> | Unix timestamp | [optional]
-**tx_ids** | Option<**Vec<String>**> | Complete list of transaction IDs | [optional]
+**num_txs** | Option<**i32**> | Amount of transaction in the block | [optional]
 **txs** | Option<[**Vec<crate::models::Tx>**](tx.md)> | Partial list of normalized transactions (not filtered or unknown model) | [optional]
-**supply** | Option<[**::std::collections::HashMap<String, crate::models::Supply>**](supply.md)> | Coin supplies with asset paths as keys | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

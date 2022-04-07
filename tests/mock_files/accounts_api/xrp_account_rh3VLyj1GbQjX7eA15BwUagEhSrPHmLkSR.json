@@ -1,5 +1,5 @@
-{
-  "ripple/native/xrp": {
+[
+  {
     "currency": {
       "asset_path": "ripple/native/xrp",
       "symbol": "XRP",
@@ -7,6 +7,7 @@
       "decimals": 6,
       "type": "native"
     },
-    "balance": "100498207"
+    "confirmed_balance": "100498207",
+    "confirmed_block": 733657
   }
-}
+]

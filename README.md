@@ -11,6 +11,13 @@ Add the following to the `[dependencies]` section of your `Cargo.toml` file:
 ubiquity = { git = "https://gitlab.com/Blockdaemon/ubiquity/ubiquity-rust-client" }
 ```
 
+Using a specif branch version, you'll need to replace the placeholder `<branch_name>` (example: `v1`):
+```
+ubiquity = { git = "https://gitlab.com/Blockdaemon/ubiquity/ubiquity-rust-client", branch = "<branch_name>" }
+```
+
+Maybe you need to set a Cargo environment, how it uses git to download the dependencies, check it: https://doc.rust-lang.org/cargo/reference/config.html#netgit-fetch-with-cli
+
 Then, run `cargo build`.
 
 ## Testing
@@ -107,7 +114,6 @@ async fn print_and_get_continuated_txs(
     network: &str,
     order: Option<&str>,
     limit: Option<i32>,
-    assets: Option<&str>,
     tx_page: &TxPage,
 ) -> Result<TxPage, String> {
   ...
@@ -125,14 +131,13 @@ async fn get_paginated_txs(token: String) -> Result<(), String> {
     let order = Some("desc");
     let continuation = None;
     let limit = Some(10);
-    let assets = None;
 
     // get last 10 transactions
     let tx_result =
-        transactions_api::get_txs(&conf, platform, network, order, continuation, limit, assets).await.map_err(format_get_tx_error)?;
+        transactions_api::get_txs(&conf, platform, network, order, continuation, limit).await.map_err(format_get_tx_error)?;
 
     let tx_page = print_and_get_continuated_txs(
-        &conf, platform, network, order, limit, assets, &tx_result,
+        &conf, platform, network, order, limit, &tx_result,
     ).await?;
 
     print_tx_page_ids(&tx_page)
