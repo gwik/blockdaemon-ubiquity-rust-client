@@ -46,7 +46,7 @@ Ubiquity provides native access to all Blockchain nodes it supports.
 * tezos/mainnet - [Tezos RPC Documentation](https://tezos.gitlab.io/developer/rpc.html)
 
 
-A full URL example: https://ubiquity.api.blockdaemon.com/bitcoin/mainnet
+A full URL example: https://ubiquity.api.blockdaemon.com/v1/bitcoin/mainnet
 
 ##### Pagination
 Certain resources contain a lot of data, more than what's practical
