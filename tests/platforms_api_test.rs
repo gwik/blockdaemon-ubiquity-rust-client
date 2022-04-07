@@ -11,7 +11,7 @@ async fn test_get_platform() {
     "testnet",
     utils::create_mock_from_file(
       "./tests/mock_files/platforms_api/platform_algorand_testnet.json",
-      "/v2/algorand/testnet",
+      "/algorand/testnet/",
     ),
   );
 
@@ -20,18 +20,18 @@ async fn test_get_platform() {
     "mainnet",
     utils::create_mock_from_file(
       "./tests/mock_files/platforms_api/platform_polkadot_mainnet.json",
-      "/v2/polkadot/mainnet",
+      "/polkadot/mainnet/",
     ),
   );
 
   let config = utils::config_from_url(url);
 
-  let mocks = vec![get_platform_algorand_mock, get_platform_polkadot_mock];
+  let mocks = vec![get_platform_algorand_mock, get_platform_polkadot_mock];  
 
   for (platform, network, mock_result) in mocks {
     match mock_result {
       Ok(_) => {
-        let res = platforms_api::get_platform(&config, platform, network).await;
+        let res = platforms_api::get_platform_endpoints(&config, platform, network).await;
         match res {
           Ok(_) => {}
           Err(e) => panic!("{}", e),
@@ -48,14 +48,14 @@ async fn test_get_platforms_overview() {
 
   let get_platforms_overview_mock = utils::create_mock_from_file(
     "./tests/mock_files/platforms_api/platforms_overview.json",
-    &format!("/v2/"),
+    &format!("/"),
   );
 
   let config = utils::config_from_url(url);
 
   match get_platforms_overview_mock {
     Ok(_) => {
-      let res = platforms_api::get_platforms(&config).await;
+      let res = platforms_api::get_platforms_list(&config).await;
       match res {
         Ok(_) => {}
         Err(e) => panic!("{}", e),

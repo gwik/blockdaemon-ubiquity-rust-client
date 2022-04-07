@@ -12,63 +12,23 @@
 
 
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
-pub struct ReportField {
-    /// The protocol the address relates to
-    #[serde(rename = "protocol")]
-    pub protocol: String,
-    /// The wallet/account the transaction occurred
-    #[serde(rename = "address")]
-    pub address: String,
-    /// The currency symbol
-    #[serde(rename = "currency")]
-    pub currency: String,
-    /// The ID of the event within a transaction
-    #[serde(rename = "event_id")]
-    pub event_id: String,
-    /// The block number the transaction occurred on
-    #[serde(rename = "block")]
-    pub block: i64,
-    /// The unix timestamp when the transaction was added to a block
-    #[serde(rename = "timestamp")]
-    pub timestamp: i32,
-    /// The transaction ID
-    #[serde(rename = "hash")]
-    pub hash: String,
-    /// The action type e.g. Transfer, Deposit, Staking Reward etc..
-    #[serde(rename = "action")]
-    pub action: String,
-    /// The amount of currency involved in the transaction (smallest unit)
-    #[serde(rename = "value")]
-    pub value: String,
-    /// The address where the funds originated
-    #[serde(rename = "sender_address")]
-    pub sender_address: String,
-    /// How much was charged as a fee for processing the transaction
-    #[serde(rename = "fee")]
-    pub fee: String,
-    /// The number of decimals in one coin, used to convert smallest unit to 1 whole coin if needed
-    #[serde(rename = "decimals")]
-    pub decimals: i32,
-    #[serde(rename = "meta", skip_serializing_if = "Option::is_none")]
-    pub meta: Option<Box<crate::models::ReportFieldMeta>>,
+pub struct BlockIdentifierPage {
+    /// Number of items in block identifiers
+    #[serde(rename = "total", skip_serializing_if = "Option::is_none")]
+    pub total: Option<i32>,
+    #[serde(rename = "items", skip_serializing_if = "Option::is_none")]
+    pub items: Option<Vec<crate::models::BlockIdentifier>>,
+    /// Token to get the next page
+    #[serde(rename = "continuation", skip_serializing_if = "Option::is_none")]
+    pub continuation: Option<i32>,
 }
 
-impl ReportField {
-    pub fn new(protocol: String, address: String, currency: String, event_id: String, block: i64, timestamp: i32, hash: String, action: String, value: String, sender_address: String, fee: String, decimals: i32) -> ReportField {
-        ReportField {
-            protocol,
-            address,
-            currency,
-            event_id,
-            block,
-            timestamp,
-            hash,
-            action,
-            value,
-            sender_address,
-            fee,
-            decimals,
-            meta: None,
+impl BlockIdentifierPage {
+    pub fn new() -> BlockIdentifierPage {
+        BlockIdentifierPage {
+            total: None,
+            items: None,
+            continuation: None,
         }
     }
 }

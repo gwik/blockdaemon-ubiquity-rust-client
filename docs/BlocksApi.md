@@ -1,11 +1,12 @@
 # \BlocksApi
 
-All URIs are relative to *https://ubiquity.api.blockdaemon.com*
+All URIs are relative to *https://ubiquity.api.blockdaemon.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_block**](BlocksApi.md#get_block) | **GET** /v2/{platform}/{network}/block/{key} | Block By Number/Hash
-[**get_block_identifier**](BlocksApi.md#get_block_identifier) | **GET** /v2/{platform}/{network}/block_identifier/{key} | Block Identifier By Number/Hash
+[**get_block**](BlocksApi.md#get_block) | **GET** /{platform}/{network}/block/{key} | Block By Number/Hash
+[**get_block_identifier**](BlocksApi.md#get_block_identifier) | **GET** /{platform}/{network}/block_identifier/{key} | Block Identifier By Number/Hash
+[**get_block_identifiers**](BlocksApi.md#get_block_identifiers) | **GET** /{platform}/{network}/block_identifiers | Block Identifiers
 
 
 
@@ -60,6 +61,37 @@ Name | Type | Description  | Required | Notes
 ### Return type
 
 [**crate::models::BlockIdentifier**](block_identifier.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json, application/problem+json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
+## get_block_identifiers
+
+> crate::models::BlockIdentifierPage get_block_identifiers(platform, network)
+Block Identifiers
+
+Get minimal block identifiers from oldest to newest. This call uses pagination. 
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**platform** | **String** | Coin platform handle | [required] |
+**network** | **String** | Which network to target. Available networks can be found with /{platform} | [required] |
+
+### Return type
+
+[**crate::models::BlockIdentifierPage**](block_identifier_page.md)
 
 ### Authorization
 

@@ -4,12 +4,7 @@ use ubiquity::api::blocks_api;
 
 pub mod utils;
 
-struct Setup {
-  url: String,
-  mocks: Vec<mockito::Mock>,
-}
-
-fn setup_blocks_by_identifier(test_blocks_data: &[(&str, &str, &str)]) -> Result<Setup, io::Error> {
+fn setup_blocks_by_identifier(test_blocks_data: &[(&str, &str, &str)]) -> Result<utils::Setup, io::Error> {
   let url = mockito::server_url();
 
   let mut mocks = vec![];
@@ -19,18 +14,15 @@ fn setup_blocks_by_identifier(test_blocks_data: &[(&str, &str, &str)]) -> Result
         "./tests/mock_files/blocks_api/{}.json",
         platform
       ),
-      &format!("/v2/{}/{}/block/{}", platform, network, id),
+      &format!("/{}/{}/block/{}", platform, network, id),
     )?;
     mocks.push(mock);
   }
   
-  Ok(Setup {
-    url,
-    mocks,
-  })
+  Ok(utils::new_setup(url, mocks))
 }
 
-fn setup_block_ids_by_identifier(test_blocks_data: &[(&str, &str, &str)]) -> Result<Setup, io::Error> {
+fn setup_block_ids_by_identifier(test_blocks_data: &[(&str, &str, &str)]) -> Result<utils::Setup, io::Error> {
   let url = mockito::server_url();
 
   let mut mocks = vec![];
@@ -40,15 +32,12 @@ fn setup_block_ids_by_identifier(test_blocks_data: &[(&str, &str, &str)]) -> Res
         "./tests/mock_files/blocks_api/block_identifiers/{}.json",
         platform
       ),
-      &format!("/v2/{}/{}/block_identifier/{}", platform, network, id),
+      &format!("/{}/{}/block_identifier/{}", platform, network, id),
     )?;
     mocks.push(mock);
   }
   
-  Ok(Setup {
-    url,
-    mocks,
-  })
+  Ok(utils::new_setup(url, mocks))
 }
 
 #[tokio::test]
@@ -70,10 +59,8 @@ async fn blocks_by_id() {
     Ok(setup_data) => {
       let _m = setup_data.mocks;
 
-      let config = utils::config_from_url(setup_data.url);
-
       for (platform, network, ident) in test_blocks_data {
-        let res = blocks_api::get_block(&config, platform, network, ident).await;
+        let res = blocks_api::get_block(&setup_data.config, platform, network, ident).await;
         match res {
           Ok(_) => {}
           Err(e) => panic!("{}", e),
@@ -104,10 +91,8 @@ async fn blocks_by_number() {
     Ok(setup_data) => {
       let _m = setup_data.mocks;
 
-      let config = utils::config_from_url(setup_data.url);
-
       for (platform, network, ident) in test_blocks_data {
-        let res = blocks_api::get_block(&config, platform, network, ident).await;
+        let res = blocks_api::get_block(&setup_data.config, platform, network, ident).await;
         match res {
           Ok(_) => {}
           Err(e) => panic!("{}", e),
@@ -138,10 +123,8 @@ async fn block_ids_by_id() {
     Ok(setup_data) => {
       let _m = setup_data.mocks;
 
-      let config = utils::config_from_url(setup_data.url);
-
       for (platform, network, ident) in test_blocks_data {
-        let res = blocks_api::get_block_identifier(&config, platform, network, ident).await;
+        let res = blocks_api::get_block_identifier(&setup_data.config, platform, network, ident).await;
         match res {
           Ok(_) => {}
           Err(e) => panic!("{}", e),
@@ -172,10 +155,9 @@ async fn block_ids_by_number() {
     Ok(setup_data) => {
       let _m = setup_data.mocks;
 
-      let config = utils::config_from_url(setup_data.url);
 
       for (platform, network, ident) in test_blocks_data {
-        let res = blocks_api::get_block_identifier(&config, platform, network, ident).await;
+        let res = blocks_api::get_block_identifier(&setup_data.config, platform, network, ident).await;
         match res {
           Ok(_) => {}
           Err(e) => panic!("{}", e),

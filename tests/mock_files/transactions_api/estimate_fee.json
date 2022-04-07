@@ -1,1 +1,8 @@
-"1000"
+{
+    "most_recent_block": 733701,
+    "estimated_fees": {
+        "fast": 2,
+        "medium": 2,
+        "slow": 2
+    }
+}

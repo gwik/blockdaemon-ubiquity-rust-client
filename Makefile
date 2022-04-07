@@ -6,11 +6,11 @@ generate:
 	docker run --rm -v "$$(pwd):/local" \
 		--user $(shell id -u):$(shell id -g) \
 		openapitools/openapi-generator-cli:v5.2.0 generate -v \
-		-i /local/spec/openapi.yaml \
+		-i /local/spec/openapi-v1.yaml \
 		-g rust \
-		-o /local/src/generated \
 		-c /local/open-api-conf.yaml \
-	  -o /local/generated --additional-properties=generateAliasAsModel=true
+		-t /local/templates \
+		-o /local/generated
 	/bin/cp -r generated/docs . # use /bin/cp to prevent aliasing from cp to cp -i
 
 build:
