@@ -89,6 +89,11 @@ Class | Method | HTTP request | Description
 *BlocksApi* | [**get_block**](docs/BlocksApi.md#get_block) | **GET** /{platform}/{network}/block/{key} | Block By Number/Hash
 *BlocksApi* | [**get_block_identifier**](docs/BlocksApi.md#get_block_identifier) | **GET** /{platform}/{network}/block_identifier/{key} | Block Identifier By Number/Hash
 *BlocksApi* | [**get_block_identifiers**](docs/BlocksApi.md#get_block_identifiers) | **GET** /{platform}/{network}/block_identifiers | Block Identifiers
+*NFTApi* | [**explorer_get_collection**](docs/NFTApi.md#explorer_get_collection) | **GET** /nft/{protocol}/{network}/collection/{id} | 
+*NFTApi* | [**explorer_get_status**](docs/NFTApi.md#explorer_get_status) | **GET** /status | 
+*NFTApi* | [**explorer_list_assets**](docs/NFTApi.md#explorer_list_assets) | **GET** /nft/{protocol}/{network}/assets | 
+*NFTApi* | [**explorer_list_collections**](docs/NFTApi.md#explorer_list_collections) | **GET** /nft/{protocol}/{network}/collections | 
+*NFTApi* | [**explorer_list_events**](docs/NFTApi.md#explorer_list_events) | **GET** /nft/{protocol}/{network}/events | 
 *PlatformsApi* | [**get_platform_endpoints**](docs/PlatformsApi.md#get_platform_endpoints) | **GET** /{platform}/{network}/ | Platform Info
 *PlatformsApi* | [**get_platforms_list**](docs/PlatformsApi.md#get_platforms_list) | **GET** / | Platforms overview
 *SyncApi* | [**current_block_id**](docs/SyncApi.md#current_block_id) | **GET** /{platform}/{network}/sync/block_id | Get current block ID
@@ -104,16 +109,28 @@ Class | Method | HTTP request | Description
 
  - [AccountsObj](docs/AccountsObj.md)
  - [AlgorandMeta](docs/AlgorandMeta.md)
+ - [Asset](docs/Asset.md)
+ - [AssetTrait](docs/AssetTrait.md)
+ - [AssetWallet](docs/AssetWallet.md)
  - [Balance](docs/Balance.md)
  - [Block](docs/Block.md)
  - [BlockIdentifier](docs/BlockIdentifier.md)
  - [BlockIdentifierPage](docs/BlockIdentifierPage.md)
+ - [Collection](docs/Collection.md)
+ - [Contract](docs/Contract.md)
  - [Currency](docs/Currency.md)
  - [Error](docs/Error.md)
  - [Event](docs/Event.md)
  - [FeeEstimate](docs/FeeEstimate.md)
  - [FeeEstimateEstimatedFees](docs/FeeEstimateEstimatedFees.md)
+ - [GetCollectionResponse](docs/GetCollectionResponse.md)
+ - [ListAssetsResponse](docs/ListAssetsResponse.md)
+ - [ListCollectionResponse](docs/ListCollectionResponse.md)
+ - [ListEventResponse](docs/ListEventResponse.md)
+ - [Meta](docs/Meta.md)
  - [NativeCurrency](docs/NativeCurrency.md)
+ - [NftEvent](docs/NftEvent.md)
+ - [Paging](docs/Paging.md)
  - [PlatformDetail](docs/PlatformDetail.md)
  - [PlatformsOverview](docs/PlatformsOverview.md)
  - [PlatformsOverviewPlatforms](docs/PlatformsOverviewPlatforms.md)
