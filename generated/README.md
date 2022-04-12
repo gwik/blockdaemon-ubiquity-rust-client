@@ -90,7 +90,6 @@ Class | Method | HTTP request | Description
 *BlocksApi* | [**get_block_identifier**](docs/BlocksApi.md#get_block_identifier) | **GET** /{platform}/{network}/block_identifier/{key} | Block Identifier By Number/Hash
 *BlocksApi* | [**get_block_identifiers**](docs/BlocksApi.md#get_block_identifiers) | **GET** /{platform}/{network}/block_identifiers | Block Identifiers
 *NFTApi* | [**explorer_get_collection**](docs/NFTApi.md#explorer_get_collection) | **GET** /nft/{protocol}/{network}/collection/{id} | 
-*NFTApi* | [**explorer_get_status**](docs/NFTApi.md#explorer_get_status) | **GET** /status | 
 *NFTApi* | [**explorer_list_assets**](docs/NFTApi.md#explorer_list_assets) | **GET** /nft/{protocol}/{network}/assets | 
 *NFTApi* | [**explorer_list_collections**](docs/NFTApi.md#explorer_list_collections) | **GET** /nft/{protocol}/{network}/collections | 
 *NFTApi* | [**explorer_list_events**](docs/NFTApi.md#explorer_list_events) | **GET** /nft/{protocol}/{network}/events | 
