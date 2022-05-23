@@ -7,31 +7,6 @@ stages:
 # https://hub.docker.com/r/library/rust/tags/
 image: "rust:1.53.0"
 
-generate:
-  image: docker:19.03.12
-  stage: generate
-  services:
-    - docker:19.03.12-dind
-  variables:
-    DOCKER_HOST: "tcp://docker:2375"
-    DOCKER_TLS_CERTDIR: ""
-    DOCKER_DRIVER: overlay2
-
-  script:
-    - apk update
-    - apk add git make
-    - make generate > /dev/null
-    - git config --global user.name "Mr.Roboto 🤖"
-    - git config --global user.email "mrRoboto@blockdaemon.com"
-    - git add ./generated ./docs
-    - git commit -m "UB-00 Updating generated code with changes from ${CI_JOB_ID}"
-    - git push http://gitlab-ci-token:${AUTH_TOKEN_UBIQUITY_RUST_CLIENT}@gitlab.com/Blockdaemon/ubiquity/ubiquity-rust-client.git HEAD:master
-  only:
-      refs:
-        - master
-      changes:
-        - spec/openapi-v1.yaml
-
 build-examples:
   stage: build-examples
   script: make examples
