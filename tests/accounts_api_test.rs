@@ -67,6 +67,7 @@ async fn account_balances() {
                     platform,
                     network,
                     address,
+                    None,
                 )
                 .await;
                 match res {

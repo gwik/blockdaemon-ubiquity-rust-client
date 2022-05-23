@@ -59,7 +59,7 @@ pub enum GetTxsByAddressError {
 
 
 /// Returns the account balances for all supported currencies. 
-pub async fn get_list_of_balances_by_address(configuration: &configuration::Configuration, platform: &str, network: &str, address: &str) -> Result<Vec<crate::models::Balance>, Error<GetListOfBalancesByAddressError>> {
+pub async fn get_list_of_balances_by_address(configuration: &configuration::Configuration, platform: &str, network: &str, address: &str, assets: Option<&str>) -> Result<Vec<crate::models::Balance>, Error<GetListOfBalancesByAddressError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -67,6 +67,9 @@ pub async fn get_list_of_balances_by_address(configuration: &configuration::Conf
     let local_var_uri_str = format!("{}/{platform}/{network}/account/{address}", local_var_configuration.base_path, platform=crate::apis::urlencode(platform), network=crate::apis::urlencode(network), address=crate::apis::urlencode(address));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
+    if let Some(ref local_var_str) = assets {
+        local_var_req_builder = local_var_req_builder.query(&[("assets", &local_var_str.to_string())]);
+    }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
@@ -90,7 +93,7 @@ pub async fn get_list_of_balances_by_address(configuration: &configuration::Conf
 }
 
 /// Returns the balances of accounts for all supported currencies. 
-pub async fn get_list_of_balances_by_addresses(configuration: &configuration::Configuration, platform: &str, network: &str, accounts_obj: crate::models::AccountsObj) -> Result<::std::collections::HashMap<String, Vec<crate::models::Balance>>, Error<GetListOfBalancesByAddressesError>> {
+pub async fn get_list_of_balances_by_addresses(configuration: &configuration::Configuration, platform: &str, network: &str, accounts_obj: crate::models::AccountsObj, assets: Option<&str>) -> Result<::std::collections::HashMap<String, Vec<crate::models::Balance>>, Error<GetListOfBalancesByAddressesError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -98,6 +101,9 @@ pub async fn get_list_of_balances_by_addresses(configuration: &configuration::Co
     let local_var_uri_str = format!("{}/{platform}/{network}/accounts", local_var_configuration.base_path, platform=crate::apis::urlencode(platform), network=crate::apis::urlencode(network));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
+    if let Some(ref local_var_str) = assets {
+        local_var_req_builder = local_var_req_builder.query(&[("assets", &local_var_str.to_string())]);
+    }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }

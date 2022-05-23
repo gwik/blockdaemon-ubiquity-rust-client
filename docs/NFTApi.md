@@ -4,10 +4,10 @@ All URIs are relative to *https://ubiquity.api.blockdaemon.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**explorer_get_collection**](NFTApi.md#explorer_get_collection) | **GET** /nft/{protocol}/{network}/collection/{id} | 
-[**explorer_list_assets**](NFTApi.md#explorer_list_assets) | **GET** /nft/{protocol}/{network}/assets | 
-[**explorer_list_collections**](NFTApi.md#explorer_list_collections) | **GET** /nft/{protocol}/{network}/collections | 
-[**explorer_list_events**](NFTApi.md#explorer_list_events) | **GET** /nft/{protocol}/{network}/events | 
+[**explorer_get_collection**](NFTApi.md#explorer_get_collection) | **get** /nft/{protocol}/{network}/collection/{id} | 
+[**explorer_list_assets**](NFTApi.md#explorer_list_assets) | **get** /nft/{protocol}/{network}/assets | 
+[**explorer_list_collections**](NFTApi.md#explorer_list_collections) | **get** /nft/{protocol}/{network}/collections | 
+[**explorer_list_events**](NFTApi.md#explorer_list_events) | **get** /nft/{protocol}/{network}/events | 
 
 
 
