@@ -1,5 +1,4 @@
 stages:
-  - generate
   - build-examples
   - test
 
@@ -26,5 +25,3 @@ test:clippy:
   script:
     - rustup component add clippy
     - cargo clippy --all --all-features --tests
-  dependencies:
-    - generate
