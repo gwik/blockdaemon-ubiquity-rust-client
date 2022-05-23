@@ -1,4 +1,5 @@
 .gitignore
+.openapi-generator-ignore
 .travis.yml
 Cargo.toml
 README.md
@@ -45,6 +46,8 @@ docs/TokenCurrency.md
 docs/TransactionsApi.md
 docs/Tx.md
 docs/TxConfirmation.md
+docs/TxMinify.md
+docs/TxOutput.md
 docs/TxPage.md
 docs/TxReceipt.md
 git_push.sh
@@ -95,5 +98,7 @@ src/models/token.rs
 src/models/token_currency.rs
 src/models/tx.rs
 src/models/tx_confirmation.rs
+src/models/tx_minify.rs
+src/models/tx_output.rs
 src/models/tx_page.rs
 src/models/tx_receipt.rs

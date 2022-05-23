@@ -83,7 +83,7 @@ async fn txs() {
 
       for (platform, network) in test_txs_data {
         let res =
-          transactions_api::get_txs(&setup_data.config, platform, network, None, None, None).await;
+          transactions_api::get_txs(&setup_data.config, platform, network, None, None, None, None).await;
         match res {
           Ok(_) => {}
           Err(e) => panic!("{}", e),

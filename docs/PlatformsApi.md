@@ -4,8 +4,8 @@ All URIs are relative to *https://ubiquity.api.blockdaemon.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_platform_endpoints**](PlatformsApi.md#get_platform_endpoints) | **GET** /{platform}/{network}/ | Platform Info
-[**get_platforms_list**](PlatformsApi.md#get_platforms_list) | **GET** / | Platforms overview
+[**get_platform_endpoints**](PlatformsApi.md#get_platform_endpoints) | **get** /{platform}/{network}/ | Platform Info
+[**get_platforms_list**](PlatformsApi.md#get_platforms_list) | **get** / | Platforms overview
 
 
 

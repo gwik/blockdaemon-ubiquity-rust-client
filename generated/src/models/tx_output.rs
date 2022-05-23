@@ -12,60 +12,46 @@
 
 
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
-pub struct Tx {
-    /// Unique transaction identifier
-    #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
-    pub id: Option<String>,
-    /// Unix timestamp
-    #[serde(rename = "date", skip_serializing_if = "Option::is_none")]
-    pub date: Option<i64>,
-    /// ID of block if mined, otherwise omitted.
-    #[serde(rename = "block_id", skip_serializing_if = "Option::is_none")]
-    pub block_id: Option<String>,
-    /// Result status of the transaction.
+pub struct TxOutput {
+    /// Result status of the transaction output.
     #[serde(rename = "status", skip_serializing_if = "Option::is_none")]
     pub status: Option<Status>,
-    /// List of moved assets by asset path
-    #[serde(rename = "assets", skip_serializing_if = "Option::is_none")]
-    pub assets: Option<Vec<String>>,
-    #[serde(rename = "nonce", skip_serializing_if = "Option::is_none")]
-    pub nonce: Option<i32>,
-    #[serde(rename = "num_events", skip_serializing_if = "Option::is_none")]
-    pub num_events: Option<i32>,
-    #[serde(rename = "meta", skip_serializing_if = "Option::is_none")]
-    pub meta: Option<serde_json::Value>,
-    #[serde(rename = "events", skip_serializing_if = "Option::is_none")]
-    pub events: Option<Vec<crate::models::Event>>,
+    /// If the transaction output was spent or not, if the value is true the `spent` transaction object will be presented
+    #[serde(rename = "is_spent", skip_serializing_if = "Option::is_none")]
+    pub is_spent: Option<bool>,
+    /// Amount of transaction output
+    #[serde(rename = "value", skip_serializing_if = "Option::is_none")]
+    pub value: Option<i64>,
+    #[serde(rename = "mined", skip_serializing_if = "Option::is_none")]
+    pub mined: Option<Box<crate::models::TxMinify>>,
+    #[serde(rename = "spent", skip_serializing_if = "Option::is_none")]
+    pub spent: Option<Box<crate::models::TxMinify>>,
 }
 
-impl Tx {
-    pub fn new() -> Tx {
-        Tx {
-            id: None,
-            date: None,
-            block_id: None,
+impl TxOutput {
+    pub fn new() -> TxOutput {
+        TxOutput {
             status: None,
-            assets: None,
-            nonce: None,
-            num_events: None,
-            meta: None,
-            events: None,
+            is_spent: None,
+            value: None,
+            mined: None,
+            spent: None,
         }
     }
 }
 
-/// Result status of the transaction.
+/// Result status of the transaction output.
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Status {
-    #[serde(rename = "completed")]
-    Completed,
-    #[serde(rename = "failed")]
-    Failed,
+    #[serde(rename = "mined")]
+    Mined,
+    #[serde(rename = "unknown")]
+    Unknown,
 }
 
 impl Default for Status {
     fn default() -> Status {
-        Self::Completed
+        Self::Mined
     }
 }
 

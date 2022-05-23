@@ -35,6 +35,17 @@ pub enum GetTxError {
     UnknownValue(serde_json::Value),
 }
 
+/// struct for typed errors of method [`get_tx_by_hash_and_index`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetTxByHashAndIndexError {
+    Status400(crate::models::Error),
+    Status401(crate::models::Error),
+    Status404(crate::models::Error),
+    Status429(crate::models::Error),
+    UnknownValue(serde_json::Value),
+}
+
 /// struct for typed errors of method [`get_tx_confirmations`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
@@ -129,6 +140,36 @@ pub async fn get_tx(configuration: &configuration::Configuration, platform: &str
     }
 }
 
+pub async fn get_tx_by_hash_and_index(configuration: &configuration::Configuration, platform: &str, network: &str, id: &str, index: i32) -> Result<crate::models::TxOutput, Error<GetTxByHashAndIndexError>> {
+    let local_var_configuration = configuration;
+
+    let local_var_client = &local_var_configuration.client;
+
+    let local_var_uri_str = format!("{}/{platform}/{network}/tx/{id}/{index}", local_var_configuration.base_path, platform=crate::apis::urlencode(platform), network=crate::apis::urlencode(network), id=crate::apis::urlencode(id), index=index);
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
+
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+    }
+    if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
+    };
+
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
+
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        serde_json::from_str(&local_var_content).map_err(Error::from)
+    } else {
+        let local_var_entity: Option<GetTxByHashAndIndexError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
+    }
+}
+
 pub async fn get_tx_confirmations(configuration: &configuration::Configuration, platform: &str, network: &str, id: &str) -> Result<crate::models::TxConfirmation, Error<GetTxConfirmationsError>> {
     let local_var_configuration = configuration;
 
@@ -160,7 +201,7 @@ pub async fn get_tx_confirmations(configuration: &configuration::Configuration, 
 }
 
 /// Gets transactions from oldest to newest. This call uses pagination. 
-pub async fn get_txs(configuration: &configuration::Configuration, platform: &str, network: &str, order: Option<&str>, continuation: Option<&str>, limit: Option<i32>) -> Result<crate::models::TxPage, Error<GetTxsError>> {
+pub async fn get_txs(configuration: &configuration::Configuration, platform: &str, network: &str, order: Option<&str>, continuation: Option<&str>, limit: Option<i32>, assets: Option<&str>) -> Result<crate::models::TxPage, Error<GetTxsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -176,6 +217,9 @@ pub async fn get_txs(configuration: &configuration::Configuration, platform: &st
     }
     if let Some(ref local_var_str) = limit {
         local_var_req_builder = local_var_req_builder.query(&[("limit", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = assets {
+        local_var_req_builder = local_var_req_builder.query(&[("assets", &local_var_str.to_string())]);
     }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());

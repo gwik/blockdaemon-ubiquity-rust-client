@@ -4,9 +4,9 @@ All URIs are relative to *https://ubiquity.api.blockdaemon.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_block**](BlocksApi.md#get_block) | **GET** /{platform}/{network}/block/{key} | Block By Number/Hash
-[**get_block_identifier**](BlocksApi.md#get_block_identifier) | **GET** /{platform}/{network}/block_identifier/{key} | Block Identifier By Number/Hash
-[**get_block_identifiers**](BlocksApi.md#get_block_identifiers) | **GET** /{platform}/{network}/block_identifiers | Block Identifiers
+[**get_block**](BlocksApi.md#get_block) | **get** /{platform}/{network}/block/{key} | Block By Number/Hash
+[**get_block_identifier**](BlocksApi.md#get_block_identifier) | **get** /{platform}/{network}/block_identifier/{key} | Block Identifier By Number/Hash
+[**get_block_identifiers**](BlocksApi.md#get_block_identifiers) | **get** /{platform}/{network}/block_identifiers | Block Identifiers
 
 
 

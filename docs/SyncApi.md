@@ -4,8 +4,8 @@ All URIs are relative to *https://ubiquity.api.blockdaemon.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**current_block_id**](SyncApi.md#current_block_id) | **GET** /{platform}/{network}/sync/block_id | Get current block ID
-[**current_block_number**](SyncApi.md#current_block_number) | **GET** /{platform}/{network}/sync/block_number | Get current block number
+[**current_block_id**](SyncApi.md#current_block_id) | **get** /{platform}/{network}/sync/block_id | Get current block ID
+[**current_block_number**](SyncApi.md#current_block_number) | **get** /{platform}/{network}/sync/block_number | Get current block number
 
 
 

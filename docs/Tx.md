@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **date** | Option<**i64**> | Unix timestamp | [optional]
 **block_id** | Option<**String**> | ID of block if mined, otherwise omitted. | [optional]
 **status** | Option<**String**> | Result status of the transaction. | [optional]
+**assets** | Option<**Vec<String>**> | List of moved assets by asset path | [optional]
 **nonce** | Option<**i32**> |  | [optional]
 **num_events** | Option<**i32**> |  | [optional]
 **meta** | Option<[**serde_json::Value**](.md)> |  | [optional]
