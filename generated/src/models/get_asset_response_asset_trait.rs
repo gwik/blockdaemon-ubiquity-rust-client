@@ -12,25 +12,18 @@
 
 
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
-pub struct PlatformDetail {
-    /// Backend API Type
-    #[serde(rename = "source", skip_serializing_if = "Option::is_none")]
-    pub source: Option<String>,
-    #[serde(rename = "handle", skip_serializing_if = "Option::is_none")]
-    pub handle: Option<String>,
-    #[serde(rename = "genesis_number", skip_serializing_if = "Option::is_none")]
-    pub genesis_number: Option<i64>,
-    #[serde(rename = "endpoints", skip_serializing_if = "Option::is_none")]
-    pub endpoints: Option<Vec<String>>,
+pub struct GetAssetResponseAssetTrait {
+    #[serde(rename = "trait_type", skip_serializing_if = "Option::is_none")]
+    pub trait_type: Option<String>,
+    #[serde(rename = "value", skip_serializing_if = "Option::is_none")]
+    pub value: Option<String>,
 }
 
-impl PlatformDetail {
-    pub fn new() -> PlatformDetail {
-        PlatformDetail {
-            source: None,
-            handle: None,
-            genesis_number: None,
-            endpoints: None,
+impl GetAssetResponseAssetTrait {
+    pub fn new() -> GetAssetResponseAssetTrait {
+        GetAssetResponseAssetTrait {
+            trait_type: None,
+            value: None,
         }
     }
 }

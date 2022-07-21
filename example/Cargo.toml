@@ -4,5 +4,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-ubiquity = { git = "https://gitlab.com/Blockdaemon/ubiquity/ubiquity-rust-client", branch = "v1" }
+ubiquity = { path = "../" } 
 tokio = { version = "1.8.0", features = ["full"] }
+reqwest2 = { version = "0.11", package = "reqwest" }

@@ -15,41 +15,137 @@ use crate::apis::ResponseContent;
 use super::{Error, configuration};
 
 
-/// struct for typed errors of method [`explorer_get_collection`]
+/// struct for typed errors of method [`get_asset`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum ExplorerGetCollectionError {
+pub enum GetAssetError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`explorer_list_assets`]
+/// struct for typed errors of method [`get_collection`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum ExplorerListAssetsError {
+pub enum GetCollectionError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`explorer_list_collections`]
+/// struct for typed errors of method [`get_event`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum ExplorerListCollectionsError {
+pub enum GetEventError {
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`explorer_list_events`]
+/// struct for typed errors of method [`list_assets`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum ExplorerListEventsError {
+pub enum ListAssetsError {
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`list_collections`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum ListCollectionsError {
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`list_events`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum ListEventsError {
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`search_collections`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum SearchCollectionsError {
     UnknownValue(serde_json::Value),
 }
 
 
-pub async fn explorer_get_collection(configuration: &configuration::Configuration, protocol: &str, network: &str, id: &str) -> Result<crate::models::GetCollectionResponse, Error<ExplorerGetCollectionError>> {
+/// Returns detailed information about an NFT asset by a given unique asset ID or  by a given contact address and token ID.
+pub async fn get_asset(configuration: &configuration::Configuration, protocol: i32, network: i32, id: &str, contract_address: Option<&str>, token_id: Option<&str>, show_wallets: Option<bool>) -> Result<crate::models::GetAssetResponse, Error<GetAssetError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/nft/{protocol}/{network}/collection/{id}", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network), id=crate::apis::urlencode(id));
+    let local_var_uri_str = format!("{}/nft/{protocol}/{network}/asset/{id}", local_var_configuration.base_path, protocol=protocol, network=network, id=crate::apis::urlencode(id));
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
+
+    if let Some(ref local_var_str) = contract_address {
+        local_var_req_builder = local_var_req_builder.query(&[("contract_address", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = token_id {
+        local_var_req_builder = local_var_req_builder.query(&[("token_id", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = show_wallets {
+        local_var_req_builder = local_var_req_builder.query(&[("show_wallets", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+    }
+    if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
+    };
+
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
+
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        serde_json::from_str(&local_var_content).map_err(Error::from)
+    } else {
+        let local_var_entity: Option<GetAssetError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
+    }
+}
+
+/// Returns detailed information about an NFT collection by a given unique collection ID.
+pub async fn get_collection(configuration: &configuration::Configuration, protocol: i32, network: i32, id: &str, contract_address: Option<&str>) -> Result<crate::models::GetCollectionResponse, Error<GetCollectionError>> {
+    let local_var_configuration = configuration;
+
+    let local_var_client = &local_var_configuration.client;
+
+    let local_var_uri_str = format!("{}/nft/{protocol}/{network}/collection/{id}", local_var_configuration.base_path, protocol=protocol, network=network, id=crate::apis::urlencode(id));
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
+
+    if let Some(ref local_var_str) = contract_address {
+        local_var_req_builder = local_var_req_builder.query(&[("contractAddress", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+    }
+    if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
+    };
+
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
+
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        serde_json::from_str(&local_var_content).map_err(Error::from)
+    } else {
+        let local_var_entity: Option<GetCollectionError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
+    }
+}
+
+/// Returns detailed information about an NFT event by a given event ID.
+pub async fn get_event(configuration: &configuration::Configuration, protocol: i32, network: i32, id: &str) -> Result<crate::models::GetEventResponse, Error<GetEventError>> {
+    let local_var_configuration = configuration;
+
+    let local_var_client = &local_var_configuration.client;
+
+    let local_var_uri_str = format!("{}/nft/{protocol}/{network}/event/{id}", local_var_configuration.base_path, protocol=protocol, network=network, id=crate::apis::urlencode(id));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
@@ -68,18 +164,19 @@ pub async fn explorer_get_collection(configuration: &configuration::Configuratio
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
-        let local_var_entity: Option<ExplorerGetCollectionError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_entity: Option<GetEventError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }
 }
 
-pub async fn explorer_list_assets(configuration: &configuration::Configuration, protocol: &str, network: &str, wallet_address: Option<&str>, contract_address: Option<&str>, token_id_value: Option<i64>, collection_name: Option<&str>, sort_by: Option<&str>, order: Option<&str>, page_size: Option<i32>, page_token: Option<&str>, attributes: Option<Vec<String>>) -> Result<crate::models::ListAssetsResponse, Error<ExplorerListAssetsError>> {
+/// Returns NFT assets by a given collection, contract, or wallet.
+pub async fn list_assets(configuration: &configuration::Configuration, protocol: i32, network: i32, wallet_address: Option<&str>, contract_address: Option<&str>, token_id: Option<&str>, collection_name: Option<&str>, sort_by: Option<&str>, order: Option<i32>, page_size: Option<i32>, page_token: Option<&str>, attributes: Option<Vec<String>>, token_type: Option<Vec<i32>>, show_wallets: Option<bool>) -> Result<crate::models::ListAssetsResponse, Error<ListAssetsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/nft/{protocol}/{network}/assets", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network));
+    let local_var_uri_str = format!("{}/nft/{protocol}/{network}/assets", local_var_configuration.base_path, protocol=protocol, network=network);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_str) = wallet_address {
@@ -88,8 +185,8 @@ pub async fn explorer_list_assets(configuration: &configuration::Configuration, 
     if let Some(ref local_var_str) = contract_address {
         local_var_req_builder = local_var_req_builder.query(&[("contract_address", &local_var_str.to_string())]);
     }
-    if let Some(ref local_var_str) = token_id_value {
-        local_var_req_builder = local_var_req_builder.query(&[("token_id.value", &local_var_str.to_string())]);
+    if let Some(ref local_var_str) = token_id {
+        local_var_req_builder = local_var_req_builder.query(&[("token_id", &local_var_str.to_string())]);
     }
     if let Some(ref local_var_str) = collection_name {
         local_var_req_builder = local_var_req_builder.query(&[("collection_name", &local_var_str.to_string())]);
@@ -112,6 +209,15 @@ pub async fn explorer_list_assets(configuration: &configuration::Configuration, 
             _ => local_var_req_builder.query(&[("attributes", &local_var_str.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
         };
     }
+    if let Some(ref local_var_str) = token_type {
+        local_var_req_builder = match "multi" {
+            "multi" => local_var_req_builder.query(&local_var_str.into_iter().map(|p| ("token_type".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
+            _ => local_var_req_builder.query(&[("token_type", &local_var_str.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+        };
+    }
+    if let Some(ref local_var_str) = show_wallets {
+        local_var_req_builder = local_var_req_builder.query(&[("show_wallets", &local_var_str.to_string())]);
+    }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
@@ -128,18 +234,19 @@ pub async fn explorer_list_assets(configuration: &configuration::Configuration, 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
-        let local_var_entity: Option<ExplorerListAssetsError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_entity: Option<ListAssetsError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }
 }
 
-pub async fn explorer_list_collections(configuration: &configuration::Configuration, protocol: &str, network: &str, contract_address: Option<Vec<String>>, collection_name: Option<Vec<String>>, sort_by: Option<&str>, order: Option<&str>, page_size: Option<i32>, page_token: Option<&str>) -> Result<crate::models::ListCollectionResponse, Error<ExplorerListCollectionsError>> {
+/// Returns a list of all Collections in the network, which can be filtered by a given  collection name, contract address or token type.
+pub async fn list_collections(configuration: &configuration::Configuration, protocol: i32, network: i32, contract_address: Option<Vec<String>>, collection_name: Option<Vec<String>>, sort_by: Option<&str>, order: Option<i32>, page_size: Option<i32>, page_token: Option<&str>, token_type: Option<Vec<i32>>, verified: Option<bool>) -> Result<crate::models::ListCollectionResponse, Error<ListCollectionsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/nft/{protocol}/{network}/collections", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network));
+    let local_var_uri_str = format!("{}/nft/{protocol}/{network}/collections", local_var_configuration.base_path, protocol=protocol, network=network);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_str) = contract_address {
@@ -166,6 +273,15 @@ pub async fn explorer_list_collections(configuration: &configuration::Configurat
     if let Some(ref local_var_str) = page_token {
         local_var_req_builder = local_var_req_builder.query(&[("page_token", &local_var_str.to_string())]);
     }
+    if let Some(ref local_var_str) = token_type {
+        local_var_req_builder = match "multi" {
+            "multi" => local_var_req_builder.query(&local_var_str.into_iter().map(|p| ("token_type".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
+            _ => local_var_req_builder.query(&[("token_type", &local_var_str.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+        };
+    }
+    if let Some(ref local_var_str) = verified {
+        local_var_req_builder = local_var_req_builder.query(&[("verified", &local_var_str.to_string())]);
+    }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
@@ -182,18 +298,19 @@ pub async fn explorer_list_collections(configuration: &configuration::Configurat
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
-        let local_var_entity: Option<ExplorerListCollectionsError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_entity: Option<ListCollectionsError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }
 }
 
-pub async fn explorer_list_events(configuration: &configuration::Configuration, protocol: &str, network: &str, contract_address: Option<&str>, wallet_address: Option<&str>, token_id: Option<i64>, event_type: Option<&str>, sort_by: Option<&str>, order: Option<&str>, page_size: Option<i32>, page_token: Option<&str>) -> Result<crate::models::ListEventResponse, Error<ExplorerListEventsError>> {
+/// Returns NFT events by a given contract or wallet.
+pub async fn list_events(configuration: &configuration::Configuration, protocol: i32, network: i32, contract_address: Option<&str>, wallet_address: Option<&str>, token_id: Option<&str>, event_type: Option<&str>, sort_by: Option<&str>, order: Option<i32>, page_size: Option<i32>, page_token: Option<&str>) -> Result<crate::models::ListEventResponse, Error<ListEventsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/nft/{protocol}/{network}/events", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network));
+    let local_var_uri_str = format!("{}/nft/{protocol}/{network}/events", local_var_configuration.base_path, protocol=protocol, network=network);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_str) = contract_address {
@@ -236,7 +353,41 @@ pub async fn explorer_list_events(configuration: &configuration::Configuration, 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
-        let local_var_entity: Option<ExplorerListEventsError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_entity: Option<ListEventsError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
+    }
+}
+
+/// Returns NFT collections with names matching a given search string.  The response includes top 50 most relevant results, sorted in descending order.
+pub async fn search_collections(configuration: &configuration::Configuration, protocol: i32, network: i32, name: Option<&str>) -> Result<crate::models::SearchCollectionResponse, Error<SearchCollectionsError>> {
+    let local_var_configuration = configuration;
+
+    let local_var_client = &local_var_configuration.client;
+
+    let local_var_uri_str = format!("{}/nft/{protocol}/{network}/collections/search", local_var_configuration.base_path, protocol=protocol, network=network);
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
+
+    if let Some(ref local_var_str) = name {
+        local_var_req_builder = local_var_req_builder.query(&[("name", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+    }
+    if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
+    };
+
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
+
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        serde_json::from_str(&local_var_content).map_err(Error::from)
+    } else {
+        let local_var_entity: Option<SearchCollectionsError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }

@@ -34,12 +34,12 @@ pub enum CurrentBlockNumberError {
 }
 
 
-pub async fn current_block_id(configuration: &configuration::Configuration, platform: &str, network: &str) -> Result<String, Error<CurrentBlockIdError>> {
+pub async fn current_block_id(configuration: &configuration::Configuration, protocol: &str, network: &str) -> Result<String, Error<CurrentBlockIdError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/{platform}/{network}/sync/block_id", local_var_configuration.base_path, platform=crate::apis::urlencode(platform), network=crate::apis::urlencode(network));
+    let local_var_uri_str = format!("{}/{protocol}/{network}/sync/block_id", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
@@ -64,12 +64,12 @@ pub async fn current_block_id(configuration: &configuration::Configuration, plat
     }
 }
 
-pub async fn current_block_number(configuration: &configuration::Configuration, platform: &str, network: &str) -> Result<i64, Error<CurrentBlockNumberError>> {
+pub async fn current_block_number(configuration: &configuration::Configuration, protocol: &str, network: &str) -> Result<i64, Error<CurrentBlockNumberError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/{platform}/{network}/sync/block_number", local_var_configuration.base_path, platform=crate::apis::urlencode(platform), network=crate::apis::urlencode(network));
+    let local_var_uri_str = format!("{}/{protocol}/{network}/sync/block_number", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {

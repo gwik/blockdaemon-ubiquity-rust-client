@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**data** | Option<[**Vec<crate::models::Asset>**](Asset.md)> |  | [optional]
+**data** | Option<[**Vec<crate::models::ListAssetsResponseAsset>**](ListAssetsResponse_Asset.md)> |  | [optional]
 **meta** | Option<[**crate::models::Meta**](Meta.md)> |  | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

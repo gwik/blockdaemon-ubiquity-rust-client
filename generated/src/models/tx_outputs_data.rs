@@ -12,18 +12,30 @@
 
 
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
-pub struct PlatformsOverviewPlatforms {
-    #[serde(rename = "handle", skip_serializing_if = "Option::is_none")]
-    pub handle: Option<String>,
-    #[serde(rename = "network", skip_serializing_if = "Option::is_none")]
-    pub network: Option<String>,
+pub struct TxOutputsData {
+    /// the status of the given transaction output
+    #[serde(rename = "status", skip_serializing_if = "Option::is_none")]
+    pub status: Option<String>,
+    /// whether the transaction output was spent or not
+    #[serde(rename = "is_spent", skip_serializing_if = "Option::is_none")]
+    pub is_spent: Option<bool>,
+    #[serde(rename = "spent", skip_serializing_if = "Option::is_none")]
+    pub spent: Option<Box<crate::models::TxOutputResponse>>,
+    /// the amount of tokens within the given output
+    #[serde(rename = "value", skip_serializing_if = "Option::is_none")]
+    pub value: Option<i64>,
+    #[serde(rename = "mined", skip_serializing_if = "Option::is_none")]
+    pub mined: Option<Box<crate::models::TxOutputResponse>>,
 }
 
-impl PlatformsOverviewPlatforms {
-    pub fn new() -> PlatformsOverviewPlatforms {
-        PlatformsOverviewPlatforms {
-            handle: None,
-            network: None,
+impl TxOutputsData {
+    pub fn new() -> TxOutputsData {
+        TxOutputsData {
+            status: None,
+            is_spent: None,
+            spent: None,
+            value: None,
+            mined: None,
         }
     }
 }

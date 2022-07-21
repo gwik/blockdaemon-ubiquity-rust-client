@@ -23,12 +23,25 @@ async fn main() {
     }
 
     let balance_map =
-        accounts_api::get_list_of_balances_by_address(&cg, platform, network, addr).await;
+        accounts_api::get_list_of_balances_by_address(&cg, platform, network, addr, None).await;
 
     match balance_map {
         Ok(b) => {
             let f = b.first().unwrap();
-            println!("Balance:{:?}", f);
+            println!("Balance: {:?}", f);
+
+            Some(println!("ok"));
+        }
+        Err(e) => panic!("{}", e),
+    }
+
+    let utxos_result = accounts_api::get_utxoby_account(&cg, platform, network, addr, Some(false), None, None, None, None, Some(10)).await;
+    match utxos_result {
+        Ok(utxos) => {
+            println!("Total UTXO: {:?} - Continuation: {:?}", utxos.total.unwrap(), utxos.continuation);
+            for u in utxos.data.unwrap_or_else(Vec::new).iter() {
+                println!("{:?}", u);
+            }
 
             Some(println!("ok"));
         }

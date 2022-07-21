@@ -18,9 +18,8 @@ pub struct TxPage {
     pub total: Option<i32>,
     #[serde(rename = "items", skip_serializing_if = "Option::is_none")]
     pub items: Option<Vec<crate::models::Tx>>,
-    /// Token to get the next page
     #[serde(rename = "continuation", skip_serializing_if = "Option::is_none")]
-    pub continuation: Option<String>,
+    pub continuation: Option<Box<crate::models::TxPageContinuation>>,
 }
 
 impl TxPage {

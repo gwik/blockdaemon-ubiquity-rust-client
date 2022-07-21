@@ -12,33 +12,18 @@
 
 
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
-pub struct Asset {
-    #[serde(rename = "token_id", skip_serializing_if = "Option::is_none")]
-    pub token_id: Option<i64>,
-    #[serde(rename = "image_url", skip_serializing_if = "Option::is_none")]
-    pub image_url: Option<String>,
-    #[serde(rename = "name", skip_serializing_if = "Option::is_none")]
-    pub name: Option<String>,
-    #[serde(rename = "contract", skip_serializing_if = "Option::is_none")]
-    pub contract: Option<Box<crate::models::Contract>>,
-    #[serde(rename = "wallets", skip_serializing_if = "Option::is_none")]
-    pub wallets: Option<Vec<crate::models::AssetWallet>>,
-    #[serde(rename = "attributes", skip_serializing_if = "Option::is_none")]
-    pub attributes: Option<Vec<crate::models::AssetTrait>>,
-    #[serde(rename = "mint_date", skip_serializing_if = "Option::is_none")]
-    pub mint_date: Option<i64>,
+pub struct ProtocolsOverviewProtocols {
+    #[serde(rename = "handle", skip_serializing_if = "Option::is_none")]
+    pub handle: Option<String>,
+    #[serde(rename = "network", skip_serializing_if = "Option::is_none")]
+    pub network: Option<String>,
 }
 
-impl Asset {
-    pub fn new() -> Asset {
-        Asset {
-            token_id: None,
-            image_url: None,
-            name: None,
-            contract: None,
-            wallets: None,
-            attributes: None,
-            mint_date: None,
+impl ProtocolsOverviewProtocols {
+    pub fn new() -> ProtocolsOverviewProtocols {
+        ProtocolsOverviewProtocols {
+            handle: None,
+            network: None,
         }
     }
 }

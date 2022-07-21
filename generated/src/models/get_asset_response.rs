@@ -12,16 +12,15 @@
 
 
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
-pub struct PlatformsOverview {
-    /// List of items each describing a pair of supported platform and network.
-    #[serde(rename = "platforms", skip_serializing_if = "Option::is_none")]
-    pub platforms: Option<Vec<crate::models::PlatformsOverviewPlatforms>>,
+pub struct GetAssetResponse {
+    #[serde(rename = "asset", skip_serializing_if = "Option::is_none")]
+    pub asset: Option<Box<crate::models::GetAssetResponseAsset>>,
 }
 
-impl PlatformsOverview {
-    pub fn new() -> PlatformsOverview {
-        PlatformsOverview {
-            platforms: None,
+impl GetAssetResponse {
+    pub fn new() -> GetAssetResponse {
+        GetAssetResponse {
+            asset: None,
         }
     }
 }

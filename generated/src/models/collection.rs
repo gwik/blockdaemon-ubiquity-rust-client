@@ -17,14 +17,12 @@ pub struct Collection {
     pub id: Option<String>,
     #[serde(rename = "name", skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
-    #[serde(rename = "description", skip_serializing_if = "Option::is_none")]
-    pub description: Option<String>,
-    #[serde(rename = "image_url", skip_serializing_if = "Option::is_none")]
-    pub image_url: Option<String>,
+    #[serde(rename = "logo", skip_serializing_if = "Option::is_none")]
+    pub logo: Option<String>,
     #[serde(rename = "contracts", skip_serializing_if = "Option::is_none")]
-    pub contracts: Option<Vec<crate::models::Contract>>,
-    #[serde(rename = "meta", skip_serializing_if = "Option::is_none")]
-    pub meta: Option<serde_json::Value>,
+    pub contracts: Option<Vec<String>>,
+    #[serde(rename = "verified", skip_serializing_if = "Option::is_none")]
+    pub verified: Option<bool>,
 }
 
 impl Collection {
@@ -32,10 +30,9 @@ impl Collection {
         Collection {
             id: None,
             name: None,
-            description: None,
-            image_url: None,
+            logo: None,
             contracts: None,
-            meta: None,
+            verified: None,
         }
     }
 }

@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **nonce** | Option<**i32**> |  | [optional]
 **num_events** | Option<**i32**> |  | [optional]
 **meta** | Option<[**serde_json::Value**](.md)> |  | [optional]
-**events** | Option<[**Vec<crate::models::Event>**](Event.md)> |  | [optional]
+**events** | Option<[**Vec<crate::models::Event>**](event.md)> |  | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

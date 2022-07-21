@@ -57,10 +57,11 @@ pub use ubiquity_openapi_client;
 ///         conf,
 ///         platform,
 ///         network,
+///         None,
+///         None,
 ///         order,
-///         tx_page.continuation.as_deref(),
+///         None,
 ///         limit,
-///         None
 ///     )
 ///     .await
 ///     .map_err(format_get_tx_error);
@@ -101,7 +102,7 @@ pub use ubiquity_openapi_client;
 ///
 ///     // get last 10 transactions
 ///     let tx_result =
-///         transactions_api::get_txs(&conf, platform, network, order, continuation, limit, None).await.map_err(format_get_tx_error)?;
+///         transactions_api::get_txs(&conf, platform, network, None, None, order, continuation, limit).await.map_err(format_get_tx_error)?;
 ///
 ///     let tx_page = print_and_get_continuated_txs(
 ///         &conf, platform, network, order, limit, &tx_result,

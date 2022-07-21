@@ -12,15 +12,16 @@
 
 
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
-pub struct AssetWallet {
-    #[serde(rename = "address", skip_serializing_if = "Option::is_none")]
-    pub address: Option<String>,
+pub struct ProtocolsOverview {
+    /// List of items each describing a pair of supported protocol and network.
+    #[serde(rename = "protocols", skip_serializing_if = "Option::is_none")]
+    pub protocols: Option<Vec<crate::models::ProtocolsOverviewProtocols>>,
 }
 
-impl AssetWallet {
-    pub fn new() -> AssetWallet {
-        AssetWallet {
-            address: None,
+impl ProtocolsOverview {
+    pub fn new() -> ProtocolsOverview {
+        ProtocolsOverview {
+            protocols: None,
         }
     }
 }
