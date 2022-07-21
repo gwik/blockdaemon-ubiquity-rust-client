@@ -4,14 +4,14 @@ All URIs are relative to *https://ubiquity.api.blockdaemon.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**current_block_id**](SyncApi.md#current_block_id) | **get** /{platform}/{network}/sync/block_id | Get current block ID
-[**current_block_number**](SyncApi.md#current_block_number) | **get** /{platform}/{network}/sync/block_number | Get current block number
+[**current_block_id**](SyncApi.md#current_block_id) | **GET** /{protocol}/{network}/sync/block_id | Get current block ID
+[**current_block_number**](SyncApi.md#current_block_number) | **GET** /{protocol}/{network}/sync/block_number | Get current block number
 
 
 
 ## current_block_id
 
-> String current_block_id(platform, network)
+> String current_block_id(protocol, network)
 Get current block ID
 
 ### Parameters
@@ -19,8 +19,8 @@ Get current block ID
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**platform** | **String** | Coin platform handle | [required] |
-**network** | **String** | Which network to target. Available networks can be found with /{platform} | [required] |
+**protocol** | **String** | Protocol handle | [required] |
+**network** | **String** | Which network to target. Available networks can be found with /{protocol} | [required] |
 
 ### Return type
 
@@ -40,7 +40,7 @@ Name | Type | Description  | Required | Notes
 
 ## current_block_number
 
-> i64 current_block_number(platform, network)
+> i64 current_block_number(protocol, network)
 Get current block number
 
 ### Parameters
@@ -48,8 +48,8 @@ Get current block number
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**platform** | **String** | Coin platform handle | [required] |
-**network** | **String** | Which network to target. Available networks can be found with /{platform} | [required] |
+**protocol** | **String** | Protocol handle | [required] |
+**network** | **String** | Which network to target. Available networks can be found with /{protocol} | [required] |
 
 ### Return type
 

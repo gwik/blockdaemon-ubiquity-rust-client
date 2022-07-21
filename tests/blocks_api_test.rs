@@ -1,6 +1,7 @@
 use std::io;
 
 use ubiquity::api::blocks_api;
+use ubiquity::api::block_identifiers_api;
 
 pub mod utils;
 
@@ -124,7 +125,7 @@ async fn block_ids_by_id() {
       let _m = setup_data.mocks;
 
       for (platform, network, ident) in test_blocks_data {
-        let res = blocks_api::get_block_identifier(&setup_data.config, platform, network, ident).await;
+        let res = block_identifiers_api::get_block_identifier_by_id(&setup_data.config, platform, network, ident).await;
         match res {
           Ok(_) => {}
           Err(e) => panic!("{}", e),
@@ -157,7 +158,7 @@ async fn block_ids_by_number() {
 
 
       for (platform, network, ident) in test_blocks_data {
-        let res = blocks_api::get_block_identifier(&setup_data.config, platform, network, ident).await;
+        let res = block_identifiers_api::get_block_identifier_by_id(&setup_data.config, platform, network, ident).await;
         match res {
           Ok(_) => {}
           Err(e) => panic!("{}", e),

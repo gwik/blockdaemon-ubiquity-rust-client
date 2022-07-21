@@ -15,32 +15,34 @@ use crate::apis::ResponseContent;
 use super::{Error, configuration};
 
 
-/// struct for typed errors of method [`get_platform_endpoints`]
+/// struct for typed errors of method [`get_block_identifier_by_id`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum GetPlatformEndpointsError {
+pub enum GetBlockIdentifierByIdError {
+    Status400(crate::models::Error),
+    Status401(crate::models::Error),
+    Status404(crate::models::Error),
+    Status429(crate::models::Error),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`get_block_identifiers`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetBlockIdentifiersError {
     Status401(crate::models::Error),
     Status429(crate::models::Error),
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`get_platforms_list`]
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum GetPlatformsListError {
-    Status401(crate::models::Error),
-    Status429(crate::models::Error),
-    UnknownValue(serde_json::Value),
-}
 
-
-/// Provides information about supported endpoints and generic platform information. 
-pub async fn get_platform_endpoints(configuration: &configuration::Configuration, platform: &str, network: &str) -> Result<crate::models::PlatformDetail, Error<GetPlatformEndpointsError>> {
+/// Get minimal block identifier by block hash
+pub async fn get_block_identifier_by_id(configuration: &configuration::Configuration, protocol: &str, network: &str, block_identifier: &str) -> Result<crate::models::BlockIdentifier, Error<GetBlockIdentifierByIdError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/{platform}/{network}/", local_var_configuration.base_path, platform=crate::apis::urlencode(platform), network=crate::apis::urlencode(network));
+    let local_var_uri_str = format!("{}/{protocol}/{network}/block_identifier/{block_identifier}", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network), block_identifier=crate::apis::urlencode(block_identifier));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
@@ -59,21 +61,30 @@ pub async fn get_platform_endpoints(configuration: &configuration::Configuration
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
-        let local_var_entity: Option<GetPlatformEndpointsError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_entity: Option<GetBlockIdentifierByIdError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }
 }
 
-/// Provides a list of supported platforms and networks. 
-pub async fn get_platforms_list(configuration: &configuration::Configuration, ) -> Result<crate::models::PlatformsOverview, Error<GetPlatformsListError>> {
+/// Get minimal block identifiers
+pub async fn get_block_identifiers(configuration: &configuration::Configuration, protocol: &str, network: &str, order: Option<&str>, continuation: Option<&str>, limit: Option<i32>) -> Result<crate::models::BlockIdentifiers, Error<GetBlockIdentifiersError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/", local_var_configuration.base_path);
+    let local_var_uri_str = format!("{}/{protocol}/{network}/block_identifiers", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
+    if let Some(ref local_var_str) = order {
+        local_var_req_builder = local_var_req_builder.query(&[("order", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = continuation {
+        local_var_req_builder = local_var_req_builder.query(&[("continuation", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = limit {
+        local_var_req_builder = local_var_req_builder.query(&[("limit", &local_var_str.to_string())]);
+    }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
@@ -90,7 +101,7 @@ pub async fn get_platforms_list(configuration: &configuration::Configuration, ) 
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
-        let local_var_entity: Option<GetPlatformsListError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_entity: Option<GetBlockIdentifiersError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }

@@ -12,18 +12,24 @@
 
 
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
-pub struct AssetTrait {
-    #[serde(rename = "trait_type", skip_serializing_if = "Option::is_none")]
-    pub trait_type: Option<String>,
-    #[serde(rename = "value", skip_serializing_if = "Option::is_none")]
-    pub value: Option<String>,
+pub struct Payment {
+    #[serde(rename = "from", skip_serializing_if = "Option::is_none")]
+    pub from: Option<String>,
+    #[serde(rename = "to", skip_serializing_if = "Option::is_none")]
+    pub to: Option<String>,
+    #[serde(rename = "price", skip_serializing_if = "Option::is_none")]
+    pub price: Option<f64>,
+    #[serde(rename = "currency", skip_serializing_if = "Option::is_none")]
+    pub currency: Option<String>,
 }
 
-impl AssetTrait {
-    pub fn new() -> AssetTrait {
-        AssetTrait {
-            trait_type: None,
-            value: None,
+impl Payment {
+    pub fn new() -> Payment {
+        Payment {
+            from: None,
+            to: None,
+            price: None,
+            currency: None,
         }
     }
 }

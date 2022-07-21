@@ -14,7 +14,7 @@
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
 pub struct GetCollectionResponse {
     #[serde(rename = "collection", skip_serializing_if = "Option::is_none")]
-    pub collection: Option<Box<crate::models::Collection>>,
+    pub collection: Option<Box<crate::models::GetCollectionResponseCollection>>,
 }
 
 impl GetCollectionResponse {

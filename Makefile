@@ -50,10 +50,6 @@ test:
 
 .PHONY: examples
 examples:
-	cd examples/get-block/; pwd; \
-      echo "Building get-block example"; \
+	cd example; pwd; \
+      echo "Building example"; \
 	  cargo build
-	#cd ../../
-	cd examples/pagination/; pwd; \
-      echo "Building pagination example"; \
-	  cargo build;

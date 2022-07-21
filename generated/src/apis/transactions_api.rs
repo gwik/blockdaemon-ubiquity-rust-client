@@ -61,17 +61,16 @@ pub enum GetTxConfirmationsError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetTxsError {
-    Status400(crate::models::Error),
     Status401(crate::models::Error),
     Status403(crate::models::Error),
     Status429(crate::models::Error),
     UnknownValue(serde_json::Value),
 }
 
-/// struct for typed errors of method [`tx_send`]
+/// struct for typed errors of method [`v1_tx_send`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum TxSendError {
+pub enum V1TxSendError {
     Status401(crate::models::Error),
     Status429(crate::models::Error),
     Status400(crate::models::Error),
@@ -80,12 +79,12 @@ pub enum TxSendError {
 
 
 /// Get a fee estimation in decimals from the ubiquity fee estimation service. Currently supported for Bitcoin and Ethereum. Endpoint will return 3 fee estimations fast, medium and slow 
-pub async fn fee_estimate(configuration: &configuration::Configuration, platform: &str, network: &str) -> Result<crate::models::FeeEstimate, Error<FeeEstimateError>> {
+pub async fn fee_estimate(configuration: &configuration::Configuration, protocol: &str, network: &str) -> Result<crate::models::FeeEstimate, Error<FeeEstimateError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/{platform}/{network}/tx/estimate_fee", local_var_configuration.base_path, platform=crate::apis::urlencode(platform), network=crate::apis::urlencode(network));
+    let local_var_uri_str = format!("{}/{protocol}/{network}/tx/estimate_fee", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
@@ -110,12 +109,12 @@ pub async fn fee_estimate(configuration: &configuration::Configuration, platform
     }
 }
 
-pub async fn get_tx(configuration: &configuration::Configuration, platform: &str, network: &str, id: &str) -> Result<crate::models::Tx, Error<GetTxError>> {
+pub async fn get_tx(configuration: &configuration::Configuration, protocol: &str, network: &str, id: &str) -> Result<crate::models::Tx, Error<GetTxError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/{platform}/{network}/tx/{id}", local_var_configuration.base_path, platform=crate::apis::urlencode(platform), network=crate::apis::urlencode(network), id=crate::apis::urlencode(id));
+    let local_var_uri_str = format!("{}/{protocol}/{network}/tx/{id}", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network), id=crate::apis::urlencode(id));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
@@ -140,12 +139,12 @@ pub async fn get_tx(configuration: &configuration::Configuration, platform: &str
     }
 }
 
-pub async fn get_tx_by_hash_and_index(configuration: &configuration::Configuration, platform: &str, network: &str, id: &str, index: i32) -> Result<crate::models::TxOutput, Error<GetTxByHashAndIndexError>> {
+pub async fn get_tx_by_hash_and_index(configuration: &configuration::Configuration, protocol: &str, network: &str, id: &str, index: i32) -> Result<crate::models::TxOutput, Error<GetTxByHashAndIndexError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/{platform}/{network}/tx/{id}/{index}", local_var_configuration.base_path, platform=crate::apis::urlencode(platform), network=crate::apis::urlencode(network), id=crate::apis::urlencode(id), index=index);
+    let local_var_uri_str = format!("{}/{protocol}/{network}/tx/{id}/{index}", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network), id=crate::apis::urlencode(id), index=index);
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
@@ -170,12 +169,12 @@ pub async fn get_tx_by_hash_and_index(configuration: &configuration::Configurati
     }
 }
 
-pub async fn get_tx_confirmations(configuration: &configuration::Configuration, platform: &str, network: &str, id: &str) -> Result<crate::models::TxConfirmation, Error<GetTxConfirmationsError>> {
+pub async fn get_tx_confirmations(configuration: &configuration::Configuration, protocol: &str, network: &str, id: &str) -> Result<crate::models::TxConfirmation, Error<GetTxConfirmationsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/{platform}/{network}/tx/{id}/confirmations", local_var_configuration.base_path, platform=crate::apis::urlencode(platform), network=crate::apis::urlencode(network), id=crate::apis::urlencode(id));
+    let local_var_uri_str = format!("{}/{protocol}/{network}/tx/{id}/confirmations", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network), id=crate::apis::urlencode(id));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
@@ -200,15 +199,21 @@ pub async fn get_tx_confirmations(configuration: &configuration::Configuration, 
     }
 }
 
-/// Gets transactions from oldest to newest. This call uses pagination. 
-pub async fn get_txs(configuration: &configuration::Configuration, platform: &str, network: &str, order: Option<&str>, continuation: Option<&str>, limit: Option<i32>, assets: Option<&str>) -> Result<crate::models::TxPage, Error<GetTxsError>> {
+/// Get all transactions on the protocol, starting with the lastest one. Each call returns a slice of the entire list. Use the returned continuation token to get the next part.
+pub async fn get_txs(configuration: &configuration::Configuration, protocol: &str, network: &str, block_id: Option<&str>, assets: Option<&str>, order: Option<&str>, continuation: Option<&str>, limit: Option<i32>) -> Result<crate::models::TxPage, Error<GetTxsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/{platform}/{network}/txs", local_var_configuration.base_path, platform=crate::apis::urlencode(platform), network=crate::apis::urlencode(network));
+    let local_var_uri_str = format!("{}/{protocol}/{network}/txs", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
+    if let Some(ref local_var_str) = block_id {
+        local_var_req_builder = local_var_req_builder.query(&[("block_id", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = assets {
+        local_var_req_builder = local_var_req_builder.query(&[("assets", &local_var_str.to_string())]);
+    }
     if let Some(ref local_var_str) = order {
         local_var_req_builder = local_var_req_builder.query(&[("order", &local_var_str.to_string())]);
     }
@@ -217,9 +222,6 @@ pub async fn get_txs(configuration: &configuration::Configuration, platform: &st
     }
     if let Some(ref local_var_str) = limit {
         local_var_req_builder = local_var_req_builder.query(&[("limit", &local_var_str.to_string())]);
-    }
-    if let Some(ref local_var_str) = assets {
-        local_var_req_builder = local_var_req_builder.query(&[("assets", &local_var_str.to_string())]);
     }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
@@ -244,12 +246,12 @@ pub async fn get_txs(configuration: &configuration::Configuration, platform: &st
 }
 
 /// Submit a signed transaction to the network.  **Note**: A successful transaction may still be rejected on chain or not processed due to a too low fee. You can monitor successful transactions through Ubiquity websockets. 
-pub async fn tx_send(configuration: &configuration::Configuration, platform: &str, network: &str, signed_tx: crate::models::SignedTx) -> Result<crate::models::TxReceipt, Error<TxSendError>> {
+pub async fn v1_tx_send(configuration: &configuration::Configuration, protocol: &str, network: &str, signed_tx: crate::models::SignedTx) -> Result<crate::models::TxReceipt, Error<V1TxSendError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/{platform}/{network}/tx/send", local_var_configuration.base_path, platform=crate::apis::urlencode(platform), network=crate::apis::urlencode(network));
+    let local_var_uri_str = format!("{}/{protocol}/{network}/tx/send", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
@@ -269,7 +271,7 @@ pub async fn tx_send(configuration: &configuration::Configuration, platform: &st
     if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
-        let local_var_entity: Option<TxSendError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_entity: Option<V1TxSendError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }

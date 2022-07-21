@@ -82,40 +82,42 @@ All URIs are relative to *https://ubiquity.api.blockdaemon.com/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AccountsApi* | [**get_list_of_balances_by_address**](docs/AccountsApi.md#get_list_of_balances_by_address) | **get** /{platform}/{network}/account/{address} | Balances Of Address
-*AccountsApi* | [**get_list_of_balances_by_addresses**](docs/AccountsApi.md#get_list_of_balances_by_addresses) | **post** /{platform}/{network}/accounts | Balances Of Addresses
-*AccountsApi* | [**get_report_by_address**](docs/AccountsApi.md#get_report_by_address) | **get** /{platform}/{network}/account/{address}/report | A financial report for an address between a time period. Default timescale is within the last 30 days
-*AccountsApi* | [**get_txs_by_address**](docs/AccountsApi.md#get_txs_by_address) | **get** /{platform}/{network}/account/{address}/txs | Transactions Of Address
-*BlocksApi* | [**get_block**](docs/BlocksApi.md#get_block) | **get** /{platform}/{network}/block/{key} | Block By Number/Hash
-*BlocksApi* | [**get_block_identifier**](docs/BlocksApi.md#get_block_identifier) | **get** /{platform}/{network}/block_identifier/{key} | Block Identifier By Number/Hash
-*BlocksApi* | [**get_block_identifiers**](docs/BlocksApi.md#get_block_identifiers) | **get** /{platform}/{network}/block_identifiers | Block Identifiers
-*NFTApi* | [**explorer_get_collection**](docs/NFTApi.md#explorer_get_collection) | **get** /nft/{protocol}/{network}/collection/{id} | 
-*NFTApi* | [**explorer_list_assets**](docs/NFTApi.md#explorer_list_assets) | **get** /nft/{protocol}/{network}/assets | 
-*NFTApi* | [**explorer_list_collections**](docs/NFTApi.md#explorer_list_collections) | **get** /nft/{protocol}/{network}/collections | 
-*NFTApi* | [**explorer_list_events**](docs/NFTApi.md#explorer_list_events) | **get** /nft/{protocol}/{network}/events | 
-*PlatformsApi* | [**get_platform_endpoints**](docs/PlatformsApi.md#get_platform_endpoints) | **get** /{platform}/{network}/ | Platform Info
-*PlatformsApi* | [**get_platforms_list**](docs/PlatformsApi.md#get_platforms_list) | **get** / | Platforms overview
-*SyncApi* | [**current_block_id**](docs/SyncApi.md#current_block_id) | **get** /{platform}/{network}/sync/block_id | Get current block ID
-*SyncApi* | [**current_block_number**](docs/SyncApi.md#current_block_number) | **get** /{platform}/{network}/sync/block_number | Get current block number
-*TransactionsApi* | [**fee_estimate**](docs/TransactionsApi.md#fee_estimate) | **get** /{platform}/{network}/tx/estimate_fee | Get fee estimate
-*TransactionsApi* | [**get_tx**](docs/TransactionsApi.md#get_tx) | **get** /{platform}/{network}/tx/{id} | Transaction By Hash
-*TransactionsApi* | [**get_tx_by_hash_and_index**](docs/TransactionsApi.md#get_tx_by_hash_and_index) | **get** /{platform}/{network}/tx/{id}/{index} | Transaction output by hash and index
-*TransactionsApi* | [**get_tx_confirmations**](docs/TransactionsApi.md#get_tx_confirmations) | **get** /{platform}/{network}/tx/{id}/confirmations | Transaction confirmations By Hash
-*TransactionsApi* | [**get_txs**](docs/TransactionsApi.md#get_txs) | **get** /{platform}/{network}/txs | Latest transactions of a protocol
-*TransactionsApi* | [**tx_send**](docs/TransactionsApi.md#tx_send) | **post** /{platform}/{network}/tx/send | Submit a signed transaction
+*AccountsApi* | [**get_list_of_balances_by_address**](docs/AccountsApi.md#get_list_of_balances_by_address) | **GET** /{protocol}/{network}/account/{address} | Balances Of Address
+*AccountsApi* | [**get_list_of_balances_by_addresses**](docs/AccountsApi.md#get_list_of_balances_by_addresses) | **POST** /{protocol}/{network}/accounts | Balances Of Addresses
+*AccountsApi* | [**get_report_by_address**](docs/AccountsApi.md#get_report_by_address) | **GET** /{protocol}/{network}/account/{address}/report | A financial report for an address between a time period. Default timescale is within the last 30 days
+*AccountsApi* | [**get_txs_by_address**](docs/AccountsApi.md#get_txs_by_address) | **GET** /{protocol}/{network}/account/{address}/txs | Transactions Of Address
+*AccountsApi* | [**get_utxoby_account**](docs/AccountsApi.md#get_utxoby_account) | **GET** /{protocol}/{network}/account/{address}/utxo | Endpoint for getting transaction inputs and outputs for a given account.
+*BlockIdentifiersApi* | [**get_block_identifier_by_id**](docs/BlockIdentifiersApi.md#get_block_identifier_by_id) | **GET** /{protocol}/{network}/block_identifier/{block_identifier} | Block Identifier By Hash
+*BlockIdentifiersApi* | [**get_block_identifiers**](docs/BlockIdentifiersApi.md#get_block_identifiers) | **GET** /{protocol}/{network}/block_identifiers | Block Identifiers
+*BlocksApi* | [**get_block**](docs/BlocksApi.md#get_block) | **GET** /{protocol}/{network}/block/{block_identifier} | Block By Number or Hash
+*NFTApi* | [**get_asset**](docs/NFTApi.md#get_asset) | **GET** /nft/{protocol}/{network}/asset/{id} | 
+*NFTApi* | [**get_collection**](docs/NFTApi.md#get_collection) | **GET** /nft/{protocol}/{network}/collection/{id} | 
+*NFTApi* | [**get_event**](docs/NFTApi.md#get_event) | **GET** /nft/{protocol}/{network}/event/{id} | 
+*NFTApi* | [**list_assets**](docs/NFTApi.md#list_assets) | **GET** /nft/{protocol}/{network}/assets | 
+*NFTApi* | [**list_collections**](docs/NFTApi.md#list_collections) | **GET** /nft/{protocol}/{network}/collections | 
+*NFTApi* | [**list_events**](docs/NFTApi.md#list_events) | **GET** /nft/{protocol}/{network}/events | 
+*NFTApi* | [**search_collections**](docs/NFTApi.md#search_collections) | **GET** /nft/{protocol}/{network}/collections/search | 
+*ProtocolsApi* | [**get_protocol_endpoints**](docs/ProtocolsApi.md#get_protocol_endpoints) | **GET** /{protocol}/{network} | Protocol Info
+*ProtocolsApi* | [**get_protocols_list**](docs/ProtocolsApi.md#get_protocols_list) | **GET** / | Protocols overview
+*SyncApi* | [**current_block_id**](docs/SyncApi.md#current_block_id) | **GET** /{protocol}/{network}/sync/block_id | Get current block ID
+*SyncApi* | [**current_block_number**](docs/SyncApi.md#current_block_number) | **GET** /{protocol}/{network}/sync/block_number | Get current block number
+*TransactionsApi* | [**fee_estimate**](docs/TransactionsApi.md#fee_estimate) | **GET** /{protocol}/{network}/tx/estimate_fee | Get fee estimate
+*TransactionsApi* | [**get_tx**](docs/TransactionsApi.md#get_tx) | **GET** /{protocol}/{network}/tx/{id} | Transaction By Hash
+*TransactionsApi* | [**get_tx_by_hash_and_index**](docs/TransactionsApi.md#get_tx_by_hash_and_index) | **GET** /{protocol}/{network}/tx/{id}/{index} | Transaction output by hash and index
+*TransactionsApi* | [**get_tx_confirmations**](docs/TransactionsApi.md#get_tx_confirmations) | **GET** /{protocol}/{network}/tx/{id}/confirmations | Transaction confirmations By Hash
+*TransactionsApi* | [**get_txs**](docs/TransactionsApi.md#get_txs) | **GET** /{protocol}/{network}/txs | All Transactions
+*TransactionsApi* | [**v1_tx_send**](docs/TransactionsApi.md#v1_tx_send) | **POST** /{protocol}/{network}/tx/send | Submit a signed transaction
 
 
 ## Documentation For Models
 
  - [AccountsObj](docs/AccountsObj.md)
  - [AlgorandMeta](docs/AlgorandMeta.md)
- - [Asset](docs/Asset.md)
- - [AssetTrait](docs/AssetTrait.md)
- - [AssetWallet](docs/AssetWallet.md)
  - [Balance](docs/Balance.md)
  - [Block](docs/Block.md)
  - [BlockIdentifier](docs/BlockIdentifier.md)
  - [BlockIdentifierPage](docs/BlockIdentifierPage.md)
+ - [BlockIdentifiers](docs/BlockIdentifiers.md)
  - [Collection](docs/Collection.md)
  - [Contract](docs/Contract.md)
  - [Currency](docs/Currency.md)
@@ -123,20 +125,31 @@ Class | Method | HTTP request | Description
  - [Event](docs/Event.md)
  - [FeeEstimate](docs/FeeEstimate.md)
  - [FeeEstimateEstimatedFees](docs/FeeEstimateEstimatedFees.md)
+ - [GetAssetResponse](docs/GetAssetResponse.md)
+ - [GetAssetResponseAsset](docs/GetAssetResponseAsset.md)
+ - [GetAssetResponseAssetMedia](docs/GetAssetResponseAssetMedia.md)
+ - [GetAssetResponseAssetTrait](docs/GetAssetResponseAssetTrait.md)
+ - [GetAssetResponseAssetWallet](docs/GetAssetResponseAssetWallet.md)
  - [GetCollectionResponse](docs/GetCollectionResponse.md)
+ - [GetCollectionResponseCollection](docs/GetCollectionResponseCollection.md)
+ - [GetEvent](docs/GetEvent.md)
+ - [GetEventResponse](docs/GetEventResponse.md)
  - [ListAssetsResponse](docs/ListAssetsResponse.md)
+ - [ListAssetsResponseAsset](docs/ListAssetsResponseAsset.md)
  - [ListCollectionResponse](docs/ListCollectionResponse.md)
  - [ListEventResponse](docs/ListEventResponse.md)
  - [Meta](docs/Meta.md)
  - [NativeCurrency](docs/NativeCurrency.md)
  - [NftEvent](docs/NftEvent.md)
  - [Paging](docs/Paging.md)
- - [PlatformDetail](docs/PlatformDetail.md)
- - [PlatformsOverview](docs/PlatformsOverview.md)
- - [PlatformsOverviewPlatforms](docs/PlatformsOverviewPlatforms.md)
+ - [Payment](docs/Payment.md)
+ - [ProtocolDetail](docs/ProtocolDetail.md)
+ - [ProtocolsOverview](docs/ProtocolsOverview.md)
+ - [ProtocolsOverviewProtocols](docs/ProtocolsOverviewProtocols.md)
  - [Report](docs/Report.md)
  - [ReportField](docs/ReportField.md)
  - [ReportFieldMeta](docs/ReportFieldMeta.md)
+ - [SearchCollectionResponse](docs/SearchCollectionResponse.md)
  - [SignedTx](docs/SignedTx.md)
  - [SmartToken](docs/SmartToken.md)
  - [SmartTokenCurrency](docs/SmartTokenCurrency.md)
@@ -146,7 +159,11 @@ Class | Method | HTTP request | Description
  - [TxConfirmation](docs/TxConfirmation.md)
  - [TxMinify](docs/TxMinify.md)
  - [TxOutput](docs/TxOutput.md)
+ - [TxOutputResponse](docs/TxOutputResponse.md)
+ - [TxOutputs](docs/TxOutputs.md)
+ - [TxOutputsData](docs/TxOutputsData.md)
  - [TxPage](docs/TxPage.md)
+ - [TxPageContinuation](docs/TxPageContinuation.md)
  - [TxReceipt](docs/TxReceipt.md)
 
 

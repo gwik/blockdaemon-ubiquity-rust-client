@@ -13,10 +13,12 @@
 
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
 pub struct NftEvent {
+    #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
+    pub id: Option<String>,
     #[serde(rename = "contract_address", skip_serializing_if = "Option::is_none")]
     pub contract_address: Option<String>,
     #[serde(rename = "token_id", skip_serializing_if = "Option::is_none")]
-    pub token_id: Option<i64>,
+    pub token_id: Option<String>,
     #[serde(rename = "event_type", skip_serializing_if = "Option::is_none")]
     pub event_type: Option<String>,
     #[serde(rename = "timestamp", skip_serializing_if = "Option::is_none")]
@@ -25,20 +27,21 @@ pub struct NftEvent {
     pub from_account: Option<String>,
     #[serde(rename = "to_account", skip_serializing_if = "Option::is_none")]
     pub to_account: Option<String>,
-    #[serde(rename = "transaction", skip_serializing_if = "Option::is_none")]
-    pub transaction: Option<serde_json::Value>,
+    #[serde(rename = "quantity", skip_serializing_if = "Option::is_none")]
+    pub quantity: Option<i64>,
 }
 
 impl NftEvent {
     pub fn new() -> NftEvent {
         NftEvent {
+            id: None,
             contract_address: None,
             token_id: None,
             event_type: None,
             timestamp: None,
             from_account: None,
             to_account: None,
-            transaction: None,
+            quantity: None,
         }
     }
 }

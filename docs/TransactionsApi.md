@@ -4,18 +4,18 @@ All URIs are relative to *https://ubiquity.api.blockdaemon.com/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**fee_estimate**](TransactionsApi.md#fee_estimate) | **get** /{platform}/{network}/tx/estimate_fee | Get fee estimate
-[**get_tx**](TransactionsApi.md#get_tx) | **get** /{platform}/{network}/tx/{id} | Transaction By Hash
-[**get_tx_by_hash_and_index**](TransactionsApi.md#get_tx_by_hash_and_index) | **get** /{platform}/{network}/tx/{id}/{index} | Transaction output by hash and index
-[**get_tx_confirmations**](TransactionsApi.md#get_tx_confirmations) | **get** /{platform}/{network}/tx/{id}/confirmations | Transaction confirmations By Hash
-[**get_txs**](TransactionsApi.md#get_txs) | **get** /{platform}/{network}/txs | Latest transactions of a protocol
-[**tx_send**](TransactionsApi.md#tx_send) | **post** /{platform}/{network}/tx/send | Submit a signed transaction
+[**fee_estimate**](TransactionsApi.md#fee_estimate) | **GET** /{protocol}/{network}/tx/estimate_fee | Get fee estimate
+[**get_tx**](TransactionsApi.md#get_tx) | **GET** /{protocol}/{network}/tx/{id} | Transaction By Hash
+[**get_tx_by_hash_and_index**](TransactionsApi.md#get_tx_by_hash_and_index) | **GET** /{protocol}/{network}/tx/{id}/{index} | Transaction output by hash and index
+[**get_tx_confirmations**](TransactionsApi.md#get_tx_confirmations) | **GET** /{protocol}/{network}/tx/{id}/confirmations | Transaction confirmations By Hash
+[**get_txs**](TransactionsApi.md#get_txs) | **GET** /{protocol}/{network}/txs | All Transactions
+[**v1_tx_send**](TransactionsApi.md#v1_tx_send) | **POST** /{protocol}/{network}/tx/send | Submit a signed transaction
 
 
 
 ## fee_estimate
 
-> crate::models::FeeEstimate fee_estimate(platform, network)
+> crate::models::FeeEstimate fee_estimate(protocol, network)
 Get fee estimate
 
 Get a fee estimation in decimals from the ubiquity fee estimation service. Currently supported for Bitcoin and Ethereum. Endpoint will return 3 fee estimations fast, medium and slow 
@@ -25,8 +25,8 @@ Get a fee estimation in decimals from the ubiquity fee estimation service. Curre
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**platform** | **String** | Coin platform handle | [required] |
-**network** | **String** | Which network to target. Available networks can be found with /{platform} | [required] |
+**protocol** | **String** | Protocol handle | [required] |
+**network** | **String** | Which network to target. Available networks can be found with /{protocol} | [required] |
 
 ### Return type
 
@@ -46,7 +46,7 @@ Name | Type | Description  | Required | Notes
 
 ## get_tx
 
-> crate::models::Tx get_tx(platform, network, id)
+> crate::models::Tx get_tx(protocol, network, id)
 Transaction By Hash
 
 ### Parameters
@@ -54,8 +54,8 @@ Transaction By Hash
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**platform** | **String** | Coin platform handle | [required] |
-**network** | **String** | Which network to target. Available networks can be found with /{platform} | [required] |
+**protocol** | **String** | Protocol handle | [required] |
+**network** | **String** | Which network to target. Available networks can be found with /{protocol} | [required] |
 **id** | **String** | Transaction ID/Hash | [required] |
 
 ### Return type
@@ -76,7 +76,7 @@ Name | Type | Description  | Required | Notes
 
 ## get_tx_by_hash_and_index
 
-> crate::models::TxOutput get_tx_by_hash_and_index(platform, network, id, index)
+> crate::models::TxOutput get_tx_by_hash_and_index(protocol, network, id, index)
 Transaction output by hash and index
 
 ### Parameters
@@ -84,8 +84,8 @@ Transaction output by hash and index
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**platform** | **String** | Coin platform handle | [required] |
-**network** | **String** | Which network to target. Available networks can be found with /{platform} | [required] |
+**protocol** | **String** | Protocol handle | [required] |
+**network** | **String** | Which network to target. Available networks can be found with /{protocol} | [required] |
 **id** | **String** | Transaction ID/Hash | [required] |
 **index** | **i32** | Transaction output index | [required] |
 
@@ -107,7 +107,7 @@ Name | Type | Description  | Required | Notes
 
 ## get_tx_confirmations
 
-> crate::models::TxConfirmation get_tx_confirmations(platform, network, id)
+> crate::models::TxConfirmation get_tx_confirmations(protocol, network, id)
 Transaction confirmations By Hash
 
 ### Parameters
@@ -115,8 +115,8 @@ Transaction confirmations By Hash
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**platform** | **String** | Coin platform handle | [required] |
-**network** | **String** | Which network to target. Available networks can be found with /{platform} | [required] |
+**protocol** | **String** | Protocol handle | [required] |
+**network** | **String** | Which network to target. Available networks can be found with /{protocol} | [required] |
 **id** | **String** | Transaction ID/Hash | [required] |
 
 ### Return type
@@ -137,22 +137,23 @@ Name | Type | Description  | Required | Notes
 
 ## get_txs
 
-> crate::models::TxPage get_txs(platform, network, order, continuation, limit, assets)
-Latest transactions of a protocol
+> crate::models::TxPage get_txs(protocol, network, block_id, assets, order, continuation, limit)
+All Transactions
 
-Gets transactions from oldest to newest. This call uses pagination. 
+Get all transactions on the protocol, starting with the lastest one. Each call returns a slice of the entire list. Use the returned continuation token to get the next part.
 
 ### Parameters
 
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**platform** | **String** | Coin platform handle | [required] |
-**network** | **String** | Which network to target. Available networks can be found with /{platform} | [required] |
+**protocol** | **String** | Protocol handle | [required] |
+**network** | **String** | Which network to target. Available networks can be found with /{protocol} | [required] |
+**block_id** | Option<**String**> | Filter by block hash. You can specify only one block hash at a time. |  |
+**assets** | Option<**String**> | Comma-separated list of asset paths to filter. If the list is empty, or all elements are empty, this filter has no effect. |  |
 **order** | Option<**String**> | Pagination order |  |
 **continuation** | Option<**String**> | Continuation token from earlier response |  |
 **limit** | Option<**i32**> | Max number of items to return in a response. Defaults to 25 and is capped at 100.  |  |
-**assets** | Option<**String**> | Comma-separated list of asset paths to filter. If the list is empty, or all elements are empty, this filter has no effect. |  |
 
 ### Return type
 
@@ -170,9 +171,9 @@ Name | Type | Description  | Required | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
-## tx_send
+## v1_tx_send
 
-> crate::models::TxReceipt tx_send(platform, network, signed_tx)
+> crate::models::TxReceipt v1_tx_send(protocol, network, signed_tx)
 Submit a signed transaction
 
 Submit a signed transaction to the network.  **Note**: A successful transaction may still be rejected on chain or not processed due to a too low fee. You can monitor successful transactions through Ubiquity websockets. 
@@ -182,8 +183,8 @@ Submit a signed transaction to the network.  **Note**: A successful transaction 
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**platform** | **String** | Coin platform handle | [required] |
-**network** | **String** | Which network to target. Available networks can be found with /{platform} | [required] |
+**protocol** | **String** | Protocol handle | [required] |
+**network** | **String** | Which network to target. Available networks can be found with /{protocol} | [required] |
 **signed_tx** | [**SignedTx**](SignedTx.md) |  | [required] |
 
 ### Return type

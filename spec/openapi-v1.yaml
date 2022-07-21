@@ -88,7 +88,7 @@ tags:
   - name: Accounts
   - name: Blocks
   - name: Transactions
-  - name: Platforms
+  - name: Protocols
   - name: Sync
   - name: NFT
 
@@ -98,21 +98,21 @@ security:
 paths:
   /:
     get:
-      summary: Platforms overview
-      operationId: GetPlatformsList
+      summary: Protocols overview
+      operationId: GetProtocolsList
       tags:
-        - Platforms
+        - Protocols
       description: >
-        Provides a list of supported platforms and networks.
+        Provides a list of supported protocols and networks.
       responses:
         200:
-          description: Platforms overview
+          description: Protocols overview
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/platforms_overview"
+                $ref: "#/components/schemas/protocols_overview"
               example: {
-                "platforms": [
+                "protocols": [
                   {
                     "handle": "algorand",
                     "network": "mainnet"
@@ -132,31 +132,31 @@ paths:
         429:
           $ref: '#/components/responses/TooManyRequests'
 
-  /{platform}/{network}/:
+  /{protocol}/{network}:
     get:
-      summary: Platform Info
-      operationId: GetPlatformEndpoints
+      summary: Protocol Info
+      operationId: GetProtocolEndpoints
       tags:
-        - Platforms
+        - Protocols
       description: >
         Provides information about supported endpoints
-        and generic platform information.
+        and generic protocol information.
       parameters:
-        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/protocol'
         - $ref: '#/components/parameters/network'
       responses:
         200:
-          description: Platform overview
+          description: Protocol overview
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/platform_detail"
+                $ref: "#/components/schemas/protocol_detail"
         401:
           $ref: '#/components/responses/UnauthorizedError'
         429:
           $ref: '#/components/responses/TooManyRequests'
 
-  /{platform}/{network}/tx/estimate_fee:
+  /{protocol}/{network}/tx/estimate_fee:
     get:
       summary: Get fee estimate
       description: |
@@ -167,11 +167,25 @@ paths:
       tags:
         - Transactions
       parameters:
-        - $ref: '#/components/parameters/platform'
+        - in: path
+          name: protocol
+          required: true
+          description: Protocol handle
+          schema:
+            type: string
+          examples:
+            Bitcoin:
+              value: bitcoin
+            Bitcoin Cash:
+              value: bitcoincash
+            Ethereum:
+              value: ethereum
+            Litecoin:
+              value: litecoin
         - $ref: '#/components/parameters/network'
       responses:
         200:
-          description: Platforms overview
+          description: Protocols overview
           content:
             application/json:
               schema:
@@ -189,7 +203,7 @@ paths:
         429:
           $ref: '#/components/responses/TooManyRequests'
 
-  /{platform}/{network}/account/{address}:
+  /{protocol}/{network}/account/{address}:
     get:
       summary: Balances Of Address
       operationId: GetListOfBalancesByAddress
@@ -198,7 +212,41 @@ paths:
       tags:
         - Accounts
       parameters:
-        - $ref: '#/components/parameters/platform'
+        - in: path
+          name: protocol
+          required: true
+          description: Protocol handle
+          schema:
+            type: string
+          examples:
+            Algorand:
+              value: algorand
+            Bitcoin:
+              value: bitcoin
+            Bitcoincash:
+              value: bitcoincash
+            Dogecoin:
+              value: dogecoin
+            Ethereum:
+              value: ethereum
+            Near:
+              value: near
+            Litecoin:
+              value: litecoin
+            Oasis:
+              value: oasis
+            Polkadot:
+              value: polkadot
+            Ripple:
+              value: xrp
+            Solana:
+              value: solana
+            Stellar:
+              value: stellar
+            Terra:
+              value: terra
+            Tezos:
+              value: tezos
         - $ref: '#/components/parameters/network'
         - $ref: '#/components/parameters/address'
         - $ref: '#/components/parameters/assets'
@@ -220,156 +268,7 @@ paths:
         429:
           $ref: '#/components/responses/TooManyRequests'
 
-  /{platform}/{network}/block/{key}:
-    get:
-      summary: Block By Number/Hash
-      description: Get a block and all its transactions by the block number or hash
-      operationId: GetBlock
-      tags:
-        - Blocks
-      parameters:
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/network'
-        - $ref: '#/components/parameters/key'
-      responses:
-        200:
-          description: Block
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/block"
-        400:
-          description: Invalid Block Number
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/error"
-              example: {
-                "type": "bad-request",
-                "code": 16386,
-                "title": "Invalid Block Number",
-                "status": 400,
-                "detail": "The requested block number is not a valid number"
-              }
-        401:
-          $ref: '#/components/responses/UnauthorizedError'
-        404:
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/error"
-              example: {
-                "type": "not-found",
-                "code": 16388,
-                "title": "Not Found",
-                "status": 404,
-                "detail": "The requested resource has not been found"
-              }
-        429:
-          $ref: '#/components/responses/TooManyRequests'
-  
-  /{platform}/{network}/block_identifiers:
-    get:
-      summary: Block Identifiers
-      description: >
-        Get minimal block identifiers from oldest to newest.
-        
-        This call uses pagination.
-      operationId: GetBlockIdentifiers
-      tags:
-        - Blocks
-      parameters:
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/network'
-      responses:
-        200:
-          description: Block
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/block_identifier_page"
-        400:
-          description: Invalid Block Number
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/error"
-              example: {
-                "type": "bad-request",
-                "code": 16386,
-                "title": "Invalid Block Number",
-                "status": 400,
-                "detail": "The requested block number is not a valid number"
-              }
-        401:
-          $ref: '#/components/responses/UnauthorizedError'
-        404:
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/error"
-              example: {
-                "type": "not-found",
-                "code": 16388,
-                "title": "Not Found",
-                "status": 404,
-                "detail": "The requested resource has not been found"
-              }
-        429:
-          $ref: '#/components/responses/TooManyRequests'
-  
-  /{platform}/{network}/block_identifier/{key}:
-    get:
-      summary: Block Identifier By Number/Hash
-      description: Get minimal block identifier by block number or hash
-      operationId: GetBlockIdentifier
-      tags:
-        - Blocks
-      parameters:
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/network'
-        - $ref: '#/components/parameters/key'
-      responses:
-        200:
-          description: Block
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/block_identifier"
-        400:
-          description: Invalid Block Number
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/error"
-              example: {
-                "type": "bad-request",
-                "code": 16386,
-                "title": "Invalid Block Number",
-                "status": 400,
-                "detail": "The requested block number is not a valid number"
-              }
-        401:
-          $ref: '#/components/responses/UnauthorizedError'
-        404:
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/error"
-              example: {
-                "type": "not-found",
-                "code": 16388,
-                "title": "Not Found",
-                "status": 404,
-                "detail": "The requested resource has not been found"
-              }
-        429:
-          $ref: '#/components/responses/TooManyRequests'
-
-  /{platform}/{network}/accounts:
+  /{protocol}/{network}/accounts:
     post:
       summary: Balances Of Addresses
       operationId: GetListOfBalancesByAddresses
@@ -378,7 +277,41 @@ paths:
       tags:
         - Accounts
       parameters:
-        - $ref: '#/components/parameters/platform'
+        - in: path
+          name: protocol
+          required: true
+          description: Protocol handle
+          schema:
+            type: string
+          examples:
+            Algorand:
+              value: algorand
+            Bitcoin:
+              value: bitcoin
+            Bitcoincash:
+              value: bitcoincash
+            Dogecoin:
+              value: dogecoin
+            Ethereum:
+              value: ethereum
+            Near:
+              value: near
+            Litecoin:
+              value: litecoin
+            Oasis:
+              value: oasis
+            Polkadot:
+              value: polkadot
+            Ripple:
+              value: xrp
+            Solana:
+              value: solana
+            Stellar:
+              value: stellar
+            Terra:
+              value: terra
+            Tezos:
+              value: tezos
         - $ref: '#/components/parameters/network'
         - $ref: '#/components/parameters/assets'
       requestBody:
@@ -405,7 +338,7 @@ paths:
         429:
           $ref: '#/components/responses/TooManyRequests'
 
-  /{platform}/{network}/account/{address}/report:
+  /{protocol}/{network}/account/{address}/report:
     get:
       summary: A financial report for an address between a time period. Default timescale is within the last 30 days
       operationId: GetReportByAddress
@@ -414,21 +347,42 @@ paths:
       tags:
         - Accounts
       parameters:
-        - $ref: '#/components/parameters/platform'
+        - in: path
+          name: protocol
+          required: true
+          description: Protocol handle
+          schema:
+            type: string
+          examples:
+            Algorand:
+              value: algorand
+            Polkadot:
+              value: polkadot
+            Tezos:
+              value: tezos
         - $ref: '#/components/parameters/network'
         - $ref: '#/components/parameters/address'
         - name: from
           in: query
+          required: false
           description: Unix Timestamp from where to start
           schema:
             type: integer
           example: 961846434
         - name: to
           in: query
+          required: false
           description: Unix Timestamp from where to end
           schema:
             type: integer
           example: 1119612834
+        - name: continuation
+          in: query
+          required: false
+          description: Continuation token from earlier response
+          schema:
+            type: string
+          example: "xyz"
         - name: limit
           in: query
           required: false
@@ -438,13 +392,6 @@ paths:
           schema:
             type: integer
           example: 1000
-        - name: continuation
-          in: query
-          required: false
-          description: Continuation token from earlier response
-          schema:
-            type: string
-          example: "xyz"
       responses:
         200:
           description: Account Activity
@@ -482,14 +429,318 @@ paths:
                 "detail": "current query size is too large for this account. try reducing query range (from, to)"
               }
 
-  /{platform}/{network}/tx/{id}:
+  /{protocol}/{network}/account/{address}/utxo:
+    get:
+      summary: Endpoint for getting transaction inputs and outputs for a given account.
+      operationId: GetUTXOByAccount
+      description: |
+        Returns transactions outputs following the BTC's UTXO model definition.
+      tags:
+        - Accounts
+      parameters:
+        - in: path
+          name: protocol
+          required: true
+          description: Protocol handle
+          schema:
+            type: string
+          examples:
+            Bitcoin:
+              value: bitcoin
+            Bitcoincash:
+              value: bitcoincash
+            Dogecoin:
+              value: dogecoin
+            Litecoin:
+              value: litecoin
+        - $ref: '#/components/parameters/network'
+        - $ref: '#/components/parameters/address'
+        - name: spent
+          in: query
+          description: Whether the transaction output was spent or not
+          schema:
+            type: boolean
+          example: true
+        - name: from
+          in: query
+          required: false
+          description: Unix Timestamp from where to start
+          schema:
+            type: integer
+          example: 961846434
+        - name: to
+          in: query
+          required: false
+          description: Unix Timestamp from where to end
+          schema:
+            type: integer
+          example: 1119612834
+        - $ref: '#/components/parameters/order'
+        - name: continuation
+          in: query
+          required: false
+          description: Continuation token from earlier response
+          schema:
+            type: string
+          example: "xyz"
+        - name: limit
+          in: query
+          required: false
+          description: |
+            Max number of items to return in a response.
+            Defaults to 50k and is capped at 100k.
+          schema:
+            type: integer
+          example: 1000
+      responses:
+        200:
+          description: Transaction outputs filtered by the given parameters
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/tx_outputs"
+            text/csv:
+              schema:
+                type: string
+                example: |
+                  Protocol,PublicAddress,Currency,EventID,Block,BlockTimestamp,BlockTime,Hash,Action,Value,SenderAddress,TransactionFee,SenderReward,RecipientReward,Close,CloseAmount,CloseReward
+                  Algorand,GXL2EQ6JV54MTMP2IXOTF5CJLS7GAWMRDZMOY7JZAPO72AQRDDYGD6OX3E,ALGO,RNEYUT3MRYGT5ENSLIC7LGJCJMW6BXNS6SAW7A25DTYRW4TFJ5JA,8986217,1599745403,2020-09-10 13:43:23 +0000 UTC,RNEYUT3MRYGT5ENSLIC7LGJCJMW6BXNS6SAW7A25DTYRW4TFJ5JA,pay,1,T3BYUTYZCWV7UVK7IFYPC2UKH5VNBGVP4PUKSUBF5F6GQ244Y4I2XUWCQM,0.001,0.000003,0,,0,0
+        400:
+          description: Bad request
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/error"
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+        413:
+          description: Too Many Transactions
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error"
+              example: {
+                "type": "unsupported",
+                "code": 16390,
+                "title": "Unsupported functionality",
+                "status": 413,
+                "detail": "current query size is too large for this account. try reducing query range (from, to)"
+              }
+
+  /{protocol}/{network}/tx/{id}/confirmations:
+    get:
+      summary: Transaction confirmations By Hash
+      operationId: GetTxConfirmations
+      tags:
+        - Transactions
+      parameters:
+        - in: path
+          name: protocol
+          required: true
+          description: Protocol handle
+          schema:
+            type: string
+          examples:
+              Bitcoin:
+                value: bitcoin
+              Bitcoincash:
+                value: bitcoincash
+              Dogecoin:
+                value: dogecoin
+              Ethereum:
+                value: ethereum
+              Litecoin:
+                value: litecoin
+              Polkadot:
+                value: polkadot
+              Terra:
+                value: terra
+              Tezos:
+                value: tezos
+        - $ref: '#/components/parameters/network'
+        - $ref: '#/components/parameters/tx-hash'
+      responses:
+        200:
+          description: Transaction confirmations
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/tx_confirmation"
+        400:
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/error"
+              example: {
+                "type": "bad-request",
+                "code": 16385,
+                "title": "Invalid Identifier",
+                "status": 400,
+                "detail": "The requested identifier is invalid."
+              }
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/error"
+              example: {
+                "type": "not-found",
+                "code": 16388,
+                "title": "Not Found",
+                "status": 404,
+                "detail": "The requested resource has not been found"
+              }
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+
+  /{protocol}/{network}/account/{address}/txs:
+    get:
+      summary: Transactions Of Address
+      description: >
+        Gets transactions that an address was involved with,
+        from newest to oldest.
+
+        This call uses pagination.
+      operationId: GetTxsByAddress
+      tags:
+        - Accounts
+      parameters:
+        - in: path
+          name: protocol
+          required: true
+          description: Protocol handle
+          schema:
+            type: string
+          examples:
+            Algorand:
+              value: algorand
+            Bitcoin:
+              value: bitcoin
+            Bitcoincash:
+              value: bitcoincash
+            Dogecoin:
+              value: dogecoin
+            Ethereum:
+              value: ethereum
+            Litecoin:
+              value: litecoin
+            Polkadot:
+              value: polkadot
+            Ripple:
+              value: xrp
+            Solana:
+              value: solana
+            Stellar:
+              value: stellar
+            Tezos:
+              value: tezos
+        - $ref: '#/components/parameters/network'
+        - $ref: '#/components/parameters/address'
+        - $ref: '#/components/parameters/assets'
+        - name: from
+          in: query
+          required: false
+          description: Unix Timestamp from where to start
+          schema:
+            type: integer
+          example: 961846434
+        - name: to
+          in: query
+          required: false
+          description: Unix Timestamp from where to end
+          schema:
+            type: integer
+          example: 1119612834
+        - $ref: '#/components/parameters/order'
+        - $ref: '#/components/parameters/continuation'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        200:
+          description: Transactions
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/tx_page"
+          links:
+            Continuation:
+              operationId: GetTxsByAddress
+              parameters:
+                continuation: '$response.body#/Meta'
+        400:
+          description: Invalid address
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/error"
+              example: {
+                "type": "bad-request",
+                "code": 16384,
+                "title": "Invalid Address",
+                "status": 400,
+                "detail": "The requested address is invalid on this protocol"
+              }
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        403:
+          description: Invalid continuation
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/error"
+              example: {
+                "type": "forbidden",
+                "code": 16389,
+                "title": "Invalid Continuation",
+                "status": 403,
+                "detail": "The used continuation token is invalid."
+              }
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+
+  /{protocol}/{network}/tx/{id}:
     get:
       summary: Transaction By Hash
       operationId: GetTx
       tags:
         - Transactions
       parameters:
-        - $ref: '#/components/parameters/platform'
+        - in: path
+          name: protocol
+          required: true
+          description: Protocol handle
+          schema:
+            type: string
+          examples:
+            Algorand:
+              value: algorand
+            Bitcoin:
+              value: bitcoin
+            Bitcoincash:
+              value: bitcoincash
+            Dogecoin:
+              value: dogecoin
+            Ethereum:
+              value: ethereum
+            Litecoin:
+              value: litecoin
+            Polkadot:
+              value: polkadot
+            Ripple:
+              value: xrp
+            Solana:
+              value: solana
+            Stellar:
+              value: stellar
+            Terra:
+              value: terra
+            Tezos:
+              value: tezos
         - $ref: '#/components/parameters/network'
         - name: id
           in: path
@@ -535,15 +786,29 @@ paths:
               }
         429:
           $ref: '#/components/responses/TooManyRequests'
-          
-  /{platform}/{network}/tx/{id}/{index}:
+
+  /{protocol}/{network}/tx/{id}/{index}:
     get:
       summary: Transaction output by hash and index
       operationId: GetTxByHashAndIndex
       tags:
         - Transactions
       parameters:
-        - $ref: '#/components/parameters/platform'
+        - in: path
+          name: protocol
+          required: true
+          description: Protocol handle
+          schema:
+            type: string
+          examples:
+            Bitcoin:
+              value: bitcoin
+            Bitcoincash:
+              value: bitcoincash
+            Dogecoin:
+              value: dogecoin
+            Litecoin:
+              value: litecoin
         - $ref: '#/components/parameters/network'
         - name: id
           in: path
@@ -597,23 +862,49 @@ paths:
         429:
           $ref: '#/components/responses/TooManyRequests'
 
-  /{platform}/{network}/txs:
+  /{protocol}/{network}/txs:
     get:
-      summary: Latest transactions of a protocol
-      description: >
-        Gets transactions from oldest to newest.
-
-        This call uses pagination.
+      summary: All Transactions
+      description: Get all transactions on the protocol, starting with the lastest one.
+        Each call returns a slice of the entire list. Use the returned continuation token to get the next part.
       operationId: GetTxs
       tags:
         - Transactions
       parameters:
-        - $ref: '#/components/parameters/platform'
+        - in: path
+          name: protocol
+          required: true
+          description: Protocol handle
+          schema:
+            type: string
+          examples:
+            Algorand:
+              value: algorand
+            Bitcoin:
+              value: bitcoin
+            Bitcoincash:
+              value: bitcoincash
+            Litecoin:
+              value: litecoin
+            Polkadot:
+              value: polkadot
+            Tezos:
+              value: tezos
+            Ripple:
+              value: xrp
+            Stellar:
+              value: stellar
         - $ref: '#/components/parameters/network'
+        - name: block_id
+          in: query
+          description: Filter by block hash. You can specify only one block hash at a time.
+          schema:
+            type: string
+          example: "0x2444165297806ad5598e4569e5823b3df0cde3e48b346781ab632fa6cef1a0ec"
+        - $ref: '#/components/parameters/assets'
         - $ref: '#/components/parameters/order'
         - $ref: '#/components/parameters/continuation'
         - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/assets'
       responses:
         200:
           description: Transactions
@@ -626,19 +917,6 @@ paths:
               operationId: GetTxs
               parameters:
                 continuation: '$response.body#/continuation'
-        400:
-          description: Invalid address
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/error"
-              example: {
-                "type": "bad-request",
-                "code": 16384,
-                "title": "Invalid Address",
-                "status": 400,
-                "detail": "The requested address is invalid on this platform"
-              }
         401:
           $ref: '#/components/responses/UnauthorizedError'
         403:
@@ -657,61 +935,7 @@ paths:
         429:
           $ref: '#/components/responses/TooManyRequests'
 
-  /{platform}/{network}/tx/{id}/confirmations:
-    get:
-      summary: Transaction confirmations By Hash
-      operationId: GetTxConfirmations
-      tags:
-        - Transactions
-      parameters:
-        - $ref: '#/components/parameters/platform'
-        - $ref: '#/components/parameters/network'
-        - name: id
-          in: path
-          required: true
-          description: Transaction ID/Hash
-          schema:
-            type: string
-          example: "0xF00Fa860473130C1df10707223E66Cb4B839B165"
-      responses:
-        200:
-          description: Transaction confirmations
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/tx_confirmation"
-        400:
-          description: Bad Request
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/error"
-              example: {
-                "type": "bad-request",
-                "code": 16385,
-                "title": "Invalid Identifier",
-                "status": 400,
-                "detail": "The requested identifier is invalid."
-              }
-        401:
-          $ref: '#/components/responses/UnauthorizedError'
-        404:
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/error"
-              example: {
-                "type": "not-found",
-                "code": 16388,
-                "title": "Not Found",
-                "status": 404,
-                "detail": "The requested resource has not been found"
-              }
-        429:
-          $ref: '#/components/responses/TooManyRequests'
-
-  /{platform}/{network}/tx/send:
+  /{protocol}/{network}/tx/send:
     post:
       summary: Submit a signed transaction
       description: |
@@ -719,11 +943,31 @@ paths:
 
         **Note**: A successful transaction may still be rejected on chain or not processed due to a too low fee.
         You can monitor successful transactions through Ubiquity websockets.
-      operationId: TxSend
+      operationId: V1TxSend
       tags:
         - Transactions
       parameters:
-        - $ref: '#/components/parameters/platform'
+        - in: path
+          name: protocol
+          required: true
+          description: Protocol handle
+          schema:
+            type: string
+          examples:
+            Algorand:
+              value: algorand
+            Bitcoin:
+              value: bitcoin
+            Bitcoincash:
+              value: bitcoincash
+            Dogecoin:
+              value: dogecoin
+            Ethereum:
+              value: ethereum
+            Litecoin:
+              value: litecoin
+            Polkadot:
+              value: polkadot
         - $ref: '#/components/parameters/network'
       requestBody:
         required: true
@@ -756,76 +1000,181 @@ paths:
                 "detail": "failed to send transaction: json-rpc error #-27: Transaction already in block chain"
               }
 
-  /{platform}/{network}/account/{address}/txs:
+  /{protocol}/{network}/block/{block_identifier}:
     get:
-      summary: Transactions Of Address
-      description: >
-        Gets transactions that an address was involved with,
-        from newest to oldest.
-
-        This call uses pagination.
-      operationId: GetTxsByAddress
+      summary: Block By Number or Hash
+      description: Get a block and all its transactions by the block number or hash
+      operationId: GetBlock
       tags:
-        - Accounts
+        - Blocks
       parameters:
-        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/protocol'
         - $ref: '#/components/parameters/network'
-        - $ref: '#/components/parameters/address'
-        - $ref: '#/components/parameters/order'
-        - $ref: '#/components/parameters/continuation'
-        - $ref: '#/components/parameters/limit'
-        - $ref: '#/components/parameters/assets'
+        - $ref: '#/components/parameters/block_identifier'
       responses:
         200:
-          description: Transactions
+          description: Block
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/tx_page"
-          links:
-            Continuation:
-              operationId: GetTxsByAddress
-              parameters:
-                continuation: '$response.body#/continuation'
+                $ref: "#/components/schemas/block"
         400:
-          description: Invalid address
+          description: Invalid Block Identifier
           content:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/error"
               example: {
                 "type": "bad-request",
-                "code": 16384,
-                "title": "Invalid Address",
+                "code": 16386,
+                "title": "Invalid Block Identifier",
                 "status": 400,
-                "detail": "The requested address is invalid on this platform"
+                "detail": "The requested block number is not a valid identifier"
               }
         401:
           $ref: '#/components/responses/UnauthorizedError'
-        403:
-          description: Invalid continuation
+        404:
+          description: Not Found
           content:
             application/problem+json:
               schema:
                 $ref: "#/components/schemas/error"
               example: {
-                "type": "forbidden",
-                "code": 16389,
-                "title": "Invalid Continuation",
-                "status": 403,
-                "detail": "The used continuation token is invalid."
+                "type": "not-found",
+                "code": 16388,
+                "title": "Not Found",
+                "status": 404,
+                "detail": "The requested resource has not been found"
               }
         429:
           $ref: '#/components/responses/TooManyRequests'
 
-  /{platform}/{network}/sync/block_number:
+  /{protocol}/{network}/block_identifier/{block_identifier}:
+    get:
+      summary: Block Identifier By Hash
+      description: Get minimal block identifier by block hash
+      operationId: GetBlockIdentifierById
+      tags:
+        - Block Identifiers
+      parameters:
+        - in: path
+          name: protocol
+          required: true
+          description: Protocol handle
+          schema:
+            type: string
+          examples:
+            Bitcoin:
+              value: bitcoin
+            Bitcoincash:
+              value: bitcoincash
+            Dogecoin:
+              value: dogecoin
+            Ethereum:
+              value: ethereum
+            Litecoin:
+              value: litecoin
+            Near:
+              value: near
+            Polkadot:
+              value: polkadot
+            Ripple:
+              value: xrp
+            Tezos:
+              value: tezos
+        - $ref: '#/components/parameters/network'
+        - $ref: '#/components/parameters/block_identifier'
+      responses:
+        200:
+          description: Block
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/block_identifier"
+        400:
+          description: Invalid Block hash
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/error"
+              example: {
+                "type": "bad-request",
+                "code": 16386,
+                "title": "Invalid Block hash",
+                "status": 400,
+                "detail": "The requested block hash is not a valid hash"
+              }
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/error"
+              example: {
+                "type": "not-found",
+                "code": 16388,
+                "title": "Not Found",
+                "status": 404,
+                "detail": "The requested resource has not been found"
+              }
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+
+  /{protocol}/{network}/block_identifiers:
+    get:
+      summary: Block Identifiers
+      description: Get minimal block identifiers
+      operationId: GetBlockIdentifiers
+      tags:
+        - Block Identifiers
+      parameters:
+        - in: path
+          name: protocol
+          required: true
+          description: Protocol handle
+          schema:
+            type: string
+          examples:
+            Bitcoin:
+              value: bitcoin
+            Bitcoin Cash:
+              value: bitcoincash
+            Dogecoin:
+              value: dogecoin
+            Ethereum:
+              value: ethereum
+            Litecoin:
+              value: litecoin
+            Polkadot:
+              value: polkadot
+            Tezos:
+              value: tezos
+        - $ref: '#/components/parameters/network'
+        - $ref: '#/components/parameters/order'
+        - $ref: '#/components/parameters/continuation'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        200:
+          description: Block headers
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/block_identifiers"
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        429:
+          $ref: '#/components/responses/TooManyRequests'
+
+  /{protocol}/{network}/sync/block_number:
     get:
       summary: Get current block number
       operationId: CurrentBlockNumber
       tags:
         - Sync
       parameters:
-        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/protocol'
         - $ref: '#/components/parameters/network'
       responses:
         200:
@@ -841,14 +1190,14 @@ paths:
         429:
           $ref: '#/components/responses/TooManyRequests'
 
-  /{platform}/{network}/sync/block_id:
+  /{protocol}/{network}/sync/block_id:
     get:
       summary: Get current block ID
       operationId: CurrentBlockID
       tags:
         - Sync
       parameters:
-        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/protocol'
         - $ref: '#/components/parameters/network'
       responses:
         200:
@@ -863,43 +1212,97 @@ paths:
         429:
           $ref: '#/components/responses/TooManyRequests'
 
-  /nft/{protocol}/{network}/assets:
+  /nft/{protocol}/{network}/asset/{id}:
     get:
       tags:
         - NFT
-      operationId: Explorer_ListAssets
+      description: |-
+        Returns detailed information about an NFT asset by a given unique asset ID or
+         by a given contact address and token ID.
+      operationId: GetAsset
       parameters:
         - name: protocol
           in: path
-          description: Coin platform handle
+          description: 'Protocol handle, example: ethereum'
           required: true
           schema:
-            type: string
+            type: integer
+            format: enum
         - name: network
           in: path
-          description: Which network to target
+          description: 'Which network to target, example: mainnet'
           required: true
           schema:
-            type: string
-        - name: wallet_address
-          in: query
-          description: Mapped to URL query parameter `wallet_address`
+            type: integer
+            format: enum
+        - name: id
+          in: path
+          description: Gets the Asset with matching `id`
+          required: true
           schema:
             type: string
         - name: contract_address
           in: query
-          description: Mapped to URL query parameter `contract_address`
+          description: Used in conjunction with `token_id` to get an Asset
           schema:
             type: string
-        - name: token_id.value
+        - name: token_id
           in: query
-          description: The int64 value.
+          description: Used in conjunction with `contract_address` to get an Asset
+          schema:
+            type: string
+        - name: show_wallets
+          in: query
+          description: Shows associated wallets when set to true
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAssetResponse'
+
+  /nft/{protocol}/{network}/assets:
+    get:
+      tags:
+        - NFT
+      description: Returns NFT assets by a given collection, contract, or wallet.
+      operationId: ListAssets
+      parameters:
+        - name: protocol
+          in: path
+          description: 'Protocol handle, example: ethereum'
+          required: true
           schema:
             type: integer
-            format: int64
+            format: enum
+        - name: network
+          in: path
+          description: 'Which network to target, example: mainnet'
+          required: true
+          schema:
+            type: integer
+            format: enum
+        - name: wallet_address
+          in: query
+          description: Lists Assets by `wallet_address`
+          schema:
+            type: string
+        - name: contract_address
+          in: query
+          description: Lists Assets by `contract_address`
+          schema:
+            type: string
+        - name: token_id
+          in: query
+          description: Filters results by `token_id` requires `contract_address`
+          schema:
+            type: string
         - name: collection_name
           in: query
-          description: Mapped to URL query parameter `collection_name`
+          description: Lists Assets by `collection_name`
           schema:
             type: string
         - name: sort_by
@@ -909,27 +1312,41 @@ paths:
             type: string
         - name: order
           in: query
-          description: 'Mapped to URL query parameter `order` One of: asc, desc'
+          description: 'One of: asc, desc'
           schema:
-            type: string
+            type: integer
+            format: enum
         - name: page_size
           in: query
-          description: Mapped to URL query parameter `page_size`
+          description: Limit results number of results by `page_size` where maximum is 50
           schema:
             type: integer
             format: uint32
         - name: page_token
           in: query
-          description: Mapped to URL query parameter `page_token` base64 encoded cursor
+          description: Base64 encoded cursor used to retrieve next page of results
           schema:
             type: string
         - name: attributes
           in: query
-          description: Mapped to URL query parameter `attributes`
+          description: Filters results by attribute pairs in the format key:value
           schema:
             type: array
             items:
               type: string
+        - name: token_type
+          in: query
+          description: 'Filters by `token_type`, one of: ERC721, ERC1155, CRYPTOPUNKS or ERC20'
+          schema:
+            type: array
+            items:
+              type: integer
+              format: enum
+        - name: show_wallets
+          in: query
+          description: Shows associated wallets when set to true
+          schema:
+            type: boolean
       responses:
         "200":
           description: OK
@@ -937,28 +1354,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ListAssetsResponse'
+
   /nft/{protocol}/{network}/collection/{id}:
     get:
       tags:
         - NFT
-      operationId: Explorer_GetCollection
+      description: Returns detailed information about an NFT collection by a given unique collection ID.
+      operationId: GetCollection
       parameters:
         - name: protocol
           in: path
-          description: Coin platform handle
+          description: 'Protocol handle, example: ethereum'
           required: true
           schema:
-            type: string
+            type: integer
+            format: enum
         - name: network
           in: path
-          description: Which network to target
+          description: 'Which network to target, example: mainnet'
+          required: true
+          schema:
+            type: integer
+            format: enum
+        - name: id
+          in: path
+          description: Gets the Collection with matching `id`
           required: true
           schema:
             type: string
-        - name: id
-          in: path
-          description: Mapped to URL query parameter 'uuid'
-          required: true
+        - name: contractAddress
+          in: query
+          description: Gets the Collection with matching `contract_address`
           schema:
             type: string
       responses:
@@ -968,34 +1394,40 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetCollectionResponse'
+
   /nft/{protocol}/{network}/collections:
     get:
       tags:
         - NFT
-      operationId: Explorer_ListCollections
+      description: |-
+        Returns a list of all Collections in the network, which can be filtered by a given
+         collection name, contract address or token type.
+      operationId: ListCollections
       parameters:
         - name: protocol
           in: path
-          description: Coin platform handle
+          description: 'Protocol handle, example: ethereum'
           required: true
           schema:
-            type: string
+            type: integer
+            format: enum
         - name: network
           in: path
-          description: Which network to target
+          description: 'Which network to target, example: mainnet'
           required: true
           schema:
-            type: string
+            type: integer
+            format: enum
         - name: contractAddress
           in: query
-          description: Mapped to URL query parameter 'contract_address'
+          description: Lists collections with matching `contract_address`, repeatable field
           schema:
             type: array
             items:
               type: string
         - name: collectionName
           in: query
-          description: Mapped to URL query parameter 'collection_name'
+          description: Lists Collections matching provided `collection_name`, repeatable field
           schema:
             type: array
             items:
@@ -1007,18 +1439,68 @@ paths:
             type: string
         - name: order
           in: query
-          description: 'Mapped to URL query parameter `order` One of: asc, desc'
+          description: 'One of: asc, desc'
           schema:
-            type: string
+            type: integer
+            format: enum
         - name: page_size
           in: query
-          description: Mapped to URL query parameter `page_size`
+          description: Limit results number of results by `page_size` where maximum is 500
           schema:
             type: integer
             format: uint32
         - name: page_token
           in: query
-          description: Mapped to URL query parameter `page_token` base64 encoded cursor
+          description: Base64 encoded cursor used to retrieve next page of results
+          schema:
+            type: string
+        - name: token_type
+          in: query
+          description: 'Filters by `token_type`, one of: ERC721, ERC1155, CRYPTOPUNKS or ERC20, repeatable field'
+          schema:
+            type: array
+            items:
+              type: integer
+              format: enum
+        - name: verified
+          in: query
+          description: Only verified collections will be returned when set to true
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCollectionResponse'
+
+  /nft/{protocol}/{network}/collections/search:
+    get:
+      tags:
+        - NFT
+      description: |-
+        Returns NFT collections with names matching a given search string.
+         The response includes top 50 most relevant results, sorted in descending order.
+      operationId: SearchCollections
+      parameters:
+        - name: protocol
+          in: path
+          description: 'Protocol handle, example: ethereum'
+          required: true
+          schema:
+            type: integer
+            format: enum
+        - name: network
+          in: path
+          description: 'Which network to target, example: mainnet'
+          required: true
+          schema:
+            type: integer
+            format: enum
+        - name: name
+          in: query
+          description: Free text search on collection name, returning closest matching results
           schema:
             type: string
       responses:
@@ -1027,44 +1509,82 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ListCollectionResponse'
+                $ref: '#/components/schemas/SearchCollectionResponse'
+
+  /nft/{protocol}/{network}/event/{id}:
+    get:
+      tags:
+        - NFT
+      description: Returns detailed information about an NFT event by a given event ID.
+      operationId: GetEvent
+      parameters:
+        - name: protocol
+          in: path
+          description: 'Protocol handle, example: ethereum'
+          required: true
+          schema:
+            type: integer
+            format: enum
+        - name: network
+          in: path
+          description: 'Which network to target, example: mainnet'
+          required: true
+          schema:
+            type: integer
+            format: enum
+        - name: id
+          in: path
+          description: Gets the Event with matching `id`
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetEventResponse'
+
   /nft/{protocol}/{network}/events:
     get:
       tags:
         - NFT
-      operationId: Explorer_ListEvents
+      description: Returns NFT events by a given contract or wallet.
+      operationId: ListEvents
       parameters:
         - name: protocol
           in: path
-          description: Coin platform handle
+          description: 'Protocol handle, example: ethereum'
           required: true
           schema:
-            type: string
+            type: integer
+            format: enum
         - name: network
           in: path
-          description: Which network to target
+          description: 'Which network to target, example: mainnet'
           required: true
           schema:
-            type: string
+            type: integer
+            format: enum
         - name: contract_address
           in: query
-          description: mapped to URL query parameter 'contract_address'
+          description: Lists Events by `contract_address`
           schema:
             type: string
         - name: wallet_address
           in: query
-          description: mapped to URL query parameter 'wallet_address'
+          description: Lists Events by `wallet_address`
           schema:
             type: string
         - name: token_id
           in: query
-          description: mapped to URL query parameter 'token_id'
+          description: Filters Events by `token_id`, requires `contract_address`
           schema:
-            type: integer
-            format: int64
+            type: string
         - name: event_type
           in: query
-          description: mapped to URL query parameter 'event_type'
+          description: 'Filters Events by `event_type`, one of: mint, transfer, sale'
           schema:
             type: string
         - name: sort_by
@@ -1074,18 +1594,19 @@ paths:
             type: string
         - name: order
           in: query
-          description: 'Mapped to URL query parameter `order` One of: asc, desc'
+          description: 'One of: asc, desc'
           schema:
-            type: string
+            type: integer
+            format: enum
         - name: page_size
           in: query
-          description: Mapped to URL query parameter `page_size`
+          description: Limit results number of results by `page_size` where maximum is 500
           schema:
             type: integer
             format: uint32
         - name: page_token
           in: query
-          description: Mapped to URL query parameter `page_token` base64 encoded cursor
+          description: Base64 encoded cursor used to retrieve next page of results
           schema:
             type: string
       responses:
@@ -1231,10 +1752,12 @@ components:
           items:
             $ref: "#/components/schemas/tx"
         continuation:
-          type: string
+          type: object
           description: Token to get the next page
-          example: "8185.123"
-          nullable: true
+          properties:
+            meta:
+              nullable: true
+              $ref: "#/components/schemas/Meta"
     accounts_balances:
       type: object
       description: Accounts balances with account addressses as keys
@@ -1290,7 +1813,7 @@ components:
         "confirmed_nonce": 9999,
         "confirmed_block": 99999999
       }
-    Event:
+    event:
       type: object
       properties:
         amount:
@@ -1362,9 +1885,8 @@ components:
         events:
           type: array
           items:
-            $ref: '#/components/schemas/Event'
+            $ref: '#/components/schemas/event'
           nullable: true
-          
     tx_minify:
       type: object
       nullable: true
@@ -1395,7 +1917,6 @@ components:
           format: int64
           description: Total transaction confirmations
           example: 10
-      
     tx_output:
       type: object
       properties:
@@ -1416,7 +1937,6 @@ components:
           $ref: '#/components/schemas/tx_minify'
         spent:
           $ref: '#/components/schemas/tx_minify'
-        
     accounts_obj:
       type: object
       properties:
@@ -1424,7 +1944,6 @@ components:
           type: array
           items:
             type: string
-
     currency:
       type: object
       oneOf:
@@ -1437,7 +1956,6 @@ components:
           native: "#/components/schemas/native_currency"
           token: "#/components/schemas/token_currency"
           smart_token: "#/components/schemas/smart_token_currency"
-
     native_currency: # in that case currency detail is null
       type: object
       properties:
@@ -1549,7 +2067,7 @@ components:
       required:
         - type
         - contract
-    platform_detail:
+    protocol_detail:
       type: object
       properties:
         source:
@@ -1566,13 +2084,12 @@ components:
           type: array
           items:
             type: string
-
-    platforms_overview:
+    protocols_overview:
       type: object
       properties:
-        platforms:
+        protocols:
           type: array
-          description: List of items each describing a pair of supported platform and network.
+          description: List of items each describing a pair of supported protocol and network.
           items:
             type: object
             properties:
@@ -1635,7 +2152,7 @@ components:
         detail:
           type: string
           description: Long error description
-          example: "The requested address is invalid on this platform"
+          example: "The requested address is invalid on this protocol"
     report:
       type: object
       properties:
@@ -1758,41 +2275,6 @@ components:
         close_reward:
           type: string
           example: "0"
-    Asset:
-      type: object
-      properties:
-        token_id:
-          type: integer
-          format: int64
-        image_url:
-          type: string
-        name:
-          type: string
-        contract:
-          $ref: '#/components/schemas/Contract'
-        wallets:
-          type: array
-          items:
-            $ref: '#/components/schemas/AssetWallet'
-        attributes:
-          type: array
-          items:
-            $ref: '#/components/schemas/AssetTrait'
-        mint_date:
-          type: integer
-          format: int64
-    AssetTrait:
-      type: object
-      properties:
-        trait_type:
-          type: string
-        value:
-          type: string
-    AssetWallet:
-      type: object
-      properties:
-        address:
-          type: string
     Collection:
       type: object
       properties:
@@ -1800,16 +2282,14 @@ components:
           type: string
         name:
           type: string
-        description:
-          type: string
-        image_url:
+        logo:
           type: string
         contracts:
           type: array
           items:
-            $ref: '#/components/schemas/Contract'
-        meta:
-          type: object
+            type: string
+        verified:
+          type: boolean
     Contract:
       type: object
       properties:
@@ -1828,11 +2308,12 @@ components:
     NFTEvent:
       type: object
       properties:
+        id:
+          type: string
         contract_address:
           type: string
         token_id:
-          type: integer
-          format: int64
+          type: string
         event_type:
           type: string
         timestamp:
@@ -1842,22 +2323,143 @@ components:
           type: string
         to_account:
           type: string
-        transaction:
-          type: object
+        quantity:
+          type: integer
+          format: int64
+    GetAssetResponse:
+      type: object
+      properties:
+        asset:
+          $ref: '#/components/schemas/GetAssetResponse_Asset'
+    GetAssetResponse_Asset:
+      type: object
+      properties:
+        token_id:
+          type: string
+        token_type:
+          type: string
+        media:
+          $ref: '#/components/schemas/GetAssetResponse_AssetMedia'
+        name:
+          type: string
+        mint_date:
+          type: integer
+          format: int64
+        token_uri:
+          type: string
+        description:
+          type: string
+        contract_address:
+          type: string
+        wallets:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetAssetResponse_AssetWallet'
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetAssetResponse_AssetTrait'
+    GetAssetResponse_AssetMedia:
+      type: object
+      properties:
+        image_url:
+          type: string
+    GetAssetResponse_AssetTrait:
+      type: object
+      properties:
+        trait_type:
+          type: string
+        value:
+          type: string
+    GetAssetResponse_AssetWallet:
+      type: object
+      properties:
+        address:
+          type: string
     GetCollectionResponse:
       type: object
       properties:
         collection:
-          $ref: '#/components/schemas/Collection'
+          $ref: '#/components/schemas/GetCollectionResponse_Collection'
+    GetCollectionResponse_Collection:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        logo:
+          type: string
+        banner:
+          type: string
+        verified:
+          type: boolean
+        contracts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contract'
+        meta:
+          type: object
+    GetEvent:
+      type: object
+      properties:
+        id:
+          type: string
+        contract_address:
+          type: string
+        token_id:
+          type: string
+        event_type:
+          type: string
+        timestamp:
+          type: integer
+          format: int64
+        from:
+          type: string
+        to:
+          type: string
+        quantity:
+          type: integer
+          format: int64
+        transaction:
+          type: object
+        payments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Payment'
+    GetEventResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/GetEvent'
     ListAssetsResponse:
       type: object
       properties:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Asset'
+            $ref: '#/components/schemas/ListAssetsResponse_Asset'
         meta:
           $ref: '#/components/schemas/Meta'
+    ListAssetsResponse_Asset:
+      type: object
+      properties:
+        id:
+          type: string
+        token_id:
+          type: string
+        image_url:
+          type: string
+        name:
+          type: string
+        contract_address:
+          type: string
+        wallets:
+          type: array
+          items:
+            type: string
     ListCollectionResponse:
       type: object
       properties:
@@ -1886,30 +2488,176 @@ components:
       properties:
         next_page_token:
           type: string
-
-
+    Payment:
+      type: object
+      properties:
+        from:
+          type: string
+        to:
+          type: string
+        price:
+          type: number
+          format: double
+        currency:
+          type: string
+    SearchCollectionResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Collection'
+    tx_outputs:
+      type: object
+      description: List of transaction outputs
+      properties:
+        total:
+            type: integer
+            description: Number of items in block identifiers
+            example: 25
+        continuation:
+            type: object
+            description: Token to get the next page
+            properties:
+              meta:
+                nullable: true
+                $ref: "#/components/schemas/Meta"
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              status:
+                type: string
+                description: the status of the given transaction output
+                example: "mined"
+              is_spent:
+                type: boolean
+                description: whether the transaction output was spent or not
+                example: false
+              spent:
+                nullable: false
+                $ref: "#/components/schemas/tx-output-response"
+              value:
+                type: integer
+                format: int64
+                description: the amount of tokens within the given output
+                example: 600
+              mined:
+                nullable: true
+                $ref: "#/components/schemas/tx-output-response"
+    tx-output-response:
+      type: object
+      properties:
+        index:
+          type: integer
+          description: the output index within a given transaction
+          example: 1
+        tx_id:
+          type: string
+          description: the transaction identifier
+          example: "57f7dc46786c5d56d260186d459f1246943dd6e83ca00235909dad1b826f20b4"
+        date:
+          type: integer
+          description: the transaction creation unix timestamp
+          example: 1655419925
+        block_id:
+          type: string
+          description: the identifier of the block which the transaction was mined
+          example: "00000000000000000008ad1bdca4288143a0cb20e71de0808a066db89857e153"
+        block_number:
+          type: integer
+          description: the number of the block which the transaction was mined
+          example: 741100
+        confirmations:
+          type: integer
+          description: the number of confirmations the transaction took in order to be mined
+          example: 1619
+    block_identifiers:
+      type: object
+      properties:
+        total:
+          type: integer
+          description: Number of items in block identifiers
+          example: 25
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/block_identifier"
+          example:
+            {
+              "total": 2,
+              "data": [
+                  {
+                      "number": 1,
+                      "id": "80ca095ed10b02e53d769eb6eaf92cd04e9e0759e5be4a8477b42911ba49c78f",
+                      "parent_id": "12a765e31ffd4059bada1e25190f6e98c99d9714d334efa41a195a7e7e04bfe2",
+                      "date": 1318055359,
+                      "num_txs": 1
+                  },
+                  {
+                      "number": 2,
+                      "id": "13957807cdd1d02f993909fa59510e318763f99a506c4c426e3b254af09f40d7",
+                      "parent_id": "80ca095ed10b02e53d769eb6eaf92cd04e9e0759e5be4a8477b42911ba49c78f",
+                      "date": 1318386858,
+                      "num_txs": 1
+                  }
+              ],
+              "meta": {
+                  "paging": {
+                      "next_page_token": "Mg==="
+                  }
+              }
+          }
+        continuation:
+          type: object
+          description: Token to get the next page
+          properties:
+            meta:
+              nullable: true
+              $ref: "#/components/schemas/Meta"
   parameters:
-    platform:
+    protocol:
       in: path
-      name: platform
+      name: protocol
       required: true
-      description: Coin platform handle
+      description: Protocol handle
       schema:
         type: string
       examples:
+        Algorand:
+          value: algorand
         Bitcoin:
           value: bitcoin
+        Bitcoincash:
+          value: bitcoincash
+        Dogecoin:
+          value: dogecoin
         Ethereum:
           value: ethereum
-        Stellar:
-          value: stellar
+        Litecoin:
+          value: litecoin
+        Near:
+          value: near
+        Oasis:
+          value: oasis
+        Polkadot:
+          value: polkadot
         Ripple:
           value: xrp
+        Solana:
+          value: solana
+        Stellar:
+          value: stellar
+        Terra:
+          value: terra
+        Tezos:
+          value: tezos
     network:
       name: network
       in: path
       required: true
-      description: Which network to target. Available networks can be found with /{platform}
+      description: Which network to target. Available networks can be found with /{protocol}
       schema:
         type: string
       examples:
@@ -1983,3 +2731,19 @@ components:
           value: "ethereum/contract/0x0f5d2fb29fb7d3cfee444a200298f468908cc942/erc-20"
         More than one asset:
           value: "ethereum/native/eth,ethereum/contract/0x0f5d2fb29fb7d3cfee444a200298f468908cc942/erc-20"
+    tx-hash:
+      name: id
+      in: path
+      required: true
+      description: Transaction ID/Hash
+      schema:
+        type: string
+      example: "0xF00Fa860473130C1df10707223E66Cb4B839B165"
+    block_identifier:
+      name: block_identifier
+      in: path
+      required: true
+      description: Block ID or number
+      schema:
+        type: string
+      example: "0xF00Fa860473130C1df10707223E66Cb4B839B165"

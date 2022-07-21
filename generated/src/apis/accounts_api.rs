@@ -57,14 +57,25 @@ pub enum GetTxsByAddressError {
     UnknownValue(serde_json::Value),
 }
 
+/// struct for typed errors of method [`get_utxoby_account`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetUtxobyAccountError {
+    Status400(crate::models::Error),
+    Status401(crate::models::Error),
+    Status429(crate::models::Error),
+    Status413(crate::models::Error),
+    UnknownValue(serde_json::Value),
+}
+
 
 /// Returns the account balances for all supported currencies. 
-pub async fn get_list_of_balances_by_address(configuration: &configuration::Configuration, platform: &str, network: &str, address: &str, assets: Option<&str>) -> Result<Vec<crate::models::Balance>, Error<GetListOfBalancesByAddressError>> {
+pub async fn get_list_of_balances_by_address(configuration: &configuration::Configuration, protocol: &str, network: &str, address: &str, assets: Option<&str>) -> Result<Vec<crate::models::Balance>, Error<GetListOfBalancesByAddressError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/{platform}/{network}/account/{address}", local_var_configuration.base_path, platform=crate::apis::urlencode(platform), network=crate::apis::urlencode(network), address=crate::apis::urlencode(address));
+    let local_var_uri_str = format!("{}/{protocol}/{network}/account/{address}", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network), address=crate::apis::urlencode(address));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_str) = assets {
@@ -93,12 +104,12 @@ pub async fn get_list_of_balances_by_address(configuration: &configuration::Conf
 }
 
 /// Returns the balances of accounts for all supported currencies. 
-pub async fn get_list_of_balances_by_addresses(configuration: &configuration::Configuration, platform: &str, network: &str, accounts_obj: crate::models::AccountsObj, assets: Option<&str>) -> Result<::std::collections::HashMap<String, Vec<crate::models::Balance>>, Error<GetListOfBalancesByAddressesError>> {
+pub async fn get_list_of_balances_by_addresses(configuration: &configuration::Configuration, protocol: &str, network: &str, accounts_obj: crate::models::AccountsObj, assets: Option<&str>) -> Result<::std::collections::HashMap<String, Vec<crate::models::Balance>>, Error<GetListOfBalancesByAddressesError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/{platform}/{network}/accounts", local_var_configuration.base_path, platform=crate::apis::urlencode(platform), network=crate::apis::urlencode(network));
+    let local_var_uri_str = format!("{}/{protocol}/{network}/accounts", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
 
     if let Some(ref local_var_str) = assets {
@@ -128,12 +139,12 @@ pub async fn get_list_of_balances_by_addresses(configuration: &configuration::Co
 }
 
 /// Returns account activity 
-pub async fn get_report_by_address(configuration: &configuration::Configuration, platform: &str, network: &str, address: &str, from: Option<i32>, to: Option<i32>, limit: Option<i32>, continuation: Option<&str>) -> Result<crate::models::Report, Error<GetReportByAddressError>> {
+pub async fn get_report_by_address(configuration: &configuration::Configuration, protocol: &str, network: &str, address: &str, from: Option<i32>, to: Option<i32>, continuation: Option<&str>, limit: Option<i32>) -> Result<crate::models::Report, Error<GetReportByAddressError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/{platform}/{network}/account/{address}/report", local_var_configuration.base_path, platform=crate::apis::urlencode(platform), network=crate::apis::urlencode(network), address=crate::apis::urlencode(address));
+    let local_var_uri_str = format!("{}/{protocol}/{network}/account/{address}/report", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network), address=crate::apis::urlencode(address));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_str) = from {
@@ -142,11 +153,11 @@ pub async fn get_report_by_address(configuration: &configuration::Configuration,
     if let Some(ref local_var_str) = to {
         local_var_req_builder = local_var_req_builder.query(&[("to", &local_var_str.to_string())]);
     }
-    if let Some(ref local_var_str) = limit {
-        local_var_req_builder = local_var_req_builder.query(&[("limit", &local_var_str.to_string())]);
-    }
     if let Some(ref local_var_str) = continuation {
         local_var_req_builder = local_var_req_builder.query(&[("continuation", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = limit {
+        local_var_req_builder = local_var_req_builder.query(&[("limit", &local_var_str.to_string())]);
     }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
@@ -171,14 +182,23 @@ pub async fn get_report_by_address(configuration: &configuration::Configuration,
 }
 
 /// Gets transactions that an address was involved with, from newest to oldest. This call uses pagination. 
-pub async fn get_txs_by_address(configuration: &configuration::Configuration, platform: &str, network: &str, address: &str, order: Option<&str>, continuation: Option<&str>, limit: Option<i32>, assets: Option<&str>) -> Result<crate::models::TxPage, Error<GetTxsByAddressError>> {
+pub async fn get_txs_by_address(configuration: &configuration::Configuration, protocol: &str, network: &str, address: &str, assets: Option<&str>, from: Option<i32>, to: Option<i32>, order: Option<&str>, continuation: Option<&str>, limit: Option<i32>) -> Result<crate::models::TxPage, Error<GetTxsByAddressError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/{platform}/{network}/account/{address}/txs", local_var_configuration.base_path, platform=crate::apis::urlencode(platform), network=crate::apis::urlencode(network), address=crate::apis::urlencode(address));
+    let local_var_uri_str = format!("{}/{protocol}/{network}/account/{address}/txs", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network), address=crate::apis::urlencode(address));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
+    if let Some(ref local_var_str) = assets {
+        local_var_req_builder = local_var_req_builder.query(&[("assets", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = from {
+        local_var_req_builder = local_var_req_builder.query(&[("from", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = to {
+        local_var_req_builder = local_var_req_builder.query(&[("to", &local_var_str.to_string())]);
+    }
     if let Some(ref local_var_str) = order {
         local_var_req_builder = local_var_req_builder.query(&[("order", &local_var_str.to_string())]);
     }
@@ -187,9 +207,6 @@ pub async fn get_txs_by_address(configuration: &configuration::Configuration, pl
     }
     if let Some(ref local_var_str) = limit {
         local_var_req_builder = local_var_req_builder.query(&[("limit", &local_var_str.to_string())]);
-    }
-    if let Some(ref local_var_str) = assets {
-        local_var_req_builder = local_var_req_builder.query(&[("assets", &local_var_str.to_string())]);
     }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
@@ -208,6 +225,55 @@ pub async fn get_txs_by_address(configuration: &configuration::Configuration, pl
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
         let local_var_entity: Option<GetTxsByAddressError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
+    }
+}
+
+/// Returns transactions outputs following the BTC's UTXO model definition. 
+pub async fn get_utxoby_account(configuration: &configuration::Configuration, protocol: &str, network: &str, address: &str, spent: Option<bool>, from: Option<i32>, to: Option<i32>, order: Option<&str>, continuation: Option<&str>, limit: Option<i32>) -> Result<crate::models::TxOutputs, Error<GetUtxobyAccountError>> {
+    let local_var_configuration = configuration;
+
+    let local_var_client = &local_var_configuration.client;
+
+    let local_var_uri_str = format!("{}/{protocol}/{network}/account/{address}/utxo", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network), address=crate::apis::urlencode(address));
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
+
+    if let Some(ref local_var_str) = spent {
+        local_var_req_builder = local_var_req_builder.query(&[("spent", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = from {
+        local_var_req_builder = local_var_req_builder.query(&[("from", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = to {
+        local_var_req_builder = local_var_req_builder.query(&[("to", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = order {
+        local_var_req_builder = local_var_req_builder.query(&[("order", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = continuation {
+        local_var_req_builder = local_var_req_builder.query(&[("continuation", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = limit {
+        local_var_req_builder = local_var_req_builder.query(&[("limit", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+    }
+    if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
+    };
+
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
+
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        serde_json::from_str(&local_var_content).map_err(Error::from)
+    } else {
+        let local_var_entity: Option<GetUtxobyAccountError> = serde_json::from_str(&local_var_content).ok();
         let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }

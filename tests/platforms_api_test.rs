@@ -1,4 +1,4 @@
-use ubiquity::api::platforms_api;
+use ubiquity::api::protocols_api;
 
 pub mod utils;
 
@@ -11,7 +11,7 @@ async fn test_get_platform() {
     "testnet",
     utils::create_mock_from_file(
       "./tests/mock_files/platforms_api/platform_algorand_testnet.json",
-      "/algorand/testnet/",
+      "/algorand/testnet",
     ),
   );
 
@@ -20,7 +20,7 @@ async fn test_get_platform() {
     "mainnet",
     utils::create_mock_from_file(
       "./tests/mock_files/platforms_api/platform_polkadot_mainnet.json",
-      "/polkadot/mainnet/",
+      "/polkadot/mainnet",
     ),
   );
 
@@ -31,7 +31,7 @@ async fn test_get_platform() {
   for (platform, network, mock_result) in mocks {
     match mock_result {
       Ok(_) => {
-        let res = platforms_api::get_platform_endpoints(&config, platform, network).await;
+        let res = protocols_api::get_protocol_endpoints(&config, platform, network).await;
         match res {
           Ok(_) => {}
           Err(e) => panic!("{}", e),
@@ -55,7 +55,7 @@ async fn test_get_platforms_overview() {
 
   match get_platforms_overview_mock {
     Ok(_) => {
-      let res = platforms_api::get_platforms_list(&config).await;
+      let res = protocols_api::get_protocols_list(&config).await;
       match res {
         Ok(_) => {}
         Err(e) => panic!("{}", e),

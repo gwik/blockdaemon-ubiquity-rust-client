@@ -14,7 +14,7 @@
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
 pub struct ListAssetsResponse {
     #[serde(rename = "data", skip_serializing_if = "Option::is_none")]
-    pub data: Option<Vec<crate::models::Asset>>,
+    pub data: Option<Vec<crate::models::ListAssetsResponseAsset>>,
     #[serde(rename = "meta", skip_serializing_if = "Option::is_none")]
     pub meta: Option<Box<crate::models::Meta>>,
 }
