@@ -58,7 +58,7 @@ async fn get_block(token: String) -> Option<()>{
 }
 ```
 
-An API URL may also be specified if you have a personal Ubiquity endpoint:
+An API URL may also be specified if you have a personal Ubiquity endpoint (Ubiquity's prod endpoint `https://ubiquity.api.blockdaemon.com/v1` is set as the default value [here](https://gitlab.com/Blockdaemon/ubiquity/ubiquity-rust-client/-/blob/master/generated/src/apis/configuration.rs#L43)): 
 
 ```rust
 use ubiquity::api::blocks_api;
