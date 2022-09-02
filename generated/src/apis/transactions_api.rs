@@ -21,6 +21,8 @@ use super::{Error, configuration};
 pub enum FeeEstimateError {
     Status401(crate::models::Error),
     Status429(crate::models::Error),
+    Status500(crate::models::Error),
+    Status503(crate::models::Error),
     UnknownValue(serde_json::Value),
 }
 
@@ -28,10 +30,11 @@ pub enum FeeEstimateError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetTxError {
-    Status400(crate::models::Error),
     Status401(crate::models::Error),
     Status404(crate::models::Error),
     Status429(crate::models::Error),
+    Status500(crate::models::Error),
+    Status503(crate::models::Error),
     UnknownValue(serde_json::Value),
 }
 
@@ -39,10 +42,11 @@ pub enum GetTxError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetTxByHashAndIndexError {
-    Status400(crate::models::Error),
     Status401(crate::models::Error),
     Status404(crate::models::Error),
     Status429(crate::models::Error),
+    Status500(crate::models::Error),
+    Status503(crate::models::Error),
     UnknownValue(serde_json::Value),
 }
 
@@ -50,10 +54,11 @@ pub enum GetTxByHashAndIndexError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetTxConfirmationsError {
-    Status400(crate::models::Error),
     Status401(crate::models::Error),
     Status404(crate::models::Error),
     Status429(crate::models::Error),
+    Status500(crate::models::Error),
+    Status503(crate::models::Error),
     UnknownValue(serde_json::Value),
 }
 
@@ -64,6 +69,8 @@ pub enum GetTxsError {
     Status401(crate::models::Error),
     Status403(crate::models::Error),
     Status429(crate::models::Error),
+    Status500(crate::models::Error),
+    Status503(crate::models::Error),
     UnknownValue(serde_json::Value),
 }
 
@@ -73,6 +80,8 @@ pub enum GetTxsError {
 pub enum V1TxSendError {
     Status401(crate::models::Error),
     Status429(crate::models::Error),
+    Status500(crate::models::Error),
+    Status503(crate::models::Error),
     Status400(crate::models::Error),
     UnknownValue(serde_json::Value),
 }

@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**list_assets**](NFTApi.md#list_assets) | **GET** /nft/{protocol}/{network}/assets | 
 [**list_collections**](NFTApi.md#list_collections) | **GET** /nft/{protocol}/{network}/collections | 
 [**list_events**](NFTApi.md#list_events) | **GET** /nft/{protocol}/{network}/events | 
+[**refresh_token**](NFTApi.md#refresh_token) | **POST** /nft/token/{protocol}/{network}/refresh | 
 [**search_collections**](NFTApi.md#search_collections) | **GET** /nft/{protocol}/{network}/collections/search | 
 
 
@@ -26,8 +27,8 @@ Returns detailed information about an NFT asset by a given unique asset ID or  b
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**protocol** | **i32** | Protocol handle, example: ethereum | [required] |
-**network** | **i32** | Which network to target, example: mainnet | [required] |
+**protocol** | **String** | Protocol handle, example: ethereum | [required] |
+**network** | **String** | Which network to target, example: mainnet | [required] |
 **id** | **String** | Gets the Asset with matching `id` | [required] |
 **contract_address** | Option<**String**> | Used in conjunction with `token_id` to get an Asset |  |
 **token_id** | Option<**String**> | Used in conjunction with `contract_address` to get an Asset |  |
@@ -61,8 +62,8 @@ Returns detailed information about an NFT collection by a given unique collectio
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**protocol** | **i32** | Protocol handle, example: ethereum | [required] |
-**network** | **i32** | Which network to target, example: mainnet | [required] |
+**protocol** | **String** | Protocol handle, example: ethereum | [required] |
+**network** | **String** | Which network to target, example: mainnet | [required] |
 **id** | **String** | Gets the Collection with matching `id` | [required] |
 **contract_address** | Option<**String**> | Gets the Collection with matching `contract_address` |  |
 
@@ -94,8 +95,8 @@ Returns detailed information about an NFT event by a given event ID.
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**protocol** | **i32** | Protocol handle, example: ethereum | [required] |
-**network** | **i32** | Which network to target, example: mainnet | [required] |
+**protocol** | **String** | Protocol handle, example: ethereum | [required] |
+**network** | **String** | Which network to target, example: mainnet | [required] |
 **id** | **String** | Gets the Event with matching `id` | [required] |
 
 ### Return type
@@ -116,7 +117,7 @@ Name | Type | Description  | Required | Notes
 
 ## list_assets
 
-> crate::models::ListAssetsResponse list_assets(protocol, network, wallet_address, contract_address, token_id, collection_name, sort_by, order, page_size, page_token, attributes, token_type, show_wallets)
+> crate::models::ListAssetsResponse list_assets(protocol, network, wallet_address, contract_address, token_id, collection_name, sort_by, order, page_size, page_token, attributes, token_type, show_wallets, include_burned)
 
 
 Returns NFT assets by a given collection, contract, or wallet.
@@ -126,8 +127,8 @@ Returns NFT assets by a given collection, contract, or wallet.
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**protocol** | **i32** | Protocol handle, example: ethereum | [required] |
-**network** | **i32** | Which network to target, example: mainnet | [required] |
+**protocol** | **String** | Protocol handle, example: ethereum | [required] |
+**network** | **String** | Which network to target, example: mainnet | [required] |
 **wallet_address** | Option<**String**> | Lists Assets by `wallet_address` |  |
 **contract_address** | Option<**String**> | Lists Assets by `contract_address` |  |
 **token_id** | Option<**String**> | Filters results by `token_id` requires `contract_address` |  |
@@ -139,6 +140,7 @@ Name | Type | Description  | Required | Notes
 **attributes** | Option<[**Vec<String>**](String.md)> | Filters results by attribute pairs in the format key:value |  |
 **token_type** | Option<[**Vec<i32>**](i32.md)> | Filters by `token_type`, one of: ERC721, ERC1155, CRYPTOPUNKS or ERC20 |  |
 **show_wallets** | Option<**bool**> | Shows associated wallets when set to true |  |
+**include_burned** | Option<**bool**> | Includes burned tokens when set to true |  |
 
 ### Return type
 
@@ -168,8 +170,8 @@ Returns a list of all Collections in the network, which can be filtered by a giv
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**protocol** | **i32** | Protocol handle, example: ethereum | [required] |
-**network** | **i32** | Which network to target, example: mainnet | [required] |
+**protocol** | **String** | Protocol handle, example: ethereum | [required] |
+**network** | **String** | Which network to target, example: mainnet | [required] |
 **contract_address** | Option<[**Vec<String>**](String.md)> | Lists collections with matching `contract_address`, repeatable field |  |
 **collection_name** | Option<[**Vec<String>**](String.md)> | Lists Collections matching provided `collection_name`, repeatable field |  |
 **sort_by** | Option<**String**> | Sort by one of: name |  |
@@ -207,8 +209,8 @@ Returns NFT events by a given contract or wallet.
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**protocol** | **i32** | Protocol handle, example: ethereum | [required] |
-**network** | **i32** | Which network to target, example: mainnet | [required] |
+**protocol** | **String** | Protocol handle, example: ethereum | [required] |
+**network** | **String** | Which network to target, example: mainnet | [required] |
 **contract_address** | Option<**String**> | Lists Events by `contract_address` |  |
 **wallet_address** | Option<**String**> | Lists Events by `wallet_address` |  |
 **token_id** | Option<**String**> | Filters Events by `token_id`, requires `contract_address` |  |
@@ -234,6 +236,38 @@ Name | Type | Description  | Required | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 
+## refresh_token
+
+> crate::models::RefreshTokenResponse refresh_token(protocol, network, refresh_token_request)
+
+
+Refreshes a single token given contract_address and token_id
+
+### Parameters
+
+
+Name | Type | Description  | Required | Notes
+------------- | ------------- | ------------- | ------------- | -------------
+**protocol** | **String** | Mapped to URL path | [required] |
+**network** | **String** | Mapped to URL path | [required] |
+**refresh_token_request** | [**RefreshTokenRequest**](RefreshTokenRequest.md) |  | [required] |
+
+### Return type
+
+[**crate::models::RefreshTokenResponse**](RefreshTokenResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+
 ## search_collections
 
 > crate::models::SearchCollectionResponse search_collections(protocol, network, name)
@@ -246,8 +280,8 @@ Returns NFT collections with names matching a given search string.  The response
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**protocol** | **i32** | Protocol handle, example: ethereum | [required] |
-**network** | **i32** | Which network to target, example: mainnet | [required] |
+**protocol** | **String** | Protocol handle, example: ethereum | [required] |
+**network** | **String** | Which network to target, example: mainnet | [required] |
 **name** | Option<**String**> | Free text search on collection name, returning closest matching results |  |
 
 ### Return type

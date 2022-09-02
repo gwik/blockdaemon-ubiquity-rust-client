@@ -23,6 +23,8 @@ pub enum GetBlockIdentifierByIdError {
     Status401(crate::models::Error),
     Status404(crate::models::Error),
     Status429(crate::models::Error),
+    Status500(crate::models::Error),
+    Status503(crate::models::Error),
     UnknownValue(serde_json::Value),
 }
 
@@ -32,6 +34,8 @@ pub enum GetBlockIdentifierByIdError {
 pub enum GetBlockIdentifiersError {
     Status401(crate::models::Error),
     Status429(crate::models::Error),
+    Status500(crate::models::Error),
+    Status503(crate::models::Error),
     UnknownValue(serde_json::Value),
 }
 

@@ -22,6 +22,8 @@ pub enum GetListOfBalancesByAddressError {
     Status400(crate::models::Error),
     Status401(crate::models::Error),
     Status429(crate::models::Error),
+    Status500(crate::models::Error),
+    Status503(crate::models::Error),
     UnknownValue(serde_json::Value),
 }
 
@@ -32,6 +34,8 @@ pub enum GetListOfBalancesByAddressesError {
     Status400(crate::models::Error),
     Status401(crate::models::Error),
     Status429(crate::models::Error),
+    Status500(crate::models::Error),
+    Status503(crate::models::Error),
     UnknownValue(serde_json::Value),
 }
 
@@ -42,6 +46,8 @@ pub enum GetReportByAddressError {
     Status400(crate::models::Error),
     Status401(crate::models::Error),
     Status429(crate::models::Error),
+    Status500(crate::models::Error),
+    Status503(crate::models::Error),
     Status413(crate::models::Error),
     UnknownValue(serde_json::Value),
 }
@@ -54,6 +60,8 @@ pub enum GetTxsByAddressError {
     Status401(crate::models::Error),
     Status403(crate::models::Error),
     Status429(crate::models::Error),
+    Status500(crate::models::Error),
+    Status503(crate::models::Error),
     UnknownValue(serde_json::Value),
 }
 
@@ -64,6 +72,8 @@ pub enum GetUtxobyAccountError {
     Status400(crate::models::Error),
     Status401(crate::models::Error),
     Status429(crate::models::Error),
+    Status500(crate::models::Error),
+    Status503(crate::models::Error),
     Status413(crate::models::Error),
     UnknownValue(serde_json::Value),
 }
