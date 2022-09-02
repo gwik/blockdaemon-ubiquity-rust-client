@@ -9,54 +9,25 @@
  */
 
 
-use reqwest;
-
-use crate::apis::ResponseContent;
-use super::{Error, configuration};
 
 
-/// struct for typed errors of method [`get_block`]
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum GetBlockError {
-    Status400(crate::models::Error),
-    Status401(crate::models::Error),
-    Status404(crate::models::Error),
-    Status429(crate::models::Error),
-    Status500(crate::models::Error),
-    Status503(crate::models::Error),
-    UnknownValue(serde_json::Value),
+#[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
+pub struct RefreshTokenRequest {
+    /// Mapped to body `contract_addresses`
+    #[serde(rename = "contract_address", skip_serializing_if = "Option::is_none")]
+    pub contract_address: Option<String>,
+    /// Mapped to body `token_id`
+    #[serde(rename = "token_id", skip_serializing_if = "Option::is_none")]
+    pub token_id: Option<String>,
 }
 
-
-/// Get a block and all its transactions by the block number or hash
-pub async fn get_block(configuration: &configuration::Configuration, protocol: &str, network: &str, block_identifier: &str) -> Result<crate::models::Block, Error<GetBlockError>> {
-    let local_var_configuration = configuration;
-
-    let local_var_client = &local_var_configuration.client;
-
-    let local_var_uri_str = format!("{}/{protocol}/{network}/block/{block_identifier}", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network), block_identifier=crate::apis::urlencode(block_identifier));
-    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
-
-    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-    }
-    if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
-        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
-    };
-
-    let local_var_req = local_var_req_builder.build()?;
-    let local_var_resp = local_var_client.execute(local_var_req).await?;
-
-    let local_var_status = local_var_resp.status();
-    let local_var_content = local_var_resp.text().await?;
-
-    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-        serde_json::from_str(&local_var_content).map_err(Error::from)
-    } else {
-        let local_var_entity: Option<GetBlockError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
-        Err(Error::ResponseError(local_var_error))
+impl RefreshTokenRequest {
+    pub fn new() -> RefreshTokenRequest {
+        RefreshTokenRequest {
+            contract_address: None,
+            token_id: None,
+        }
     }
 }
+
 

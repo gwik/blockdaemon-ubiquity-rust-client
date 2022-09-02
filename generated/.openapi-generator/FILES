@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 Cargo.toml
 README.md
@@ -43,6 +42,8 @@ docs/ProtocolDetail.md
 docs/ProtocolsApi.md
 docs/ProtocolsOverview.md
 docs/ProtocolsOverviewProtocols.md
+docs/RefreshTokenRequest.md
+docs/RefreshTokenResponse.md
 docs/Report.md
 docs/ReportField.md
 docs/ReportFieldMeta.md
@@ -111,6 +112,8 @@ src/models/payment.rs
 src/models/protocol_detail.rs
 src/models/protocols_overview.rs
 src/models/protocols_overview_protocols.rs
+src/models/refresh_token_request.rs
+src/models/refresh_token_response.rs
 src/models/report.rs
 src/models/report_field.rs
 src/models/report_field_meta.rs

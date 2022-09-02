@@ -96,6 +96,7 @@ Class | Method | HTTP request | Description
 *NFTApi* | [**list_assets**](docs/NFTApi.md#list_assets) | **GET** /nft/{protocol}/{network}/assets | 
 *NFTApi* | [**list_collections**](docs/NFTApi.md#list_collections) | **GET** /nft/{protocol}/{network}/collections | 
 *NFTApi* | [**list_events**](docs/NFTApi.md#list_events) | **GET** /nft/{protocol}/{network}/events | 
+*NFTApi* | [**refresh_token**](docs/NFTApi.md#refresh_token) | **POST** /nft/token/{protocol}/{network}/refresh | 
 *NFTApi* | [**search_collections**](docs/NFTApi.md#search_collections) | **GET** /nft/{protocol}/{network}/collections/search | 
 *ProtocolsApi* | [**get_protocol_endpoints**](docs/ProtocolsApi.md#get_protocol_endpoints) | **GET** /{protocol}/{network} | Protocol Info
 *ProtocolsApi* | [**get_protocols_list**](docs/ProtocolsApi.md#get_protocols_list) | **GET** / | Protocols overview
@@ -146,6 +147,8 @@ Class | Method | HTTP request | Description
  - [ProtocolDetail](docs/ProtocolDetail.md)
  - [ProtocolsOverview](docs/ProtocolsOverview.md)
  - [ProtocolsOverviewProtocols](docs/ProtocolsOverviewProtocols.md)
+ - [RefreshTokenRequest](docs/RefreshTokenRequest.md)
+ - [RefreshTokenResponse](docs/RefreshTokenResponse.md)
  - [Report](docs/Report.md)
  - [ReportField](docs/ReportField.md)
  - [ReportFieldMeta](docs/ReportFieldMeta.md)

@@ -131,6 +131,10 @@ paths:
           $ref: '#/components/responses/UnauthorizedError'
         429:
           $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/ServerError'
+        503: 
+          $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}:
     get:
@@ -155,6 +159,10 @@ paths:
           $ref: '#/components/responses/UnauthorizedError'
         429:
           $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/ServerError'
+        503: 
+          $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}/tx/estimate_fee:
     get:
@@ -202,6 +210,10 @@ paths:
           $ref: '#/components/responses/UnauthorizedError'
         429:
           $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/ServerError'
+        503: 
+          $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}/account/{address}:
     get:
@@ -258,15 +270,15 @@ paths:
               schema:
                 $ref: "#/components/schemas/balances"
         400:
-          description: Bad request
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/error"
+          $ref: '#/components/responses/BadRequest'
         401:
           $ref: '#/components/responses/UnauthorizedError'
         429:
           $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/ServerError'
+        503: 
+          $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}/accounts:
     post:
@@ -328,15 +340,15 @@ paths:
               schema:
                 $ref: "#/components/schemas/accounts_balances"
         400:
-          description: Bad request
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/error"
+          $ref: '#/components/responses/BadRequest'
         401:
           $ref: '#/components/responses/UnauthorizedError'
         429:
           $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/ServerError'
+        503: 
+          $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}/account/{address}/report:
     get:
@@ -406,15 +418,15 @@ paths:
                   Protocol,PublicAddress,Currency,EventID,Block,BlockTimestamp,BlockTime,Hash,Action,Value,SenderAddress,TransactionFee,SenderReward,RecipientReward,Close,CloseAmount,CloseReward
                   Algorand,GXL2EQ6JV54MTMP2IXOTF5CJLS7GAWMRDZMOY7JZAPO72AQRDDYGD6OX3E,ALGO,RNEYUT3MRYGT5ENSLIC7LGJCJMW6BXNS6SAW7A25DTYRW4TFJ5JA,8986217,1599745403,2020-09-10 13:43:23 +0000 UTC,RNEYUT3MRYGT5ENSLIC7LGJCJMW6BXNS6SAW7A25DTYRW4TFJ5JA,pay,1,T3BYUTYZCWV7UVK7IFYPC2UKH5VNBGVP4PUKSUBF5F6GQ244Y4I2XUWCQM,0.001,0.000003,0,,0,0
         400:
-          description: Bad request
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/error"
+          $ref: '#/components/responses/BadRequest'
         401:
           $ref: '#/components/responses/UnauthorizedError'
         429:
           $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/ServerError'
+        503: 
+          $ref: '#/components/responses/ServiceUnavailable'
         413:
           description: Too Many Transactions
           content:
@@ -506,15 +518,15 @@ paths:
                   Protocol,PublicAddress,Currency,EventID,Block,BlockTimestamp,BlockTime,Hash,Action,Value,SenderAddress,TransactionFee,SenderReward,RecipientReward,Close,CloseAmount,CloseReward
                   Algorand,GXL2EQ6JV54MTMP2IXOTF5CJLS7GAWMRDZMOY7JZAPO72AQRDDYGD6OX3E,ALGO,RNEYUT3MRYGT5ENSLIC7LGJCJMW6BXNS6SAW7A25DTYRW4TFJ5JA,8986217,1599745403,2020-09-10 13:43:23 +0000 UTC,RNEYUT3MRYGT5ENSLIC7LGJCJMW6BXNS6SAW7A25DTYRW4TFJ5JA,pay,1,T3BYUTYZCWV7UVK7IFYPC2UKH5VNBGVP4PUKSUBF5F6GQ244Y4I2XUWCQM,0.001,0.000003,0,,0,0
         400:
-          description: Bad request
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/error"
+          $ref: '#/components/responses/BadRequest'
         401:
           $ref: '#/components/responses/UnauthorizedError'
         429:
           $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/ServerError'
+        503: 
+          $ref: '#/components/responses/ServiceUnavailable'
         413:
           description: Too Many Transactions
           content:
@@ -568,36 +580,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/tx_confirmation"
-        400:
-          description: Bad Request
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/error"
-              example: {
-                "type": "bad-request",
-                "code": 16385,
-                "title": "Invalid Identifier",
-                "status": 400,
-                "detail": "The requested identifier is invalid."
-              }
         401:
           $ref: '#/components/responses/UnauthorizedError'
         404:
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/error"
-              example: {
-                "type": "not-found",
-                "code": 16388,
-                "title": "Not Found",
-                "status": 404,
-                "detail": "The requested resource has not been found"
-              }
+          $ref: '#/components/responses/NotFound'
         429:
           $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/ServerError'
+        503: 
+          $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}/account/{address}/txs:
     get:
@@ -702,6 +694,10 @@ paths:
               }
         429:
           $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/ServerError'
+        503: 
+          $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}/tx/{id}:
     get:
@@ -756,36 +752,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/tx"
-        400:
-          description: Bad Request
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/error"
-              example: {
-                "type": "bad-request",
-                "code": 16385,
-                "title": "Invalid Identifier",
-                "status": 400,
-                "detail": "The requested identifier is invalid."
-              }
         401:
           $ref: '#/components/responses/UnauthorizedError'
         404:
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/error"
-              example: {
-                "type": "not-found",
-                "code": 16388,
-                "title": "Not Found",
-                "status": 404,
-                "detail": "The requested resource has not been found"
-              }
+          $ref: '#/components/responses/NotFound'
         429:
           $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/ServerError'
+        503: 
+          $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}/tx/{id}/{index}:
     get:
@@ -831,36 +807,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/tx_output"
-        400:
-          description: Bad Request
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/error"
-              example: {
-                "type": "bad-request",
-                "code": 16385,
-                "title": "Invalid Identifier",
-                "status": 400,
-                "detail": "The requested identifier is invalid."
-              }
         401:
           $ref: '#/components/responses/UnauthorizedError'
         404:
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/error"
-              example: {
-                "type": "not-found",
-                "code": 16388,
-                "title": "Not Found",
-                "status": 404,
-                "detail": "The requested resource has not been found"
-              }
+          $ref: '#/components/responses/NotFound'
         429:
           $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/ServerError'
+        503: 
+          $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}/txs:
     get:
@@ -934,6 +890,10 @@ paths:
               }
         429:
           $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/ServerError'
+        503: 
+          $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}/tx/send:
     post:
@@ -986,19 +946,19 @@ paths:
           $ref: '#/components/responses/UnauthorizedError'
         429:
           $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/ServerError'
+        503: 
+          $ref: '#/components/responses/ServiceUnavailable'
         400:
-          description: Bad Request
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/error"
-              example: {
-                "type": "bad-request",
-                "code": 16396,
-                "title": "Bad Request",
-                "status": 400,
-                "detail": "failed to send transaction: json-rpc error #-27: Transaction already in block chain"
-              }
+          $ref: '#/components/responses/BadRequest'
+          example: {
+            "type": "bad-request",
+            "code": 16396,
+            "title": "Bad Request",
+            "status": 400,
+            "detail": "failed to send transaction: json-rpc error #-27: Transaction already in block chain"
+          }
 
   /{protocol}/{network}/block/{block_identifier}:
     get:
@@ -1034,20 +994,13 @@ paths:
         401:
           $ref: '#/components/responses/UnauthorizedError'
         404:
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/error"
-              example: {
-                "type": "not-found",
-                "code": 16388,
-                "title": "Not Found",
-                "status": 404,
-                "detail": "The requested resource has not been found"
-              }
+          $ref: '#/components/responses/NotFound'
         429:
           $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/ServerError'
+        503: 
+          $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}/block_identifier/{block_identifier}:
     get:
@@ -1107,20 +1060,13 @@ paths:
         401:
           $ref: '#/components/responses/UnauthorizedError'
         404:
-          description: Not Found
-          content:
-            application/problem+json:
-              schema:
-                $ref: "#/components/schemas/error"
-              example: {
-                "type": "not-found",
-                "code": 16388,
-                "title": "Not Found",
-                "status": 404,
-                "detail": "The requested resource has not been found"
-              }
+          $ref: '#/components/responses/NotFound'
         429:
           $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/ServerError'
+        503: 
+          $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}/block_identifiers:
     get:
@@ -1166,6 +1112,10 @@ paths:
           $ref: '#/components/responses/UnauthorizedError'
         429:
           $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/ServerError'
+        503: 
+          $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}/sync/block_number:
     get:
@@ -1189,6 +1139,10 @@ paths:
           $ref: '#/components/responses/UnauthorizedError'
         429:
           $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/ServerError'
+        503: 
+          $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}/sync/block_id:
     get:
@@ -1211,6 +1165,10 @@ paths:
           $ref: '#/components/responses/UnauthorizedError'
         429:
           $ref: '#/components/responses/TooManyRequests'
+        500:
+          $ref: '#/components/responses/ServerError'
+        503: 
+          $ref: '#/components/responses/ServiceUnavailable'
 
   /nft/{protocol}/{network}/asset/{id}:
     get:
@@ -1226,15 +1184,13 @@ paths:
           description: 'Protocol handle, example: ethereum'
           required: true
           schema:
-            type: integer
-            format: enum
+            type: string
         - name: network
           in: path
           description: 'Which network to target, example: mainnet'
           required: true
           schema:
-            type: integer
-            format: enum
+            type: string
         - name: id
           in: path
           description: Gets the Asset with matching `id`
@@ -1276,15 +1232,13 @@ paths:
           description: 'Protocol handle, example: ethereum'
           required: true
           schema:
-            type: integer
-            format: enum
+            type: string
         - name: network
           in: path
           description: 'Which network to target, example: mainnet'
           required: true
           schema:
-            type: integer
-            format: enum
+            type: string
         - name: wallet_address
           in: query
           description: Lists Assets by `wallet_address`
@@ -1347,6 +1301,11 @@ paths:
           description: Shows associated wallets when set to true
           schema:
             type: boolean
+        - name: include_burned
+          in: query
+          description: Includes burned tokens when set to true
+          schema:
+            type: boolean
       responses:
         "200":
           description: OK
@@ -1367,15 +1326,13 @@ paths:
           description: 'Protocol handle, example: ethereum'
           required: true
           schema:
-            type: integer
-            format: enum
+            type: string
         - name: network
           in: path
           description: 'Which network to target, example: mainnet'
           required: true
           schema:
-            type: integer
-            format: enum
+            type: string
         - name: id
           in: path
           description: Gets the Collection with matching `id`
@@ -1409,15 +1366,13 @@ paths:
           description: 'Protocol handle, example: ethereum'
           required: true
           schema:
-            type: integer
-            format: enum
+            type: string
         - name: network
           in: path
           description: 'Which network to target, example: mainnet'
           required: true
           schema:
-            type: integer
-            format: enum
+            type: string
         - name: contractAddress
           in: query
           description: Lists collections with matching `contract_address`, repeatable field
@@ -1489,15 +1444,13 @@ paths:
           description: 'Protocol handle, example: ethereum'
           required: true
           schema:
-            type: integer
-            format: enum
+            type: string
         - name: network
           in: path
           description: 'Which network to target, example: mainnet'
           required: true
           schema:
-            type: integer
-            format: enum
+            type: string
         - name: name
           in: query
           description: Free text search on collection name, returning closest matching results
@@ -1523,15 +1476,13 @@ paths:
           description: 'Protocol handle, example: ethereum'
           required: true
           schema:
-            type: integer
-            format: enum
+            type: string
         - name: network
           in: path
           description: 'Which network to target, example: mainnet'
           required: true
           schema:
-            type: integer
-            format: enum
+            type: string
         - name: id
           in: path
           description: Gets the Event with matching `id`
@@ -1558,15 +1509,13 @@ paths:
           description: 'Protocol handle, example: ethereum'
           required: true
           schema:
-            type: integer
-            format: enum
+            type: string
         - name: network
           in: path
           description: 'Which network to target, example: mainnet'
           required: true
           schema:
-            type: integer
-            format: enum
+            type: string
         - name: contract_address
           in: query
           description: Lists Events by `contract_address`
@@ -1617,6 +1566,39 @@ paths:
               schema:
                 $ref: '#/components/schemas/ListEventResponse'
 
+  /nft/token/{protocol}/{network}/refresh:
+    post:
+      tags:
+        - NFT
+      description: Refreshes a single token given contract_address and token_id
+      operationId: RefreshToken
+      parameters:
+        - name: protocol
+          in: path
+          description: Mapped to URL path
+          required: true
+          schema:
+            type: string
+        - name: network
+          in: path
+          description: Mapped to URL path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefreshTokenResponse'
+
 components:
   securitySchemes:
     bearerAuth:
@@ -1645,6 +1627,25 @@ components:
             title: "Too Many Requests"
             status: 429
             detail: "Request rate limits have been exceeded. Try again after a few seconds."
+    BadRequest:
+      description: Bad request
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/error"
+    NotFound:
+      description: Not Found
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/error"
+          example: {
+            "type": "not-found",
+            "code": 16388,
+            "title": "Not Found",
+            "status": 404,
+            "detail": "The requested resource has not been found"
+          }
     UnauthorizedError:
       description: Invalid or expired token
       content:
@@ -1655,6 +1656,26 @@ components:
             type: "unauthorized"
             title: "Invalid Token"
             status: 401
+    ServerError:
+      description: An internal server error happened
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          example:
+            type: "internal-server-error"
+            title: "Internal Server Error"
+            status: 500
+    ServiceUnavailable:
+      description: The resource you are trying to access is currently unavailable.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          example:
+            type: "unavailable"
+            title: "Unavailable"
+            status: 503
   schemas:
     block:
       type: object
@@ -2507,6 +2528,22 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Collection'
+    RefreshTokenRequest:
+      type: object
+      properties:
+        contract_address:
+          type: string
+          description: Mapped to body `contract_addresses`
+        token_id:
+          type: string
+          description: Mapped to body `token_id`
+    RefreshTokenResponse:
+      type: object
+      properties:
+        contract_address:
+          type: string
+        token_id:
+          type: string
     tx_outputs:
       type: object
       description: List of transaction outputs

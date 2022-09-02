@@ -57,6 +57,13 @@ pub enum ListEventsError {
     UnknownValue(serde_json::Value),
 }
 
+/// struct for typed errors of method [`refresh_token`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum RefreshTokenError {
+    UnknownValue(serde_json::Value),
+}
+
 /// struct for typed errors of method [`search_collections`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
@@ -66,12 +73,12 @@ pub enum SearchCollectionsError {
 
 
 /// Returns detailed information about an NFT asset by a given unique asset ID or  by a given contact address and token ID.
-pub async fn get_asset(configuration: &configuration::Configuration, protocol: i32, network: i32, id: &str, contract_address: Option<&str>, token_id: Option<&str>, show_wallets: Option<bool>) -> Result<crate::models::GetAssetResponse, Error<GetAssetError>> {
+pub async fn get_asset(configuration: &configuration::Configuration, protocol: &str, network: &str, id: &str, contract_address: Option<&str>, token_id: Option<&str>, show_wallets: Option<bool>) -> Result<crate::models::GetAssetResponse, Error<GetAssetError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/nft/{protocol}/{network}/asset/{id}", local_var_configuration.base_path, protocol=protocol, network=network, id=crate::apis::urlencode(id));
+    let local_var_uri_str = format!("{}/nft/{protocol}/{network}/asset/{id}", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network), id=crate::apis::urlencode(id));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_str) = contract_address {
@@ -106,12 +113,12 @@ pub async fn get_asset(configuration: &configuration::Configuration, protocol: i
 }
 
 /// Returns detailed information about an NFT collection by a given unique collection ID.
-pub async fn get_collection(configuration: &configuration::Configuration, protocol: i32, network: i32, id: &str, contract_address: Option<&str>) -> Result<crate::models::GetCollectionResponse, Error<GetCollectionError>> {
+pub async fn get_collection(configuration: &configuration::Configuration, protocol: &str, network: &str, id: &str, contract_address: Option<&str>) -> Result<crate::models::GetCollectionResponse, Error<GetCollectionError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/nft/{protocol}/{network}/collection/{id}", local_var_configuration.base_path, protocol=protocol, network=network, id=crate::apis::urlencode(id));
+    let local_var_uri_str = format!("{}/nft/{protocol}/{network}/collection/{id}", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network), id=crate::apis::urlencode(id));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_str) = contract_address {
@@ -140,12 +147,12 @@ pub async fn get_collection(configuration: &configuration::Configuration, protoc
 }
 
 /// Returns detailed information about an NFT event by a given event ID.
-pub async fn get_event(configuration: &configuration::Configuration, protocol: i32, network: i32, id: &str) -> Result<crate::models::GetEventResponse, Error<GetEventError>> {
+pub async fn get_event(configuration: &configuration::Configuration, protocol: &str, network: &str, id: &str) -> Result<crate::models::GetEventResponse, Error<GetEventError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/nft/{protocol}/{network}/event/{id}", local_var_configuration.base_path, protocol=protocol, network=network, id=crate::apis::urlencode(id));
+    let local_var_uri_str = format!("{}/nft/{protocol}/{network}/event/{id}", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network), id=crate::apis::urlencode(id));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
@@ -171,12 +178,12 @@ pub async fn get_event(configuration: &configuration::Configuration, protocol: i
 }
 
 /// Returns NFT assets by a given collection, contract, or wallet.
-pub async fn list_assets(configuration: &configuration::Configuration, protocol: i32, network: i32, wallet_address: Option<&str>, contract_address: Option<&str>, token_id: Option<&str>, collection_name: Option<&str>, sort_by: Option<&str>, order: Option<i32>, page_size: Option<i32>, page_token: Option<&str>, attributes: Option<Vec<String>>, token_type: Option<Vec<i32>>, show_wallets: Option<bool>) -> Result<crate::models::ListAssetsResponse, Error<ListAssetsError>> {
+pub async fn list_assets(configuration: &configuration::Configuration, protocol: &str, network: &str, wallet_address: Option<&str>, contract_address: Option<&str>, token_id: Option<&str>, collection_name: Option<&str>, sort_by: Option<&str>, order: Option<i32>, page_size: Option<i32>, page_token: Option<&str>, attributes: Option<Vec<String>>, token_type: Option<Vec<i32>>, show_wallets: Option<bool>, include_burned: Option<bool>) -> Result<crate::models::ListAssetsResponse, Error<ListAssetsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/nft/{protocol}/{network}/assets", local_var_configuration.base_path, protocol=protocol, network=network);
+    let local_var_uri_str = format!("{}/nft/{protocol}/{network}/assets", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_str) = wallet_address {
@@ -218,6 +225,9 @@ pub async fn list_assets(configuration: &configuration::Configuration, protocol:
     if let Some(ref local_var_str) = show_wallets {
         local_var_req_builder = local_var_req_builder.query(&[("show_wallets", &local_var_str.to_string())]);
     }
+    if let Some(ref local_var_str) = include_burned {
+        local_var_req_builder = local_var_req_builder.query(&[("include_burned", &local_var_str.to_string())]);
+    }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
@@ -241,12 +251,12 @@ pub async fn list_assets(configuration: &configuration::Configuration, protocol:
 }
 
 /// Returns a list of all Collections in the network, which can be filtered by a given  collection name, contract address or token type.
-pub async fn list_collections(configuration: &configuration::Configuration, protocol: i32, network: i32, contract_address: Option<Vec<String>>, collection_name: Option<Vec<String>>, sort_by: Option<&str>, order: Option<i32>, page_size: Option<i32>, page_token: Option<&str>, token_type: Option<Vec<i32>>, verified: Option<bool>) -> Result<crate::models::ListCollectionResponse, Error<ListCollectionsError>> {
+pub async fn list_collections(configuration: &configuration::Configuration, protocol: &str, network: &str, contract_address: Option<Vec<String>>, collection_name: Option<Vec<String>>, sort_by: Option<&str>, order: Option<i32>, page_size: Option<i32>, page_token: Option<&str>, token_type: Option<Vec<i32>>, verified: Option<bool>) -> Result<crate::models::ListCollectionResponse, Error<ListCollectionsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/nft/{protocol}/{network}/collections", local_var_configuration.base_path, protocol=protocol, network=network);
+    let local_var_uri_str = format!("{}/nft/{protocol}/{network}/collections", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_str) = contract_address {
@@ -305,12 +315,12 @@ pub async fn list_collections(configuration: &configuration::Configuration, prot
 }
 
 /// Returns NFT events by a given contract or wallet.
-pub async fn list_events(configuration: &configuration::Configuration, protocol: i32, network: i32, contract_address: Option<&str>, wallet_address: Option<&str>, token_id: Option<&str>, event_type: Option<&str>, sort_by: Option<&str>, order: Option<i32>, page_size: Option<i32>, page_token: Option<&str>) -> Result<crate::models::ListEventResponse, Error<ListEventsError>> {
+pub async fn list_events(configuration: &configuration::Configuration, protocol: &str, network: &str, contract_address: Option<&str>, wallet_address: Option<&str>, token_id: Option<&str>, event_type: Option<&str>, sort_by: Option<&str>, order: Option<i32>, page_size: Option<i32>, page_token: Option<&str>) -> Result<crate::models::ListEventResponse, Error<ListEventsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/nft/{protocol}/{network}/events", local_var_configuration.base_path, protocol=protocol, network=network);
+    let local_var_uri_str = format!("{}/nft/{protocol}/{network}/events", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_str) = contract_address {
@@ -359,13 +369,45 @@ pub async fn list_events(configuration: &configuration::Configuration, protocol:
     }
 }
 
-/// Returns NFT collections with names matching a given search string.  The response includes top 50 most relevant results, sorted in descending order.
-pub async fn search_collections(configuration: &configuration::Configuration, protocol: i32, network: i32, name: Option<&str>) -> Result<crate::models::SearchCollectionResponse, Error<SearchCollectionsError>> {
+/// Refreshes a single token given contract_address and token_id
+pub async fn refresh_token(configuration: &configuration::Configuration, protocol: &str, network: &str, refresh_token_request: crate::models::RefreshTokenRequest) -> Result<crate::models::RefreshTokenResponse, Error<RefreshTokenError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
 
-    let local_var_uri_str = format!("{}/nft/{protocol}/{network}/collections/search", local_var_configuration.base_path, protocol=protocol, network=network);
+    let local_var_uri_str = format!("{}/nft/token/{protocol}/{network}/refresh", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network));
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::POST, local_var_uri_str.as_str());
+
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+    }
+    if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
+    };
+    local_var_req_builder = local_var_req_builder.json(&refresh_token_request);
+
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
+
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        serde_json::from_str(&local_var_content).map_err(Error::from)
+    } else {
+        let local_var_entity: Option<RefreshTokenError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
+    }
+}
+
+/// Returns NFT collections with names matching a given search string.  The response includes top 50 most relevant results, sorted in descending order.
+pub async fn search_collections(configuration: &configuration::Configuration, protocol: &str, network: &str, name: Option<&str>) -> Result<crate::models::SearchCollectionResponse, Error<SearchCollectionsError>> {
+    let local_var_configuration = configuration;
+
+    let local_var_client = &local_var_configuration.client;
+
+    let local_var_uri_str = format!("{}/nft/{protocol}/{network}/collections/search", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network));
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     if let Some(ref local_var_str) = name {

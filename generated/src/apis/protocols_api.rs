@@ -21,6 +21,8 @@ use super::{Error, configuration};
 pub enum GetProtocolEndpointsError {
     Status401(crate::models::Error),
     Status429(crate::models::Error),
+    Status500(crate::models::Error),
+    Status503(crate::models::Error),
     UnknownValue(serde_json::Value),
 }
 
@@ -30,6 +32,8 @@ pub enum GetProtocolEndpointsError {
 pub enum GetProtocolsListError {
     Status401(crate::models::Error),
     Status429(crate::models::Error),
+    Status500(crate::models::Error),
+    Status503(crate::models::Error),
     UnknownValue(serde_json::Value),
 }
 
