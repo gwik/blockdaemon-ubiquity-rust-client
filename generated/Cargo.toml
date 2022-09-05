@@ -3,6 +3,7 @@ name = "ubiquity_openapi_client"
 version = "1.0.0"
 authors = ["OpenAPI Generator team and contributors"]
 edition = "2018"
+license = "Apache-2.0"
 
 [dependencies]
 serde = "^1.0"
