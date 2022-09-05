@@ -2,3 +2,4 @@
 hideGenerationTimestamp: true 
 packageName: ubiquity_openapi_client
 projectName: ubiquity-api
+license: Apache-2.0
