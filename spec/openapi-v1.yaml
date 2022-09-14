@@ -1840,7 +1840,7 @@ components:
         amount:
           type: integer
           nullable: true
-          format: int64
+          format: bigint
           example: 5000000000
         block_id:
           type: string
