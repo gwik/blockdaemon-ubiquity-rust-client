@@ -14,7 +14,7 @@
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
 pub struct Event {
     #[serde(rename = "amount", skip_serializing_if = "Option::is_none")]
-    pub amount: Option<i64>,
+    pub amount: Option<u128>,
     #[serde(rename = "block_id", skip_serializing_if = "Option::is_none")]
     pub block_id: Option<String>,
     #[serde(rename = "block_number", skip_serializing_if = "Option::is_none")]

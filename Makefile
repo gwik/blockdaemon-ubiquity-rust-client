@@ -28,7 +28,8 @@ generate-local:
 		-g rust \
 		-c open-api-conf.yaml \
 		-t templates \
-		-o generated
+		-o generated \
+		--type-mappings integer+bigint=u128
 	/bin/cp -r generated/docs . # use /bin/cp to prevent aliasing from cp to cp -i
 
 build:
