@@ -17,7 +17,6 @@ The following protocols are currently supported:
 * dogecoin
 * oasis
 * near
-* terra
 * litecoin
 * bitcoincash
 * tezos
@@ -40,7 +39,6 @@ Ubiquity provides native access to all Blockchain nodes it supports.
 * dogecoin/(mainnet | testnet) - [Dogecoin API Documentaion](https://developer.bitcoin.org/reference/rpc/)
 * oasis/mainnet - [Oasis Rosetta Gateway Documentation](https://www.rosetta-api.org/docs/api_identifiers.html#network-identifier)
 * near/mainnet - [NEAR RPC Documentation](https://docs.near.org/docs/api/rpc)
-* terra/mainnet - [Terra RPC Documentation](https://docs.terra.money/docs/develop/how-to/endpoints.html)
 * litecoin/mainnet - [Litecoin RPC Documentation](https://litecoin.info/index.php/Litecoin_API)
 * bitcoincash/mainnet - [Bitcoin Cash RPC Documentation](https://docs.bitcoincashnode.org/doc/json-rpc/)
 * tezos/mainnet - [Tezos RPC Documentation](https://tezos.gitlab.io/developer/rpc.html)

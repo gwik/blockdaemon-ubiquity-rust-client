@@ -21,7 +21,6 @@ info:
     * dogecoin
     * oasis
     * near
-    * terra
     * litecoin
     * bitcoincash
     * tezos
@@ -46,7 +45,6 @@ info:
     * dogecoin/(mainnet | testnet) - [Dogecoin API Documentaion](https://developer.bitcoin.org/reference/rpc/)
     * oasis/mainnet - [Oasis Rosetta Gateway Documentation](https://www.rosetta-api.org/docs/api_identifiers.html#network-identifier)
     * near/mainnet - [NEAR RPC Documentation](https://docs.near.org/docs/api/rpc)
-    * terra/mainnet - [Terra RPC Documentation](https://docs.terra.money/docs/develop/how-to/endpoints.html)
     * litecoin/mainnet - [Litecoin RPC Documentation](https://litecoin.info/index.php/Litecoin_API)
     * bitcoincash/mainnet - [Bitcoin Cash RPC Documentation](https://docs.bitcoincashnode.org/doc/json-rpc/)
     * tezos/mainnet - [Tezos RPC Documentation](https://tezos.gitlab.io/developer/rpc.html)
@@ -3239,8 +3237,6 @@ components:
           value: xrp
         Solana:
           value: solana
-        Terra:
-          value: terra
         Tezos:
           value: tezos
     protocol-v1:
@@ -3275,8 +3271,6 @@ components:
           value: solana
         Stellar:
           value: stellar
-        Terra:
-          value: terra
         Tezos:
           value: tezos
     protocol-v2:
@@ -3411,8 +3405,6 @@ components:
           value: solana
         Stellar:
           value: stellar
-        Terra:
-          value: terra
         Tezos:
           value: tezos
     protocol-block-identifier-id:
@@ -3491,8 +3483,6 @@ components:
           value: litecoin
         Polkadot:
           value: polkadot
-        Terra:
-          value: terra
         Tezos:
           value: tezos
     protocol-account-address:
@@ -3527,8 +3517,6 @@ components:
           value: solana
         Stellar:
           value: stellar
-        Terra:
-          value: terra
         Tezos:
           value: tezos
     protocol-account-txs:
