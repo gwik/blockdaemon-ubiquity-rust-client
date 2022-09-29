@@ -48,7 +48,7 @@ info:
     * tezos/mainnet - [Tezos RPC Documentation](https://tezos.gitlab.io/developer/rpc.html)
 
 
-    A full URL example: https://ubiquity.api.blockdaemon.com/v1/bitcoin/mainnet
+    A full URL example: https://svc.blockdaemon.com/universal/v1/bitcoin/mainnet
 
     ##### Pagination
     Certain resources contain a lot of data, more than what's practical
@@ -67,15 +67,29 @@ info:
     url: 'logo.png'
 
 servers:
-  - url: https://ubiquity.api.blockdaemon.com/{version}
+  - url: https://svc.blockdaemon.com/universal/{version}
     description: Production server
     variables:
       version:
         enum:
           - v1
         default: v1
-  - url: https://stg.ubiquity.api.blockdaemon.com/{version}
+  - url: https://stg.svc.blockdaemon.com/universal/{version}
     description: Staging server
+    variables:
+      version:
+        enum:
+          - v1
+        default: v1
+  - url: https://ubiquity.api.blockdaemon.com/{version}
+    description: "[Legacy Auth] Production server"
+    variables:
+      version:
+        enum:
+          - v1
+        default: v1
+  - url: https://stg.ubiquity.api.blockdaemon.com/{version}
+    description: "[Legacy Auth] Staging server"
     variables:
       version:
         enum:
@@ -92,6 +106,7 @@ tags:
 
 security:
   - bearerAuth: [ ]
+  - apiKeyAuthHeader: [ ]
 
 paths:
   /:
@@ -131,7 +146,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         500:
           $ref: '#/components/responses/ServerError'
-        503: 
+        503:
           $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}:
@@ -159,7 +174,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         500:
           $ref: '#/components/responses/ServerError'
-        503: 
+        503:
           $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}/tx/estimate_fee:
@@ -210,7 +225,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         500:
           $ref: '#/components/responses/ServerError'
-        503: 
+        503:
           $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}/account/{address}:
@@ -273,7 +288,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         500:
           $ref: '#/components/responses/ServerError'
-        503: 
+        503:
           $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}/accounts:
@@ -341,7 +356,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         500:
           $ref: '#/components/responses/ServerError'
-        503: 
+        503:
           $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}/account/{address}/report:
@@ -419,7 +434,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         500:
           $ref: '#/components/responses/ServerError'
-        503: 
+        503:
           $ref: '#/components/responses/ServiceUnavailable'
         413:
           description: Too Many Transactions
@@ -519,7 +534,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         500:
           $ref: '#/components/responses/ServerError'
-        503: 
+        503:
           $ref: '#/components/responses/ServiceUnavailable'
         413:
           description: Too Many Transactions
@@ -580,7 +595,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         500:
           $ref: '#/components/responses/ServerError'
-        503: 
+        503:
           $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}/account/{address}/txs:
@@ -688,7 +703,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         500:
           $ref: '#/components/responses/ServerError'
-        503: 
+        503:
           $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}/tx/{id}:
@@ -750,7 +765,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         500:
           $ref: '#/components/responses/ServerError'
-        503: 
+        503:
           $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}/tx/{id}/{index}:
@@ -805,7 +820,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         500:
           $ref: '#/components/responses/ServerError'
-        503: 
+        503:
           $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}/txs:
@@ -882,7 +897,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         500:
           $ref: '#/components/responses/ServerError'
-        503: 
+        503:
           $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}/tx/send:
@@ -938,7 +953,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         500:
           $ref: '#/components/responses/ServerError'
-        503: 
+        503:
           $ref: '#/components/responses/ServiceUnavailable'
         400:
           $ref: '#/components/responses/BadRequest'
@@ -989,14 +1004,14 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         500:
           $ref: '#/components/responses/ServerError'
-        503: 
+        503:
           $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}/block_identifier/{block_identifier}:
     get:
       summary: Block Identifier By Hash
       description: Get minimal block identifier by block hash
-      operationId: GetBlockIdentifierById
+      operationId: GetBlockIdentifier
       tags:
         - Block Identifiers
       parameters:
@@ -1055,7 +1070,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         500:
           $ref: '#/components/responses/ServerError'
-        503: 
+        503:
           $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}/block_identifiers:
@@ -1104,7 +1119,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         500:
           $ref: '#/components/responses/ServerError'
-        503: 
+        503:
           $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}/sync/block_number:
@@ -1131,7 +1146,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         500:
           $ref: '#/components/responses/ServerError'
-        503: 
+        503:
           $ref: '#/components/responses/ServiceUnavailable'
 
   /{protocol}/{network}/sync/block_id:
@@ -1157,7 +1172,7 @@ paths:
           $ref: '#/components/responses/TooManyRequests'
         500:
           $ref: '#/components/responses/ServerError'
-        503: 
+        503:
           $ref: '#/components/responses/ServiceUnavailable'
 
   /nft/{protocol}/{network}/asset/{id}:
@@ -1597,12 +1612,19 @@ components:
       bearerFormat: Opaque
       description: |
         `Authorization: Bearer <Token>` header must be set to authenticate API requests.
-        You can create tokens in the "Configure" tab of your API access area.
+        You can create tokens in the "Configure" tab of your API access area at https://app.blockdaemon.com.
+    apiKeyAuthHeader:
+      type: apiKey
+      description: |
+        `X-API-Key: <Token>` header must be set to authenticate API requests.
+        You can create tokens in the "Configure" tab of your API access area at https://app.blockdaemon.com.
+      in: header
+      name: X-API-Key
     apiKeyAuth:
       type: apiKey
       description: |
         A query param `?apiKey=<Token>` also can be used to authenticate API requests.
-        You can create tokens in the "Configure" tab of your API access area.
+        You can create tokens in the "Configure" tab of your API access area at https://app.blockdaemon.com.
       name: apiKey
       in: query
   responses:

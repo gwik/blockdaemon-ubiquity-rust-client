@@ -1,6 +1,6 @@
 # \NFTApi
 
-All URIs are relative to *https://ubiquity.api.blockdaemon.com/v1*
+All URIs are relative to *https://svc.blockdaemon.com/universal/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -40,7 +40,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[bearerAuth](../README.md#bearerAuth)
+[apiKeyAuthHeader](../README.md#apiKeyAuthHeader), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -73,7 +73,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[bearerAuth](../README.md#bearerAuth)
+[apiKeyAuthHeader](../README.md#apiKeyAuthHeader), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -105,7 +105,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[bearerAuth](../README.md#bearerAuth)
+[apiKeyAuthHeader](../README.md#apiKeyAuthHeader), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -148,7 +148,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[bearerAuth](../README.md#bearerAuth)
+[apiKeyAuthHeader](../README.md#apiKeyAuthHeader), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -187,7 +187,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[bearerAuth](../README.md#bearerAuth)
+[apiKeyAuthHeader](../README.md#apiKeyAuthHeader), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -226,7 +226,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[bearerAuth](../README.md#bearerAuth)
+[apiKeyAuthHeader](../README.md#apiKeyAuthHeader), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -258,7 +258,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[bearerAuth](../README.md#bearerAuth)
+[apiKeyAuthHeader](../README.md#apiKeyAuthHeader), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -290,7 +290,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[bearerAuth](../README.md#bearerAuth)
+[apiKeyAuthHeader](../README.md#apiKeyAuthHeader), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 

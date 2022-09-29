@@ -58,7 +58,7 @@ async fn get_block(token: String) -> Option<()>{
 }
 ```
 
-An API URL may also be specified if you have a personal Ubiquity endpoint (Ubiquity's prod endpoint `https://ubiquity.api.blockdaemon.com/v1` is set as the default value [here](https://gitlab.com/Blockdaemon/ubiquity/ubiquity-rust-client/-/blob/master/generated/src/apis/configuration.rs#L43)): 
+An API URL may also be specified if you have a personal Ubiquity endpoint (Ubiquity's prod endpoint `https://svc.blockdaemon.com/universal/v1` is set as the default value [here](https://gitlab.com/Blockdaemon/ubiquity/ubiquity-rust-client/-/blob/master/generated/src/apis/configuration.rs#L43)): 
 
 ```rust
 use ubiquity::api::blocks_api;
@@ -70,6 +70,30 @@ async fn get_block(token: String) -> Option<()>{
     let token = "<token>";
     let conf = configuration::Configuration {
         base_path: "<url>".to_string(),
+        api_key: Some(configuration::ApiKey{
+            prefix: None,
+            key: token.to_string(),
+        }),
+        ..configuration::Configuration::new()
+    };
+
+    ...
+    ...
+}
+```
+
+For using the [legacy URL format](https://blockdaemon.com/documentation/ubiquity-api/authentication/#legacy), you can instantiate the configuration object as follows:
+
+```rust
+use ubiquity::api::blocks_api;
+use ubiquity::configuration;
+use ubiquity::models::block;
+
+
+async fn get_block(token: String) -> Option<()>{
+    let token = "<token>";
+    let conf = configuration::Configuration {
+        base_path: "https://ubiquity.api.blockdaemon.com/v1".to_string(),
         bearer_access_token: Some(token.to_string()),
         ..configuration::Configuration::new()
     };

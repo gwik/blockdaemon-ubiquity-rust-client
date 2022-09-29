@@ -44,7 +44,7 @@ Ubiquity provides native access to all Blockchain nodes it supports.
 * tezos/mainnet - [Tezos RPC Documentation](https://tezos.gitlab.io/developer/rpc.html)
 
 
-A full URL example: https://ubiquity.api.blockdaemon.com/v1/bitcoin/mainnet
+A full URL example: https://svc.blockdaemon.com/universal/v1/bitcoin/mainnet
 
 ##### Pagination
 Certain resources contain a lot of data, more than what's practical
@@ -76,7 +76,7 @@ Put the package under your project folder and add the following to `Cargo.toml` 
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://ubiquity.api.blockdaemon.com/v1*
+All URIs are relative to *https://svc.blockdaemon.com/universal/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
@@ -85,7 +85,7 @@ Class | Method | HTTP request | Description
 *AccountsApi* | [**get_report_by_address**](docs/AccountsApi.md#get_report_by_address) | **GET** /{protocol}/{network}/account/{address}/report | A financial report for an address between a time period. Default timescale is within the last 30 days
 *AccountsApi* | [**get_txs_by_address**](docs/AccountsApi.md#get_txs_by_address) | **GET** /{protocol}/{network}/account/{address}/txs | Transactions Of Address
 *AccountsApi* | [**get_utxoby_account**](docs/AccountsApi.md#get_utxoby_account) | **GET** /{protocol}/{network}/account/{address}/utxo | Endpoint for getting transaction inputs and outputs for a given account.
-*BlockIdentifiersApi* | [**get_block_identifier_by_id**](docs/BlockIdentifiersApi.md#get_block_identifier_by_id) | **GET** /{protocol}/{network}/block_identifier/{block_identifier} | Block Identifier By Hash
+*BlockIdentifiersApi* | [**get_block_identifier**](docs/BlockIdentifiersApi.md#get_block_identifier) | **GET** /{protocol}/{network}/block_identifier/{block_identifier} | Block Identifier By Hash
 *BlockIdentifiersApi* | [**get_block_identifiers**](docs/BlockIdentifiersApi.md#get_block_identifiers) | **GET** /{protocol}/{network}/block_identifiers | Block Identifiers
 *BlocksApi* | [**get_block**](docs/BlocksApi.md#get_block) | **GET** /{protocol}/{network}/block/{block_identifier} | Block By Number or Hash
 *NFTApi* | [**get_asset**](docs/NFTApi.md#get_asset) | **GET** /nft/{protocol}/{network}/asset/{id} | 
