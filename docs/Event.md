@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**amount** | Option<[**u128**](u128.md)> |  | [optional]
+**amount** | Option<**i32**> |  | [optional]
 **block_id** | Option<**String**> |  | [optional]
 **block_number** | Option<**i32**> |  | [optional]
 **date** | Option<**i64**> |  | [optional]

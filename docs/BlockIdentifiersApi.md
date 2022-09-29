@@ -1,17 +1,17 @@
 # \BlockIdentifiersApi
 
-All URIs are relative to *https://ubiquity.api.blockdaemon.com/v1*
+All URIs are relative to *https://svc.blockdaemon.com/universal/v1*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_block_identifier_by_id**](BlockIdentifiersApi.md#get_block_identifier_by_id) | **GET** /{protocol}/{network}/block_identifier/{block_identifier} | Block Identifier By Hash
+[**get_block_identifier**](BlockIdentifiersApi.md#get_block_identifier) | **GET** /{protocol}/{network}/block_identifier/{block_identifier} | Block Identifier By Hash
 [**get_block_identifiers**](BlockIdentifiersApi.md#get_block_identifiers) | **GET** /{protocol}/{network}/block_identifiers | Block Identifiers
 
 
 
-## get_block_identifier_by_id
+## get_block_identifier
 
-> crate::models::BlockIdentifier get_block_identifier_by_id(protocol, network, block_identifier)
+> crate::models::BlockIdentifier get_block_identifier(protocol, network, block_identifier)
 Block Identifier By Hash
 
 Get minimal block identifier by block hash
@@ -31,7 +31,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[bearerAuth](../README.md#bearerAuth)
+[apiKeyAuthHeader](../README.md#apiKeyAuthHeader), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
@@ -65,7 +65,7 @@ Name | Type | Description  | Required | Notes
 
 ### Authorization
 
-[bearerAuth](../README.md#bearerAuth)
+[apiKeyAuthHeader](../README.md#apiKeyAuthHeader), [bearerAuth](../README.md#bearerAuth)
 
 ### HTTP request headers
 
