@@ -12,6 +12,7 @@ async fn main() {
     let addr = "LLucub4nwTdmSd2dhi4fnPLj9vaV6V2Bfw";
 
     let cg = configuration::Configuration {
+        // bearer_access_token: Some(token), // Using Bearer token, both works `api_key` and `bearer`
         api_key: Some(configuration::ApiKey{
             prefix: None,
             key: token.to_string(),
