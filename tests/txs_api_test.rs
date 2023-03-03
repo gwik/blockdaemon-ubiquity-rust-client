@@ -11,8 +11,8 @@ fn setup_txs_by_id(test_txs_data: &[(&str, &str, &str)]) -> Result<utils::Setup,
   for (platform, network, id) in test_txs_data {
     let mock = utils::create_mock_from_file(
       &format!(
-        "./tests/mock_files/transactions_api/{}_{}.json",
-        platform, id
+        "./tests/mock_files/transactions_api/{}_{}_{}.json",
+        platform, network, id
       ),
       &format!("/{}/{}/tx/{}", platform, network, id),
     )?;
@@ -59,7 +59,31 @@ async fn tx_by_id() {
     Ok(setup_data) => {
       let _m = setup_data.mocks;
 
-      // let config = utils::config_from_url(setup_data.url);
+      for (platform, network, id) in test_txs_data {
+        let res = transactions_api::get_tx(&setup_data.config, platform, network, id).await;
+        match res {
+          Ok(_) => {}
+          Err(e) => panic!("{}", e),
+        };
+      }
+    }
+    Err(e) => panic!("{}", e),
+  }
+}
+
+#[tokio::test]
+async fn tx_by_id_with_large_amount() {
+  let test_txs_data = vec![
+    (
+      "ethereum",
+      "goerli",
+      "0x9681659ba69b31a4ba55bb07b70ff7464cf065b43b60afd97e15b26a024a8e74",
+    ),
+  ];
+
+  match setup_txs_by_id(&test_txs_data) {
+    Ok(setup_data) => {
+      let _m = setup_data.mocks;
 
       for (platform, network, id) in test_txs_data {
         let res = transactions_api::get_tx(&setup_data.config, platform, network, id).await;

@@ -19,7 +19,7 @@ generate:
 		-c /local/open-api-conf.yaml \
 		-t /local/templates \
 		-o /local/generated \
-		--type-mappings integer+bigint=u128
+		--type-mappings integer+bigint=bigdecimal::BigDecimal
 	/bin/cp -r generated/docs . # use /bin/cp to prevent aliasing from cp to cp -i
 
 generate-local:
