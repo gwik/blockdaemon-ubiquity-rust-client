@@ -1,0 +1,44 @@
+{
+  "id": "0x9681659ba69b31a4ba55bb07b70ff7464cf065b43b60afd97e15b26a024a8e74",
+  "block_id": "0x03eaba9b2a123902c6d34fd3686f45fc06af0c884e6a41dd9fe84171dc778a10",
+  "date": 1672233156,
+  "status": "completed",
+  "num_events": 2,
+  "meta": null,
+  "block_number": 8215512,
+  "confirmations": 374379,
+  "events": [
+    {
+      "id": "0x9681659ba69b31a4ba55bb07b70ff7464cf065b43b60afd97e15b26a024a8e74-fee",
+      "transaction_id": "0x9681659ba69b31a4ba55bb07b70ff7464cf065b43b60afd97e15b26a024a8e74",
+      "type": "fee",
+      "denomination": "ETH",
+      "source": "0xeA29891b492Bd2bb13ab2a57C35650762D2d38e4",
+      "meta": {
+        "base_fee": 41976608,
+        "fee_burned": 1566776893600,
+        "gas_limit": 37325,
+        "gas_price": 2541976608,
+        "gas_used": 37325
+      },
+      "date": 1672233156,
+      "amount": 94879276893600,
+      "decimals": 18
+    },
+    {
+      "id": "0x9681659ba69b31a4ba55bb07b70ff7464cf065b43b60afd97e15b26a024a8e74-5",
+      "transaction_id": "0x9681659ba69b31a4ba55bb07b70ff7464cf065b43b60afd97e15b26a024a8e74",
+      "type": "transfer",
+      "denomination": "ethereum/contract/0xc9fda07f23394b6291648f634ca85ac8cfa35ac2/erc-20",
+      "source": "0x0000000000000000000000000000000000000000",
+      "destination": "0xeA29891b492Bd2bb13ab2a57C35650762D2d38e4",
+      "meta": {
+        "contract": "0xc9FdA07f23394b6291648F634CA85ac8Cfa35ac2",
+        "type": "ERC-20"
+      },
+      "date": 1672233156,
+      "amount": 1e+43,
+      "decimals": 18
+    }
+  ]
+}
