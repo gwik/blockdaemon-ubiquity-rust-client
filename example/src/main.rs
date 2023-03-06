@@ -1,5 +1,4 @@
-use ubiquity::api::accounts_api;
-use ubiquity::api::sync_api;
+use ubiquity::api::{accounts_api, blocks_api};
 use ubiquity::configuration;
 
 #[tokio::main]
@@ -20,7 +19,7 @@ async fn main() {
         ..configuration::Configuration::new()
     };
 
-    let result = sync_api::current_block_id(&cg, platform, network).await;
+    let result = blocks_api::get_current_block_hash(&cg, platform, network).await;
     match result {
         Ok(id) => println!("current block: {}", id),
         Err(e) => panic!("{}", e),
@@ -42,7 +41,7 @@ async fn main() {
     let utxos_result = accounts_api::get_utxoby_account(&cg, platform, network, addr, Some(false), None, None, None, None, Some(10)).await;
     match utxos_result {
         Ok(utxos) => {
-            println!("Total UTXO: {:?} - Continuation: {:?}", utxos.total.unwrap(), utxos.continuation);
+            println!("Total UTXO: {:?} - Continuation: {:?}", utxos.total.unwrap(), utxos.meta);
             for u in utxos.data.unwrap_or_else(Vec::new).iter() {
                 println!("{:?}", u);
             }

@@ -12,18 +12,28 @@
 
 
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
-pub struct ProtocolsOverviewProtocols {
-    #[serde(rename = "handle", skip_serializing_if = "Option::is_none")]
-    pub handle: Option<String>,
-    #[serde(rename = "network", skip_serializing_if = "Option::is_none")]
-    pub network: Option<String>,
+pub struct TxCreate {
+    /// The source UTXO or account ID for the originating funds
+    #[serde(rename = "from")]
+    pub from: String,
+    /// A list of recipients
+    #[serde(rename = "to")]
+    pub to: Vec<crate::models::TxDestination>,
+    /// The UTXO index or the account Nonce
+    #[serde(rename = "index")]
+    pub index: f32,
+    /// The fee you are willing to pay (required only for Ethereum) for the transaction
+    #[serde(rename = "fee", skip_serializing_if = "Option::is_none")]
+    pub fee: Option<String>,
 }
 
-impl ProtocolsOverviewProtocols {
-    pub fn new() -> ProtocolsOverviewProtocols {
-        ProtocolsOverviewProtocols {
-            handle: None,
-            network: None,
+impl TxCreate {
+    pub fn new(from: String, to: Vec<crate::models::TxDestination>, index: f32) -> TxCreate {
+        TxCreate {
+            from,
+            to,
+            index,
+            fee: None,
         }
     }
 }

@@ -1,50 +1,42 @@
 # Rust API client for ubiquity_openapi_client
 
-Ubiquity provides a RESTful and uniform way to access blockchain resources,
-with a rich and reusable model across multiple cryptocurrencies.
+Universal API provides a RESTful and uniform way to access blockchain resources,
+with a rich and reusable model across multiple protocols/cryptocurrencies.
 
 [Documentation](https://app.blockdaemon.com/docs/ubiquity)
 
-### Protocols
-#### Mainnet
-The following protocols are currently supported:
-* bitcoin
-* ethereum
-* polkadot
-* xrp
+### Currently supported protocols:
+
 * algorand
-* stellar
-* dogecoin
-* oasis
-* near
-* litecoin
+  * mainnet
+* bitcoin
+  * mainnet/testnet
 * bitcoincash
+  * mainnet/testnet
+* dogecoin
+  * mainnet/testnet
+* ethereum
+  * mainnet/goerli
+* litecoin
+  * mainnet/testnet
+* near
+  * mainnet/testnet
+* oasis
+  * mainnet
+* optimism
+  * mainnet
+* polkadot
+  * mainnet/westend
+* polygon
+  * mainnet
+* solana
+  * mainnet/testnet
+* stellar
+  * mainnet/testnet
 * tezos
-
-#### Testnet
-* bitcoin/testnet
-* ethereum/ropsten
-* dogecoin/testnet
-* litecoin/testnet
-* bitcoincash/testnet
-
-#### Native
-Ubiquity provides native access to all Blockchain nodes it supports.
-* bitcoin/(mainnet | testnet) - [RPC Documentation](https://developer.bitcoin.org/reference/rpc/)
-* ethereum/(mainnet | ropsten) - [RPC Documentation](https://ethereum.org/en/developers/docs/apis/json-rpc/)
-* polkadot/mainnet - [Sidecar API Documentation](https://paritytech.github.io/substrate-api-sidecar/dist/)
-* polkadot/mainnet/http-rpc - [Polkadot RPC Documentation](https://polkadot.js.org/docs/substrate/rpc/)
-* algorand/mainnet - [Algod API Documentation](https://developer.algorand.org/docs/reference/rest-apis/algod/)
-* stellar/mainnet - [Stellar Horizon API Documentation](https://developers.stellar.org/api)
-* dogecoin/(mainnet | testnet) - [Dogecoin API Documentaion](https://developer.bitcoin.org/reference/rpc/)
-* oasis/mainnet - [Oasis Rosetta Gateway Documentation](https://www.rosetta-api.org/docs/api_identifiers.html#network-identifier)
-* near/mainnet - [NEAR RPC Documentation](https://docs.near.org/docs/api/rpc)
-* litecoin/mainnet - [Litecoin RPC Documentation](https://litecoin.info/index.php/Litecoin_API)
-* bitcoincash/mainnet - [Bitcoin Cash RPC Documentation](https://docs.bitcoincashnode.org/doc/json-rpc/)
-* tezos/mainnet - [Tezos RPC Documentation](https://tezos.gitlab.io/developer/rpc.html)
-
-
-A full URL example: https://svc.blockdaemon.com/universal/v1/bitcoin/mainnet
+  * mainnet
+* xrp
+  * mainnet
 
 ##### Pagination
 Certain resources contain a lot of data, more than what's practical
@@ -80,32 +72,25 @@ All URIs are relative to *https://svc.blockdaemon.com/universal/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AccountsApi* | [**get_list_of_balances_by_address**](docs/AccountsApi.md#get_list_of_balances_by_address) | **GET** /{protocol}/{network}/account/{address} | Balances Of Address
-*AccountsApi* | [**get_list_of_balances_by_addresses**](docs/AccountsApi.md#get_list_of_balances_by_addresses) | **POST** /{protocol}/{network}/accounts | Balances Of Addresses
-*AccountsApi* | [**get_report_by_address**](docs/AccountsApi.md#get_report_by_address) | **GET** /{protocol}/{network}/account/{address}/report | A financial report for an address between a time period. Default timescale is within the last 30 days
-*AccountsApi* | [**get_txs_by_address**](docs/AccountsApi.md#get_txs_by_address) | **GET** /{protocol}/{network}/account/{address}/txs | Transactions Of Address
-*AccountsApi* | [**get_utxoby_account**](docs/AccountsApi.md#get_utxoby_account) | **GET** /{protocol}/{network}/account/{address}/utxo | Endpoint for getting transaction inputs and outputs for a given account.
-*BlockIdentifiersApi* | [**get_block_identifier**](docs/BlockIdentifiersApi.md#get_block_identifier) | **GET** /{protocol}/{network}/block_identifier/{block_identifier} | Block Identifier By Hash
-*BlockIdentifiersApi* | [**get_block_identifiers**](docs/BlockIdentifiersApi.md#get_block_identifiers) | **GET** /{protocol}/{network}/block_identifiers | Block Identifiers
-*BlocksApi* | [**get_block**](docs/BlocksApi.md#get_block) | **GET** /{protocol}/{network}/block/{block_identifier} | Block By Number or Hash
-*NFTApi* | [**get_asset**](docs/NFTApi.md#get_asset) | **GET** /nft/{protocol}/{network}/asset/{id} | 
-*NFTApi* | [**get_collection**](docs/NFTApi.md#get_collection) | **GET** /nft/{protocol}/{network}/collection/{id} | 
-*NFTApi* | [**get_event**](docs/NFTApi.md#get_event) | **GET** /nft/{protocol}/{network}/event/{id} | 
-*NFTApi* | [**list_assets**](docs/NFTApi.md#list_assets) | **GET** /nft/{protocol}/{network}/assets | 
-*NFTApi* | [**list_collections**](docs/NFTApi.md#list_collections) | **GET** /nft/{protocol}/{network}/collections | 
-*NFTApi* | [**list_events**](docs/NFTApi.md#list_events) | **GET** /nft/{protocol}/{network}/events | 
-*NFTApi* | [**refresh_token**](docs/NFTApi.md#refresh_token) | **POST** /nft/token/{protocol}/{network}/refresh | 
-*NFTApi* | [**search_collections**](docs/NFTApi.md#search_collections) | **GET** /nft/{protocol}/{network}/collections/search | 
-*ProtocolsApi* | [**get_protocol_endpoints**](docs/ProtocolsApi.md#get_protocol_endpoints) | **GET** /{protocol}/{network} | Protocol Info
-*ProtocolsApi* | [**get_protocols_list**](docs/ProtocolsApi.md#get_protocols_list) | **GET** / | Protocols overview
-*SyncApi* | [**current_block_id**](docs/SyncApi.md#current_block_id) | **GET** /{protocol}/{network}/sync/block_id | Get current block ID
-*SyncApi* | [**current_block_number**](docs/SyncApi.md#current_block_number) | **GET** /{protocol}/{network}/sync/block_number | Get current block number
-*TransactionsApi* | [**fee_estimate**](docs/TransactionsApi.md#fee_estimate) | **GET** /{protocol}/{network}/tx/estimate_fee | Get fee estimate
-*TransactionsApi* | [**get_tx**](docs/TransactionsApi.md#get_tx) | **GET** /{protocol}/{network}/tx/{id} | Transaction By Hash
-*TransactionsApi* | [**get_tx_by_hash_and_index**](docs/TransactionsApi.md#get_tx_by_hash_and_index) | **GET** /{protocol}/{network}/tx/{id}/{index} | Transaction output by hash and index
-*TransactionsApi* | [**get_tx_confirmations**](docs/TransactionsApi.md#get_tx_confirmations) | **GET** /{protocol}/{network}/tx/{id}/confirmations | Transaction confirmations By Hash
-*TransactionsApi* | [**get_txs**](docs/TransactionsApi.md#get_txs) | **GET** /{protocol}/{network}/txs | All Transactions
-*TransactionsApi* | [**v1_tx_send**](docs/TransactionsApi.md#v1_tx_send) | **POST** /{protocol}/{network}/tx/send | Submit a signed transaction
+*AccountsApi* | [**get_list_of_balances_by_address**](docs/AccountsApi.md#get_list_of_balances_by_address) | **GET** /{protocol}/{network}/account/{address} | Get a List of Balances for an Address
+*AccountsApi* | [**get_list_of_balances_by_addresses**](docs/AccountsApi.md#get_list_of_balances_by_addresses) | **POST** /{protocol}/{network}/accounts | Get a List of Balances for Multiple Adresses
+*AccountsApi* | [**get_report_by_address**](docs/AccountsApi.md#get_report_by_address) | **GET** /{protocol}/{network}/account/{address}/report | Get a Financial Report for an Address between a Time Period
+*AccountsApi* | [**get_txs_by_address**](docs/AccountsApi.md#get_txs_by_address) | **GET** /{protocol}/{network}/account/{address}/txs | Get a List of Transactions
+*AccountsApi* | [**get_utxoby_account**](docs/AccountsApi.md#get_utxoby_account) | **GET** /{protocol}/{network}/account/{address}/utxo | Get a List of Transaction Inputs and Outputs
+*BlocksApi* | [**get_block_by_number**](docs/BlocksApi.md#get_block_by_number) | **GET** /{protocol}/{network}/block/{block_identifier} | Get a Block by Number or Hash
+*BlocksApi* | [**get_block_identifier_by_number**](docs/BlocksApi.md#get_block_identifier_by_number) | **GET** /{protocol}/{network}/block_identifier/{block_identifier} | Get a Block Identifier by Number
+*BlocksApi* | [**get_block_identifiers**](docs/BlocksApi.md#get_block_identifiers) | **GET** /{protocol}/{network}/block_identifiers | Get a List of Block Identifiers
+*BlocksApi* | [**get_current_block_hash**](docs/BlocksApi.md#get_current_block_hash) | **GET** /{protocol}/{network}/sync/block_id | Get the Current Block Hash
+*BlocksApi* | [**get_current_block_number**](docs/BlocksApi.md#get_current_block_number) | **GET** /{protocol}/{network}/sync/block_number | Get the Current Block Number
+*GasEstimatorApi* | [**get_gas_fee_estimate**](docs/GasEstimatorApi.md#get_gas_fee_estimate) | **GET** /{protocol}/{network}/tx/estimate_fee | Get the Gas Fee Estimation
+*ProtocolAndEndpointSupportApi* | [**get_protocol_endpoints**](docs/ProtocolAndEndpointSupportApi.md#get_protocol_endpoints) | **GET** /{protocol}/{network} | Get the Protocol Info
+*ProtocolAndEndpointSupportApi* | [**get_protocols_list**](docs/ProtocolAndEndpointSupportApi.md#get_protocols_list) | **GET** / | Get the Protocols Overview
+*TransactionsApi* | [**get_tx_by_hash**](docs/TransactionsApi.md#get_tx_by_hash) | **GET** /{protocol}/{network}/tx/{hash} | Get a Transaction
+*TransactionsApi* | [**get_tx_confirmations**](docs/TransactionsApi.md#get_tx_confirmations) | **GET** /{protocol}/{network}/tx/{hash}/confirmations | Get the Transaction Confirmations
+*TransactionsApi* | [**get_tx_output_by_hash_and_index**](docs/TransactionsApi.md#get_tx_output_by_hash_and_index) | **GET** /{protocol}/{network}/tx/{hash}/{index} | Get a Transaction Output by Hash and Index
+*TransactionsApi* | [**get_txs**](docs/TransactionsApi.md#get_txs) | **GET** /{protocol}/{network}/txs | Get a List of Transactions
+*TransactionsApi* | [**tx_create**](docs/TransactionsApi.md#tx_create) | **POST** /{protocol}/{network}/tx/create | Create an unsigned transaction
+*TransactionsApi* | [**tx_send**](docs/TransactionsApi.md#tx_send) | **POST** /{protocol}/{network}/tx/send | Submit a Signed Transaction
 
 
 ## Documentation For Models
@@ -115,42 +100,21 @@ Class | Method | HTTP request | Description
  - [Balance](docs/Balance.md)
  - [Block](docs/Block.md)
  - [BlockIdentifier](docs/BlockIdentifier.md)
- - [BlockIdentifierPage](docs/BlockIdentifierPage.md)
  - [BlockIdentifiers](docs/BlockIdentifiers.md)
- - [Collection](docs/Collection.md)
- - [Contract](docs/Contract.md)
  - [Currency](docs/Currency.md)
  - [Error](docs/Error.md)
  - [Event](docs/Event.md)
  - [FeeEstimate](docs/FeeEstimate.md)
  - [FeeEstimateEstimatedFees](docs/FeeEstimateEstimatedFees.md)
- - [GetAssetResponse](docs/GetAssetResponse.md)
- - [GetAssetResponseAsset](docs/GetAssetResponseAsset.md)
- - [GetAssetResponseAssetMedia](docs/GetAssetResponseAssetMedia.md)
- - [GetAssetResponseAssetTrait](docs/GetAssetResponseAssetTrait.md)
- - [GetAssetResponseAssetWallet](docs/GetAssetResponseAssetWallet.md)
- - [GetCollectionResponse](docs/GetCollectionResponse.md)
- - [GetCollectionResponseCollection](docs/GetCollectionResponseCollection.md)
- - [GetEvent](docs/GetEvent.md)
- - [GetEventResponse](docs/GetEventResponse.md)
- - [ListAssetsResponse](docs/ListAssetsResponse.md)
- - [ListAssetsResponseAsset](docs/ListAssetsResponseAsset.md)
- - [ListCollectionResponse](docs/ListCollectionResponse.md)
- - [ListEventResponse](docs/ListEventResponse.md)
  - [Meta](docs/Meta.md)
  - [NativeCurrency](docs/NativeCurrency.md)
- - [NftEvent](docs/NftEvent.md)
  - [Paging](docs/Paging.md)
- - [Payment](docs/Payment.md)
  - [ProtocolDetail](docs/ProtocolDetail.md)
  - [ProtocolsOverview](docs/ProtocolsOverview.md)
  - [ProtocolsOverviewProtocols](docs/ProtocolsOverviewProtocols.md)
- - [RefreshTokenRequest](docs/RefreshTokenRequest.md)
- - [RefreshTokenResponse](docs/RefreshTokenResponse.md)
  - [Report](docs/Report.md)
  - [ReportField](docs/ReportField.md)
  - [ReportFieldMeta](docs/ReportFieldMeta.md)
- - [SearchCollectionResponse](docs/SearchCollectionResponse.md)
  - [SignedTx](docs/SignedTx.md)
  - [SmartToken](docs/SmartToken.md)
  - [SmartTokenCurrency](docs/SmartTokenCurrency.md)
@@ -158,14 +122,16 @@ Class | Method | HTTP request | Description
  - [TokenCurrency](docs/TokenCurrency.md)
  - [Tx](docs/Tx.md)
  - [TxConfirmation](docs/TxConfirmation.md)
+ - [TxCreate](docs/TxCreate.md)
+ - [TxDestination](docs/TxDestination.md)
  - [TxMinify](docs/TxMinify.md)
  - [TxOutput](docs/TxOutput.md)
  - [TxOutputResponse](docs/TxOutputResponse.md)
  - [TxOutputs](docs/TxOutputs.md)
  - [TxOutputsData](docs/TxOutputsData.md)
  - [TxPage](docs/TxPage.md)
- - [TxPageContinuation](docs/TxPageContinuation.md)
  - [TxReceipt](docs/TxReceipt.md)
+ - [UnsignedTx](docs/UnsignedTx.md)
 
 
 To get access to the crate's generated documentation, use:

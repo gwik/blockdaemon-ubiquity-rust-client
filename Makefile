@@ -14,7 +14,7 @@ generate:
 	docker run --rm -v "$$(pwd):/local" \
 		--user $(shell id -u):$(shell id -g) \
 		openapitools/openapi-generator-cli:v5.2.0 generate -v \
-		-i /local/spec/openapi-v1.yaml \
+		-i /local/spec/openapi.yaml \
 		-g rust \
 		-c /local/open-api-conf.yaml \
 		-t /local/templates \
@@ -25,7 +25,7 @@ generate:
 generate-local:
 	@echo "Generating code..."
 	java -jar $(openapi_jar_path) generate -v \
-		-i spec/openapi-v1.yaml \
+		-i spec/openapi.yaml \
 		-g rust \
 		-c open-api-conf.yaml \
 		-t templates \

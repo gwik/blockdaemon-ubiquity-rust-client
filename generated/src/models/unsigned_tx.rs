@@ -12,18 +12,24 @@
 
 
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
-pub struct ProtocolsOverviewProtocols {
-    #[serde(rename = "handle", skip_serializing_if = "Option::is_none")]
-    pub handle: Option<String>,
-    #[serde(rename = "network", skip_serializing_if = "Option::is_none")]
-    pub network: Option<String>,
+pub struct UnsignedTx {
+    /// The transaction ID
+    #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
+    pub id: Option<String>,
+    /// The transaction data needed to sign
+    #[serde(rename = "unsigned_tx")]
+    pub unsigned_tx: String,
+    /// Any extra information relevant regarding the created transaction
+    #[serde(rename = "meta", skip_serializing_if = "Option::is_none")]
+    pub meta: Option<serde_json::Value>,
 }
 
-impl ProtocolsOverviewProtocols {
-    pub fn new() -> ProtocolsOverviewProtocols {
-        ProtocolsOverviewProtocols {
-            handle: None,
-            network: None,
+impl UnsignedTx {
+    pub fn new(unsigned_tx: String) -> UnsignedTx {
+        UnsignedTx {
+            id: None,
+            unsigned_tx,
+            meta: None,
         }
     }
 }

@@ -1,4 +1,4 @@
-use ubiquity::api::protocols_api;
+use ubiquity::api::protocol_and_endpoint_support_api as protocols_api;
 
 pub mod utils;
 
