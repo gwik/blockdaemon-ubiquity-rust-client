@@ -19,7 +19,7 @@ pub use ubiquity_openapi_client;
 ///     let network = "mainnet";
 ///     let ident = "current";
 ///
-///     let block_result = blocks_api::get_block(&conf, platform, network, ident).await.ok()?;
+///     let block_result = blocks_api::get_block_by_number(&conf, platform, network, ident).await.ok()?;
 ///
 ///     let block_id = block_result.id.as_ref()?;
 ///     let block_txs = block_result.txs.as_ref()?;
@@ -68,7 +68,7 @@ pub use ubiquity_openapi_client;
 /// }
 ///
 /// fn print_tx_page_ids(tx_page: &TxPage) -> Result<(), String> {
-///     let items = tx_page.items.as_ref().ok_or("Could not get items!")?;
+///     let items = tx_page.data.as_ref().ok_or("Could not get items!")?;
 ///     return Ok(println!(
 ///         "Transaction IDs: {:#?}",
 ///         items.iter().map(|tx| tx.id.as_ref()).collect::<Vec<_>>()

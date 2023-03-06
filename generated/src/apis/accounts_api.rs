@@ -1,7 +1,7 @@
 /*
- * Ubiquity REST API
+ * Universal REST API
  *
- * Ubiquity provides a RESTful and uniform way to access blockchain resources, with a rich and reusable model across multiple cryptocurrencies.  [Documentation](https://app.blockdaemon.com/docs/ubiquity)  ### Protocols #### Mainnet The following protocols are currently supported: * bitcoin * ethereum * polkadot * xrp * algorand * stellar * dogecoin * oasis * near * litecoin * bitcoincash * tezos  #### Testnet * bitcoin/testnet * ethereum/ropsten * dogecoin/testnet * litecoin/testnet * bitcoincash/testnet  #### Native Ubiquity provides native access to all Blockchain nodes it supports. * bitcoin/(mainnet | testnet) - [RPC Documentation](https://developer.bitcoin.org/reference/rpc/) * ethereum/(mainnet | ropsten) - [RPC Documentation](https://ethereum.org/en/developers/docs/apis/json-rpc/) * polkadot/mainnet - [Sidecar API Documentation](https://paritytech.github.io/substrate-api-sidecar/dist/) * polkadot/mainnet/http-rpc - [Polkadot RPC Documentation](https://polkadot.js.org/docs/substrate/rpc/) * algorand/mainnet - [Algod API Documentation](https://developer.algorand.org/docs/reference/rest-apis/algod/) * stellar/mainnet - [Stellar Horizon API Documentation](https://developers.stellar.org/api) * dogecoin/(mainnet | testnet) - [Dogecoin API Documentaion](https://developer.bitcoin.org/reference/rpc/) * oasis/mainnet - [Oasis Rosetta Gateway Documentation](https://www.rosetta-api.org/docs/api_identifiers.html#network-identifier) * near/mainnet - [NEAR RPC Documentation](https://docs.near.org/docs/api/rpc) * litecoin/mainnet - [Litecoin RPC Documentation](https://litecoin.info/index.php/Litecoin_API) * bitcoincash/mainnet - [Bitcoin Cash RPC Documentation](https://docs.bitcoincashnode.org/doc/json-rpc/) * tezos/mainnet - [Tezos RPC Documentation](https://tezos.gitlab.io/developer/rpc.html)   A full URL example: https://svc.blockdaemon.com/universal/v1/bitcoin/mainnet  ##### Pagination Certain resources contain a lot of data, more than what's practical to return for a single request. With the help of pagination, the data is split across multiple responses. Each response returns a subset of the items requested, and a continuation token.  To get the next batch of items, copy the returned continuation token to the continuation query parameter and repeat the request with the new URL. In case no continuation token is returned, there is no more data available. 
+ * Universal API provides a RESTful and uniform way to access blockchain resources, with a rich and reusable model across multiple protocols/cryptocurrencies.  [Documentation](https://app.blockdaemon.com/docs/ubiquity)  ### Currently supported protocols:  * algorand   * mainnet * bitcoin   * mainnet/testnet * bitcoincash   * mainnet/testnet * dogecoin   * mainnet/testnet * ethereum   * mainnet/goerli * litecoin   * mainnet/testnet * near   * mainnet/testnet * oasis   * mainnet * optimism   * mainnet * polkadot   * mainnet/westend * polygon   * mainnet * solana   * mainnet/testnet * stellar   * mainnet/testnet * tezos   * mainnet * xrp   * mainnet  ##### Pagination Certain resources contain a lot of data, more than what's practical to return for a single request. With the help of pagination, the data is split across multiple responses. Each response returns a subset of the items requested, and a continuation token.  To get the next batch of items, copy the returned continuation token to the continuation query parameter and repeat the request with the new URL. In case no continuation token is returned, there is no more data available. 
  *
  * The version of the OpenAPI document: 3.0.0
  * Contact: support@blockdaemon.com
@@ -21,6 +21,7 @@ use super::{Error, configuration};
 pub enum GetListOfBalancesByAddressError {
     Status400(crate::models::Error),
     Status401(crate::models::Error),
+    Status404(crate::models::Error),
     Status429(crate::models::Error),
     Status500(crate::models::Error),
     Status503(crate::models::Error),
@@ -45,10 +46,11 @@ pub enum GetListOfBalancesByAddressesError {
 pub enum GetReportByAddressError {
     Status400(crate::models::Error),
     Status401(crate::models::Error),
+    Status404(crate::models::Error),
+    Status413(crate::models::Error),
     Status429(crate::models::Error),
     Status500(crate::models::Error),
     Status503(crate::models::Error),
-    Status413(crate::models::Error),
     UnknownValue(serde_json::Value),
 }
 
@@ -59,6 +61,7 @@ pub enum GetTxsByAddressError {
     Status400(crate::models::Error),
     Status401(crate::models::Error),
     Status403(crate::models::Error),
+    Status404(crate::models::Error),
     Status429(crate::models::Error),
     Status500(crate::models::Error),
     Status503(crate::models::Error),
@@ -71,15 +74,16 @@ pub enum GetTxsByAddressError {
 pub enum GetUtxobyAccountError {
     Status400(crate::models::Error),
     Status401(crate::models::Error),
+    Status404(crate::models::Error),
+    Status413(crate::models::Error),
     Status429(crate::models::Error),
     Status500(crate::models::Error),
     Status503(crate::models::Error),
-    Status413(crate::models::Error),
     UnknownValue(serde_json::Value),
 }
 
 
-/// Returns the account balances for all supported currencies. 
+/// Returns a list of account balances by a user-defined account address for the supported currencies.
 pub async fn get_list_of_balances_by_address(configuration: &configuration::Configuration, protocol: &str, network: &str, address: &str, assets: Option<&str>) -> Result<Vec<crate::models::Balance>, Error<GetListOfBalancesByAddressError>> {
     let local_var_configuration = configuration;
 
@@ -121,7 +125,7 @@ pub async fn get_list_of_balances_by_address(configuration: &configuration::Conf
     }
 }
 
-/// Returns the balances of accounts for all supported currencies. 
+/// Returns a list of account balances by a user-defined list of account addresses for the supported currencies. The maximum of account addresses allowed in the filter is 10. 
 pub async fn get_list_of_balances_by_addresses(configuration: &configuration::Configuration, protocol: &str, network: &str, accounts_obj: crate::models::AccountsObj, assets: Option<&str>) -> Result<::std::collections::HashMap<String, Vec<crate::models::Balance>>, Error<GetListOfBalancesByAddressesError>> {
     let local_var_configuration = configuration;
 
@@ -164,8 +168,8 @@ pub async fn get_list_of_balances_by_addresses(configuration: &configuration::Co
     }
 }
 
-/// Returns account activity 
-pub async fn get_report_by_address(configuration: &configuration::Configuration, protocol: &str, network: &str, address: &str, from: Option<i32>, to: Option<i32>, continuation: Option<&str>, limit: Option<i32>) -> Result<crate::models::Report, Error<GetReportByAddressError>> {
+/// Returns a financial report by a user-defined account address between a time period. Default timescale is within the last 30 days. 
+pub async fn get_report_by_address(configuration: &configuration::Configuration, protocol: &str, network: &str, address: &str, from: Option<i32>, to: Option<i32>, page_token: Option<&str>, page_size: Option<i32>) -> Result<crate::models::Report, Error<GetReportByAddressError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -179,11 +183,11 @@ pub async fn get_report_by_address(configuration: &configuration::Configuration,
     if let Some(ref local_var_str) = to {
         local_var_req_builder = local_var_req_builder.query(&[("to", &local_var_str.to_string())]);
     }
-    if let Some(ref local_var_str) = continuation {
-        local_var_req_builder = local_var_req_builder.query(&[("continuation", &local_var_str.to_string())]);
+    if let Some(ref local_var_str) = page_token {
+        local_var_req_builder = local_var_req_builder.query(&[("page_token", &local_var_str.to_string())]);
     }
-    if let Some(ref local_var_str) = limit {
-        local_var_req_builder = local_var_req_builder.query(&[("limit", &local_var_str.to_string())]);
+    if let Some(ref local_var_str) = page_size {
+        local_var_req_builder = local_var_req_builder.query(&[("page_size", &local_var_str.to_string())]);
     }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
@@ -215,8 +219,8 @@ pub async fn get_report_by_address(configuration: &configuration::Configuration,
     }
 }
 
-/// Gets transactions that an address was involved with, from newest to oldest. This call uses pagination. 
-pub async fn get_txs_by_address(configuration: &configuration::Configuration, protocol: &str, network: &str, address: &str, assets: Option<&str>, from: Option<i32>, to: Option<i32>, order: Option<&str>, continuation: Option<&str>, limit: Option<i32>) -> Result<crate::models::TxPage, Error<GetTxsByAddressError>> {
+/// Returns the transactions that an address was involved with, from newest to oldest.  The response is paginated: use the returned `next_page_token` token as a query parameter to get the next page. 
+pub async fn get_txs_by_address(configuration: &configuration::Configuration, protocol: &str, network: &str, address: &str, assets: Option<&str>, from: Option<i32>, to: Option<i32>, order: Option<&str>, page_token: Option<&str>, page_size: Option<i32>) -> Result<crate::models::TxPage, Error<GetTxsByAddressError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -236,11 +240,11 @@ pub async fn get_txs_by_address(configuration: &configuration::Configuration, pr
     if let Some(ref local_var_str) = order {
         local_var_req_builder = local_var_req_builder.query(&[("order", &local_var_str.to_string())]);
     }
-    if let Some(ref local_var_str) = continuation {
-        local_var_req_builder = local_var_req_builder.query(&[("continuation", &local_var_str.to_string())]);
+    if let Some(ref local_var_str) = page_token {
+        local_var_req_builder = local_var_req_builder.query(&[("page_token", &local_var_str.to_string())]);
     }
-    if let Some(ref local_var_str) = limit {
-        local_var_req_builder = local_var_req_builder.query(&[("limit", &local_var_str.to_string())]);
+    if let Some(ref local_var_str) = page_size {
+        local_var_req_builder = local_var_req_builder.query(&[("page_size", &local_var_str.to_string())]);
     }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
@@ -272,8 +276,8 @@ pub async fn get_txs_by_address(configuration: &configuration::Configuration, pr
     }
 }
 
-/// Returns transactions outputs following the BTC's UTXO model definition. 
-pub async fn get_utxoby_account(configuration: &configuration::Configuration, protocol: &str, network: &str, address: &str, spent: Option<bool>, from: Option<i32>, to: Option<i32>, order: Option<&str>, continuation: Option<&str>, limit: Option<i32>) -> Result<crate::models::TxOutputs, Error<GetUtxobyAccountError>> {
+/// Returns the transaction inputs and outputs following the BTC's UTXO model definition by a user-definied account address.  The response is paginated: use the returned `next_page_token` token as a query parameter to get the next page. 
+pub async fn get_utxoby_account(configuration: &configuration::Configuration, protocol: &str, network: &str, address: &str, spent: Option<bool>, from: Option<i32>, to: Option<i32>, order: Option<&str>, page_token: Option<&str>, page_size: Option<i32>) -> Result<crate::models::TxOutputs, Error<GetUtxobyAccountError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -293,11 +297,11 @@ pub async fn get_utxoby_account(configuration: &configuration::Configuration, pr
     if let Some(ref local_var_str) = order {
         local_var_req_builder = local_var_req_builder.query(&[("order", &local_var_str.to_string())]);
     }
-    if let Some(ref local_var_str) = continuation {
-        local_var_req_builder = local_var_req_builder.query(&[("continuation", &local_var_str.to_string())]);
+    if let Some(ref local_var_str) = page_token {
+        local_var_req_builder = local_var_req_builder.query(&[("page_token", &local_var_str.to_string())]);
     }
-    if let Some(ref local_var_str) = limit {
-        local_var_req_builder = local_var_req_builder.query(&[("limit", &local_var_str.to_string())]);
+    if let Some(ref local_var_str) = page_size {
+        local_var_req_builder = local_var_req_builder.query(&[("page_size", &local_var_str.to_string())]);
     }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
