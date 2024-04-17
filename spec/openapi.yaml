@@ -19,7 +19,7 @@ info:
     * dogecoin
       * mainnet/testnet
     * ethereum
-      * mainnet/goerli
+      * mainnet/sepolia
     * litecoin
       * mainnet/testnet
     * near
@@ -31,7 +31,7 @@ info:
     * polkadot
       * mainnet/westend
     * polygon
-      * mainnet
+      * mainnet/amoy
     * solana
       * mainnet/testnet
     * stellar
