@@ -28,7 +28,7 @@ with a rich and reusable model across multiple protocols/cryptocurrencies.
 * polkadot
   * mainnet/westend
 * polygon
-  * mainnet
+  * mainnet/amoy
 * solana
   * mainnet/testnet
 * stellar
