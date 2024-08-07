@@ -1,7 +1,7 @@
 /*
- * Universal REST API
+ * Blockdaemon REST API
  *
- * Universal API provides a RESTful and uniform way to access blockchain resources, with a rich and reusable model across multiple protocols/cryptocurrencies.  [Documentation](https://app.blockdaemon.com/docs/ubiquity)  ### Currently supported protocols:  * algorand   * mainnet * bitcoin   * mainnet/testnet * bitcoincash   * mainnet/testnet * dogecoin   * mainnet/testnet * ethereum   * mainnet/goerli * litecoin   * mainnet/testnet * near   * mainnet/testnet * oasis   * mainnet * optimism   * mainnet * polkadot   * mainnet/westend * polygon   * mainnet/amoy * solana   * mainnet/testnet * stellar   * mainnet/testnet * tezos   * mainnet * xrp   * mainnet  ##### Pagination Certain resources contain a lot of data, more than what's practical to return for a single request. With the help of pagination, the data is split across multiple responses. Each response returns a subset of the items requested, and a continuation token.  To get the next batch of items, copy the returned continuation token to the continuation query parameter and repeat the request with the new URL. In case no continuation token is returned, there is no more data available. 
+ * Blockdaemon REST API provides a RESTful and uniform way to access blockchain resources, with a rich and reusable model across multiple protocols/cryptocurrencies.  [Documentation](https://docs.blockdaemon.com/reference/rest-api-overview)  ### Currently supported protocols:  * algorand   * mainnet * avalanche    * mainnet-c/testnet-c * bitcoin   * mainnet/testnet * bitcoincash   * mainnet/testnet * dogecoin   * mainnet/testnet * ethereum   * mainnet/holesky/sepolia * fantom   * mainnet/testnet * litecoin   * mainnet/testnet * near   * mainnet * optimism   * mainnet * polkadot   * mainnet/westend * polygon   * mainnet/amoy * solana   * mainnet/testnet * stellar   * mainnet/testnet * tezos   * mainnet * tron   * mainnet/nile * xrp   * mainnet  ### Pagination Certain resources contain a lot of data, more than what's practical to return for a single request. With the help of pagination, the data is split across multiple responses. Each response returns a subset of the items requested, and a continuation token.  To get the next batch of items, copy the returned continuation token to the continuation query parameter and repeat the request with the new URL. In case no continuation token is returned, there is no more data available. 
  *
  * The version of the OpenAPI document: 3.0.0
  * Contact: support@blockdaemon.com
@@ -13,40 +13,40 @@
 
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
 pub struct ReportField {
-    /// The protocol the address relates to
+    /// The protocol the address relates to.
     #[serde(rename = "protocol")]
     pub protocol: String,
     /// The wallet/account the transaction occurred
     #[serde(rename = "address")]
     pub address: String,
-    /// The currency symbol
+    /// The currency symbol.
     #[serde(rename = "currency")]
     pub currency: String,
-    /// The ID of the event within a transaction
+    /// The ID of the event within a transaction.
     #[serde(rename = "event_id")]
     pub event_id: String,
-    /// The block number the transaction occurred on
+    /// The block number the transaction occurred on.
     #[serde(rename = "block")]
     pub block: i64,
-    /// The unix timestamp when the transaction was added to a block
+    /// The unix timestamp when the transaction was added to a block.
     #[serde(rename = "timestamp")]
     pub timestamp: i32,
-    /// The transaction ID
+    /// The transaction ID.
     #[serde(rename = "hash")]
     pub hash: String,
     /// The action type e.g. Transfer, Deposit, Staking Reward etc..
     #[serde(rename = "action")]
     pub action: String,
-    /// The amount of currency involved in the transaction (smallest unit)
+    /// The amount of currency involved in the transaction (smallest unit).
     #[serde(rename = "value")]
     pub value: String,
-    /// The address where the funds originated
-    #[serde(rename = "sender_address")]
-    pub sender_address: String,
-    /// How much was charged as a fee for processing the transaction
+    /// How much was charged as a fee for processing the transaction.
     #[serde(rename = "fee")]
     pub fee: String,
-    /// The number of decimals in one coin, used to convert smallest unit to 1 whole coin if needed
+    /// The address where the funds originated.
+    #[serde(rename = "sender_address")]
+    pub sender_address: String,
+    /// The number of decimals in one coin, used to convert smallest unit to 1 whole coin if needed.
     #[serde(rename = "decimals")]
     pub decimals: i32,
     #[serde(rename = "meta", skip_serializing_if = "Option::is_none")]
@@ -54,7 +54,7 @@ pub struct ReportField {
 }
 
 impl ReportField {
-    pub fn new(protocol: String, address: String, currency: String, event_id: String, block: i64, timestamp: i32, hash: String, action: String, value: String, sender_address: String, fee: String, decimals: i32) -> ReportField {
+    pub fn new(protocol: String, address: String, currency: String, event_id: String, block: i64, timestamp: i32, hash: String, action: String, value: String, fee: String, sender_address: String, decimals: i32) -> ReportField {
         ReportField {
             protocol,
             address,
@@ -65,8 +65,8 @@ impl ReportField {
             hash,
             action,
             value,
-            sender_address,
             fee,
+            sender_address,
             decimals,
             meta: None,
         }

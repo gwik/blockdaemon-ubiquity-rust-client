@@ -1,14 +1,16 @@
 # Rust API client for ubiquity_openapi_client
 
-Universal API provides a RESTful and uniform way to access blockchain resources,
+Blockdaemon REST API provides a RESTful and uniform way to access blockchain resources,
 with a rich and reusable model across multiple protocols/cryptocurrencies.
 
-[Documentation](https://app.blockdaemon.com/docs/ubiquity)
+[Documentation](https://docs.blockdaemon.com/reference/rest-api-overview)
 
 ### Currently supported protocols:
 
 * algorand
   * mainnet
+* avalanche 
+  * mainnet-c/testnet-c
 * bitcoin
   * mainnet/testnet
 * bitcoincash
@@ -16,12 +18,12 @@ with a rich and reusable model across multiple protocols/cryptocurrencies.
 * dogecoin
   * mainnet/testnet
 * ethereum
-  * mainnet/goerli
+  * mainnet/holesky/sepolia
+* fantom
+  * mainnet/testnet
 * litecoin
   * mainnet/testnet
 * near
-  * mainnet/testnet
-* oasis
   * mainnet
 * optimism
   * mainnet
@@ -35,10 +37,12 @@ with a rich and reusable model across multiple protocols/cryptocurrencies.
   * mainnet/testnet
 * tezos
   * mainnet
+* tron
+  * mainnet/nile
 * xrp
   * mainnet
 
-##### Pagination
+### Pagination
 Certain resources contain a lot of data, more than what's practical
 to return for a single request.
 With the help of pagination, the data is split across multiple responses.
@@ -72,24 +76,24 @@ All URIs are relative to *https://svc.blockdaemon.com/universal/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AccountsApi* | [**get_list_of_balances_by_address**](docs/AccountsApi.md#get_list_of_balances_by_address) | **GET** /{protocol}/{network}/account/{address} | Get a List of Balances for an Address
-*AccountsApi* | [**get_list_of_balances_by_addresses**](docs/AccountsApi.md#get_list_of_balances_by_addresses) | **POST** /{protocol}/{network}/accounts | Get a List of Balances for Multiple Adresses
-*AccountsApi* | [**get_report_by_address**](docs/AccountsApi.md#get_report_by_address) | **GET** /{protocol}/{network}/account/{address}/report | Get a Financial Report for an Address between a Time Period
-*AccountsApi* | [**get_txs_by_address**](docs/AccountsApi.md#get_txs_by_address) | **GET** /{protocol}/{network}/account/{address}/txs | Get a List of Transactions
-*AccountsApi* | [**get_utxoby_account**](docs/AccountsApi.md#get_utxoby_account) | **GET** /{protocol}/{network}/account/{address}/utxo | Get a List of Transaction Inputs and Outputs
+*BalancesUTXOApi* | [**get_list_of_balances_by_address**](docs/BalancesUTXOApi.md#get_list_of_balances_by_address) | **GET** /{protocol}/{network}/account/{address} | Get a List of Balances for an Address
+*BalancesUTXOApi* | [**get_list_of_balances_by_addresses**](docs/BalancesUTXOApi.md#get_list_of_balances_by_addresses) | **POST** /{protocol}/{network}/accounts/ | Get a List of Balances for Multiple Adresses
+*BalancesUTXOApi* | [**get_report_by_address**](docs/BalancesUTXOApi.md#get_report_by_address) | **GET** /{protocol}/{network}/account/{address}/report | Get a Financial Report for an Address Between a Time Period
 *BlocksApi* | [**get_block_by_number**](docs/BlocksApi.md#get_block_by_number) | **GET** /{protocol}/{network}/block/{block_identifier} | Get a Block by Number or Hash
-*BlocksApi* | [**get_block_identifier_by_number**](docs/BlocksApi.md#get_block_identifier_by_number) | **GET** /{protocol}/{network}/block_identifier/{block_identifier} | Get a Block Identifier by Number
+*BlocksApi* | [**get_block_identifier_by_number**](docs/BlocksApi.md#get_block_identifier_by_number) | **GET** /{protocol}/{network}/block_identifier/{block_identifier} | Get a Block Identifier by Number of Hash
 *BlocksApi* | [**get_block_identifiers**](docs/BlocksApi.md#get_block_identifiers) | **GET** /{protocol}/{network}/block_identifiers | Get a List of Block Identifiers
 *BlocksApi* | [**get_current_block_hash**](docs/BlocksApi.md#get_current_block_hash) | **GET** /{protocol}/{network}/sync/block_id | Get the Current Block Hash
 *BlocksApi* | [**get_current_block_number**](docs/BlocksApi.md#get_current_block_number) | **GET** /{protocol}/{network}/sync/block_number | Get the Current Block Number
-*GasEstimatorApi* | [**get_gas_fee_estimate**](docs/GasEstimatorApi.md#get_gas_fee_estimate) | **GET** /{protocol}/{network}/tx/estimate_fee | Get the Gas Fee Estimation
+*FeeEstimatorApi* | [**get_fee_estimate**](docs/FeeEstimatorApi.md#get_fee_estimate) | **GET** /{protocol}/{network}/tx/estimate_fee | Get the Fee Estimation
 *ProtocolAndEndpointSupportApi* | [**get_protocol_endpoints**](docs/ProtocolAndEndpointSupportApi.md#get_protocol_endpoints) | **GET** /{protocol}/{network} | Get the Protocol Info
 *ProtocolAndEndpointSupportApi* | [**get_protocols_list**](docs/ProtocolAndEndpointSupportApi.md#get_protocols_list) | **GET** / | Get the Protocols Overview
 *TransactionsApi* | [**get_tx_by_hash**](docs/TransactionsApi.md#get_tx_by_hash) | **GET** /{protocol}/{network}/tx/{hash} | Get a Transaction
 *TransactionsApi* | [**get_tx_confirmations**](docs/TransactionsApi.md#get_tx_confirmations) | **GET** /{protocol}/{network}/tx/{hash}/confirmations | Get the Transaction Confirmations
 *TransactionsApi* | [**get_tx_output_by_hash_and_index**](docs/TransactionsApi.md#get_tx_output_by_hash_and_index) | **GET** /{protocol}/{network}/tx/{hash}/{index} | Get a Transaction Output by Hash and Index
 *TransactionsApi* | [**get_txs**](docs/TransactionsApi.md#get_txs) | **GET** /{protocol}/{network}/txs | Get a List of Transactions
-*TransactionsApi* | [**tx_create**](docs/TransactionsApi.md#tx_create) | **POST** /{protocol}/{network}/tx/create | Create an unsigned transaction
+*TransactionsApi* | [**get_txs_by_address**](docs/TransactionsApi.md#get_txs_by_address) | **GET** /{protocol}/{network}/account/{address}/txs | Get a List of Transactions for a Given Address
+*TransactionsApi* | [**get_utxoby_account**](docs/TransactionsApi.md#get_utxoby_account) | **GET** /{protocol}/{network}/account/{address}/utxo | Get a List of Transaction Inputs and Outputs
+*TransactionsApi* | [**tx_create**](docs/TransactionsApi.md#tx_create) | **POST** /{protocol}/{network}/tx/create | Create an Unsigned Transaction
 *TransactionsApi* | [**tx_send**](docs/TransactionsApi.md#tx_send) | **POST** /{protocol}/{network}/tx/send | Submit a Signed Transaction
 
 
@@ -104,8 +108,12 @@ Class | Method | HTTP request | Description
  - [Currency](docs/Currency.md)
  - [Error](docs/Error.md)
  - [Event](docs/Event.md)
+ - [EventMeta](docs/EventMeta.md)
+ - [EvmFee](docs/EvmFee.md)
+ - [EvmFeeEstimate](docs/EvmFeeEstimate.md)
  - [FeeEstimate](docs/FeeEstimate.md)
- - [FeeEstimateEstimatedFees](docs/FeeEstimateEstimatedFees.md)
+ - [FeeEstimateResponse](docs/FeeEstimateResponse.md)
+ - [InlineResponse200](docs/InlineResponse200.md)
  - [Meta](docs/Meta.md)
  - [NativeCurrency](docs/NativeCurrency.md)
  - [Paging](docs/Paging.md)
@@ -123,15 +131,20 @@ Class | Method | HTTP request | Description
  - [Tx](docs/Tx.md)
  - [TxConfirmation](docs/TxConfirmation.md)
  - [TxCreate](docs/TxCreate.md)
+ - [TxCreateContract](docs/TxCreateContract.md)
+ - [TxCreateEvm](docs/TxCreateEvm.md)
+ - [TxCreateProtocol](docs/TxCreateProtocol.md)
  - [TxDestination](docs/TxDestination.md)
  - [TxMinify](docs/TxMinify.md)
  - [TxOutput](docs/TxOutput.md)
  - [TxOutputResponse](docs/TxOutputResponse.md)
+ - [TxOutputResponseMeta](docs/TxOutputResponseMeta.md)
  - [TxOutputs](docs/TxOutputs.md)
  - [TxOutputsData](docs/TxOutputsData.md)
  - [TxPage](docs/TxPage.md)
  - [TxReceipt](docs/TxReceipt.md)
  - [UnsignedTx](docs/UnsignedTx.md)
+ - [UnsignedTxMeta](docs/UnsignedTxMeta.md)
 
 
 To get access to the crate's generated documentation, use:

@@ -1,7 +1,7 @@
 /*
- * Universal REST API
+ * Blockdaemon REST API
  *
- * Universal API provides a RESTful and uniform way to access blockchain resources, with a rich and reusable model across multiple protocols/cryptocurrencies.  [Documentation](https://app.blockdaemon.com/docs/ubiquity)  ### Currently supported protocols:  * algorand   * mainnet * bitcoin   * mainnet/testnet * bitcoincash   * mainnet/testnet * dogecoin   * mainnet/testnet * ethereum   * mainnet/goerli * litecoin   * mainnet/testnet * near   * mainnet/testnet * oasis   * mainnet * optimism   * mainnet * polkadot   * mainnet/westend * polygon   * mainnet/amoy * solana   * mainnet/testnet * stellar   * mainnet/testnet * tezos   * mainnet * xrp   * mainnet  ##### Pagination Certain resources contain a lot of data, more than what's practical to return for a single request. With the help of pagination, the data is split across multiple responses. Each response returns a subset of the items requested, and a continuation token.  To get the next batch of items, copy the returned continuation token to the continuation query parameter and repeat the request with the new URL. In case no continuation token is returned, there is no more data available. 
+ * Blockdaemon REST API provides a RESTful and uniform way to access blockchain resources, with a rich and reusable model across multiple protocols/cryptocurrencies.  [Documentation](https://docs.blockdaemon.com/reference/rest-api-overview)  ### Currently supported protocols:  * algorand   * mainnet * avalanche    * mainnet-c/testnet-c * bitcoin   * mainnet/testnet * bitcoincash   * mainnet/testnet * dogecoin   * mainnet/testnet * ethereum   * mainnet/holesky/sepolia * fantom   * mainnet/testnet * litecoin   * mainnet/testnet * near   * mainnet * optimism   * mainnet * polkadot   * mainnet/westend * polygon   * mainnet/amoy * solana   * mainnet/testnet * stellar   * mainnet/testnet * tezos   * mainnet * tron   * mainnet/nile * xrp   * mainnet  ### Pagination Certain resources contain a lot of data, more than what's practical to return for a single request. With the help of pagination, the data is split across multiple responses. Each response returns a subset of the items requested, and a continuation token.  To get the next batch of items, copy the returned continuation token to the continuation query parameter and repeat the request with the new URL. In case no continuation token is returned, there is no more data available. 
  *
  * The version of the OpenAPI document: 3.0.0
  * Contact: support@blockdaemon.com
@@ -45,6 +45,7 @@ pub enum GetBlockIdentifierByNumberError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetBlockIdentifiersError {
+    Status400(crate::models::Error),
     Status401(crate::models::Error),
     Status429(crate::models::Error),
     Status500(crate::models::Error),
@@ -67,6 +68,7 @@ pub enum GetCurrentBlockHashError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetCurrentBlockNumberError {
+    Status400(crate::models::Error),
     Status401(crate::models::Error),
     Status429(crate::models::Error),
     Status500(crate::models::Error),
@@ -153,7 +155,7 @@ pub async fn get_block_identifier_by_number(configuration: &configuration::Confi
     }
 }
 
-/// Returns a list of minimal block data, block headers such as block hash and block number.  The response is paginated: use the returned `next_page_token` token as a query parameter to get the next page. 
+/// Returns a list of minimal block data, block headers such as block hash and block number. 
 pub async fn get_block_identifiers(configuration: &configuration::Configuration, protocol: &str, network: &str, order: Option<&str>, page_token: Option<&str>, page_size: Option<i32>) -> Result<crate::models::BlockIdentifiers, Error<GetBlockIdentifiersError>> {
     let local_var_configuration = configuration;
 

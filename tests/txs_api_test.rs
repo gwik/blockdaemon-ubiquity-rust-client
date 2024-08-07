@@ -1,6 +1,6 @@
 use std::io;
 
-use ubiquity::api::{gas_estimator_api, transactions_api};
+use ubiquity::api::{fee_estimator_api, transactions_api};
 
 pub mod utils;
 
@@ -107,7 +107,7 @@ async fn txs() {
 
       for (platform, network) in test_txs_data {
         let res =
-          transactions_api::get_txs(&setup_data.config, platform, network, None, None, None, None, None).await;
+          transactions_api::get_txs(&setup_data.config, platform, network, None, None, None, None, None, None).await;
         match res {
           Ok(_) => {}
           Err(e) => panic!("{}", e),
@@ -125,10 +125,10 @@ async fn estimate_fee() {
 
   let _mock = utils::create_mock_from_file(
     "./tests/mock_files/transactions_api/estimate_fee.json",
-    "/bitcoin/mainnet/tx/estimate_fee",
+    "/ethereum/mainnet/tx/estimate_fee",
   );
 
-  let res = gas_estimator_api::get_gas_fee_estimate(&config, "bitcoin", "mainnet").await;
+  let res = fee_estimator_api::get_fee_estimate(&config, "ethereum", "mainnet").await;
   match res {
     Ok(_) => {}
     Err(e) => panic!("{}", e),

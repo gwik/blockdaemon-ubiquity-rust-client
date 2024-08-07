@@ -1,8 +1,17 @@
 {
-    "most_recent_block": 733701,
+    "most_recent_block": 20376789,
     "estimated_fees": {
-        "fast": 2,
-        "medium": 2,
-        "slow": 2
+        "fast": {
+            "max_priority_fee": 2000000000,
+            "max_total_fee": 16411558755
+        },
+        "medium": {
+            "max_priority_fee": 1200000000,
+            "max_total_fee": 14555113789
+        },
+        "slow": {
+            "max_priority_fee": 1000000000,
+            "max_total_fee": 9783373547
+        }
     }
 }

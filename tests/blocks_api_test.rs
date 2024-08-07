@@ -10,10 +10,10 @@ fn setup_blocks_by_identifier(
     let url = mockito::server_url();
 
     let mut mocks = vec![];
-    for (platform, network, id) in test_blocks_data {
+    for (protocol, network, id) in test_blocks_data {
         let mock = utils::create_mock_from_file(
-            &format!("./tests/mock_files/blocks_api/{}.json", platform),
-            &format!("/{}/{}/block/{}", platform, network, id),
+            &format!("./tests/mock_files/blocks_api/{}.json", protocol),
+            &format!("/{}/{}/block/{}", protocol, network, id),
         )?;
         mocks.push(mock);
     }
@@ -25,20 +25,20 @@ fn setup_sync() -> Result<utils::Setup, io::Error> {
     let url = mockito::server_url();
 
     let block_number_bitcoin_mock = utils::create_mock_from_file(
-        "./tests/mock_files/sync_api/sync_block_number_bitcoin.json",
+        "./tests/mock_files/blocks_api/sync_block_number_bitcoin.json",
         "/bitcoin/mainnet/sync/block_number",
     )?;
     let block_number_ethereum_mock = utils::create_mock_from_file(
-        "./tests/mock_files/sync_api/sync_block_number_ethereum.json",
+        "./tests/mock_files/blocks_api/sync_block_number_ethereum.json",
         "/ethereum/mainnet/sync/block_number",
     )?;
 
     let block_id_bitcoin_mock = utils::create_mock_from_file(
-        "./tests/mock_files/sync_api/sync_block_id_bitcoin.json",
+        "./tests/mock_files/blocks_api/sync_block_id_bitcoin.json",
         "/bitcoin/mainnet/sync/block_id",
     )?;
     let block_id_ethereum_mock = utils::create_mock_from_file(
-        "./tests/mock_files/sync_api/sync_block_id_ethereum.json",
+        "./tests/mock_files/blocks_api/sync_block_id_ethereum.json",
         "/ethereum/mainnet/sync/block_id",
     )?;
 
@@ -59,13 +59,13 @@ fn setup_block_ids_by_identifier(
     let url = mockito::server_url();
 
     let mut mocks = vec![];
-    for (platform, network, id) in test_blocks_data {
+    for (protocol, network, id) in test_blocks_data {
         let mock = utils::create_mock_from_file(
             &format!(
                 "./tests/mock_files/blocks_api/block_identifiers/{}.json",
-                platform
+                protocol
             ),
-            &format!("/{}/{}/block_identifier/{}", platform, network, id),
+            &format!("/{}/{}/block_identifier/{}", protocol, network, id),
         )?;
         mocks.push(mock);
     }
@@ -92,9 +92,9 @@ async fn blocks_by_id() {
         Ok(setup_data) => {
             let _m = setup_data.mocks;
 
-            for (platform, network, ident) in test_blocks_data {
+            for (protocol, network, ident) in test_blocks_data {
                 let res =
-                    blocks_api::get_block_by_number(&setup_data.config, platform, network, ident)
+                    blocks_api::get_block_by_number(&setup_data.config, protocol, network, ident)
                         .await;
                 match res {
                     Ok(_) => {}
@@ -117,8 +117,8 @@ async fn blocks_by_number() {
         Ok(setup_data) => {
             let _m = setup_data.mocks;
 
-            for (platform, network, ident) in test_blocks_data {
-                let res = blocks_api::get_block_by_number(&setup_data.config, platform, network, ident).await;
+            for (protocol, network, ident) in test_blocks_data {
+                let res = blocks_api::get_block_by_number(&setup_data.config, protocol, network, ident).await;
                 match res {
                     Ok(_) => {}
                     Err(e) => panic!("{}", e),
@@ -148,10 +148,10 @@ async fn block_ids_by_id() {
         Ok(setup_data) => {
             let _m = setup_data.mocks;
 
-            for (platform, network, ident) in test_blocks_data {
+            for (protocol, network, ident) in test_blocks_data {
                 let res = blocks_api::get_block_identifier_by_number(
                     &setup_data.config,
-                    platform,
+                    protocol,
                     network,
                     ident,
                 )
@@ -177,10 +177,10 @@ async fn block_ids_by_number() {
         Ok(setup_data) => {
             let _m = setup_data.mocks;
 
-            for (platform, network, ident) in test_blocks_data {
+            for (protocol, network, ident) in test_blocks_data {
                 let res = blocks_api::get_block_identifier_by_number(
                     &setup_data.config,
-                    platform,
+                    protocol,
                     network,
                     ident,
                 )
@@ -196,10 +196,10 @@ async fn block_ids_by_number() {
 }
 
 async fn test_current_block_id_with_config(config: configuration::Configuration) {
-    let test_platform_pairs = [("bitcoin", "mainnet"), ("ethereum", "mainnet")];
+    let test_protocol_pairs = [("bitcoin", "mainnet"), ("ethereum", "mainnet")];
 
-    for (platform, network) in test_platform_pairs {
-        let res = blocks_api::get_current_block_hash(&config, platform, network).await;
+    for (protocol, network) in test_protocol_pairs {
+        let res = blocks_api::get_current_block_hash(&config, protocol, network).await;
         match res {
             Ok(_) => {}
             Err(e) => panic!("{}", e),
@@ -208,10 +208,10 @@ async fn test_current_block_id_with_config(config: configuration::Configuration)
 }
 
 async fn test_current_block_number_with_config(config: configuration::Configuration) {
-    let test_platform_pairs = [("bitcoin", "mainnet"), ("ethereum", "mainnet")];
+    let test_protocol_pairs = [("bitcoin", "mainnet"), ("ethereum", "mainnet")];
 
-    for (platform, network) in test_platform_pairs {
-        let res = blocks_api::get_current_block_number(&config, platform, network).await;
+    for (protocol, network) in test_protocol_pairs {
+        let res = blocks_api::get_current_block_number(&config, protocol, network).await;
         match res {
             Ok(_) => {}
             Err(e) => panic!("{}", e),

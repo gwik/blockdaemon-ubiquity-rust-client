@@ -1,0 +1,25 @@
+{
+  "handle": "polkadot",
+  "network": "mainnet",
+  "genesis_number": 0,
+  "endpoints": [
+    "/account/:address",
+    "/account/:address/nonce",
+    "/account/:address/report",
+    "/account/:address/txs",
+    "/accounts/",
+    "/block/:id",
+    "/block/:number",
+    "/block_identifier/:id",
+    "/block_identifier/:number",
+    "/block_identifiers",
+    "/sync/block_id",
+    "/sync/block_number",
+    "/tx/:id",
+    "/tx/:id/confirmations",
+    "/tx/create",
+    "/tx/estimate_fee",
+    "/tx/send",
+    "/txs"
+  ]
+}

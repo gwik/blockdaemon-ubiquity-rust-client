@@ -1,7 +1,7 @@
 /*
- * Universal REST API
+ * Blockdaemon REST API
  *
- * Universal API provides a RESTful and uniform way to access blockchain resources, with a rich and reusable model across multiple protocols/cryptocurrencies.  [Documentation](https://app.blockdaemon.com/docs/ubiquity)  ### Currently supported protocols:  * algorand   * mainnet * bitcoin   * mainnet/testnet * bitcoincash   * mainnet/testnet * dogecoin   * mainnet/testnet * ethereum   * mainnet/goerli * litecoin   * mainnet/testnet * near   * mainnet/testnet * oasis   * mainnet * optimism   * mainnet * polkadot   * mainnet/westend * polygon   * mainnet/amoy * solana   * mainnet/testnet * stellar   * mainnet/testnet * tezos   * mainnet * xrp   * mainnet  ##### Pagination Certain resources contain a lot of data, more than what's practical to return for a single request. With the help of pagination, the data is split across multiple responses. Each response returns a subset of the items requested, and a continuation token.  To get the next batch of items, copy the returned continuation token to the continuation query parameter and repeat the request with the new URL. In case no continuation token is returned, there is no more data available. 
+ * Blockdaemon REST API provides a RESTful and uniform way to access blockchain resources, with a rich and reusable model across multiple protocols/cryptocurrencies.  [Documentation](https://docs.blockdaemon.com/reference/rest-api-overview)  ### Currently supported protocols:  * algorand   * mainnet * avalanche    * mainnet-c/testnet-c * bitcoin   * mainnet/testnet * bitcoincash   * mainnet/testnet * dogecoin   * mainnet/testnet * ethereum   * mainnet/holesky/sepolia * fantom   * mainnet/testnet * litecoin   * mainnet/testnet * near   * mainnet * optimism   * mainnet * polkadot   * mainnet/westend * polygon   * mainnet/amoy * solana   * mainnet/testnet * stellar   * mainnet/testnet * tezos   * mainnet * tron   * mainnet/nile * xrp   * mainnet  ### Pagination Certain resources contain a lot of data, more than what's practical to return for a single request. With the help of pagination, the data is split across multiple responses. Each response returns a subset of the items requested, and a continuation token.  To get the next batch of items, copy the returned continuation token to the continuation query parameter and repeat the request with the new URL. In case no continuation token is returned, there is no more data available. 
  *
  * The version of the OpenAPI document: 3.0.0
  * Contact: support@blockdaemon.com
@@ -13,27 +13,33 @@
 
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
 pub struct TxCreate {
-    /// The source UTXO or account ID for the originating funds
+    /// The source UTXO or account ID for the originating funds.
     #[serde(rename = "from")]
     pub from: String,
-    /// A list of recipients
+    /// A list of recipients.
     #[serde(rename = "to")]
     pub to: Vec<crate::models::TxDestination>,
-    /// The UTXO index or the account Nonce
-    #[serde(rename = "index")]
-    pub index: f32,
-    /// The fee you are willing to pay (required only for Ethereum) for the transaction
+    #[serde(rename = "contract", skip_serializing_if = "Option::is_none")]
+    pub contract: Option<Box<crate::models::TxCreateContract>>,
+    /// The UTXO index or the account Nonce. Required for Bitcoin, Bitcoincash, and Litecoin.
+    #[serde(rename = "index", skip_serializing_if = "Option::is_none")]
+    pub index: Option<i64>,
+    /// The fee you are willing to pay for the transaction. For Ethereum and Polygon see 'protocol.ethereum' and 'protocol.polygon'.
     #[serde(rename = "fee", skip_serializing_if = "Option::is_none")]
     pub fee: Option<String>,
+    #[serde(rename = "protocol", skip_serializing_if = "Option::is_none")]
+    pub protocol: Option<crate::models::TxCreateProtocol>,
 }
 
 impl TxCreate {
-    pub fn new(from: String, to: Vec<crate::models::TxDestination>, index: f32) -> TxCreate {
+    pub fn new(from: String, to: Vec<crate::models::TxDestination>) -> TxCreate {
         TxCreate {
             from,
             to,
-            index,
+            contract: None,
+            index: None,
             fee: None,
+            protocol: None,
         }
     }
 }

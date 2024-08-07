@@ -1,0 +1,18 @@
+{
+  "handle": "algorand",
+  "network": "mainnet",
+  "genesis_number": 0,
+  "endpoints": [
+    "/account/:address",
+    "/account/:address/report",
+    "/account/:address/txs",
+    "/accounts/",
+    "/block/:number",
+    "/block_identifier/:number",
+    "/sync/block_id",
+    "/sync/block_number",
+    "/tx/:id",
+    "/tx/send",
+    "/txs"
+  ]
+}
