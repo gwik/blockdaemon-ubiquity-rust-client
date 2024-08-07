@@ -1,7 +1,7 @@
 /*
- * Universal REST API
+ * Blockdaemon REST API
  *
- * Universal API provides a RESTful and uniform way to access blockchain resources, with a rich and reusable model across multiple protocols/cryptocurrencies.  [Documentation](https://app.blockdaemon.com/docs/ubiquity)  ### Currently supported protocols:  * algorand   * mainnet * bitcoin   * mainnet/testnet * bitcoincash   * mainnet/testnet * dogecoin   * mainnet/testnet * ethereum   * mainnet/goerli * litecoin   * mainnet/testnet * near   * mainnet/testnet * oasis   * mainnet * optimism   * mainnet * polkadot   * mainnet/westend * polygon   * mainnet/amoy * solana   * mainnet/testnet * stellar   * mainnet/testnet * tezos   * mainnet * xrp   * mainnet  ##### Pagination Certain resources contain a lot of data, more than what's practical to return for a single request. With the help of pagination, the data is split across multiple responses. Each response returns a subset of the items requested, and a continuation token.  To get the next batch of items, copy the returned continuation token to the continuation query parameter and repeat the request with the new URL. In case no continuation token is returned, there is no more data available. 
+ * Blockdaemon REST API provides a RESTful and uniform way to access blockchain resources, with a rich and reusable model across multiple protocols/cryptocurrencies.  [Documentation](https://docs.blockdaemon.com/reference/rest-api-overview)  ### Currently supported protocols:  * algorand   * mainnet * avalanche    * mainnet-c/testnet-c * bitcoin   * mainnet/testnet * bitcoincash   * mainnet/testnet * dogecoin   * mainnet/testnet * ethereum   * mainnet/holesky/sepolia * fantom   * mainnet/testnet * litecoin   * mainnet/testnet * near   * mainnet * optimism   * mainnet * polkadot   * mainnet/westend * polygon   * mainnet/amoy * solana   * mainnet/testnet * stellar   * mainnet/testnet * tezos   * mainnet * tron   * mainnet/nile * xrp   * mainnet  ### Pagination Certain resources contain a lot of data, more than what's practical to return for a single request. With the help of pagination, the data is split across multiple responses. Each response returns a subset of the items requested, and a continuation token.  To get the next batch of items, copy the returned continuation token to the continuation query parameter and repeat the request with the new URL. In case no continuation token is returned, there is no more data available. 
  *
  * The version of the OpenAPI document: 3.0.0
  * Contact: support@blockdaemon.com
@@ -63,13 +63,43 @@ pub enum GetTxsError {
     UnknownValue(serde_json::Value),
 }
 
+/// struct for typed errors of method [`get_txs_by_address`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetTxsByAddressError {
+    Status400(crate::models::Error),
+    Status401(crate::models::Error),
+    Status403(crate::models::Error),
+    Status404(crate::models::Error),
+    Status429(crate::models::Error),
+    Status500(crate::models::Error),
+    Status503(crate::models::Error),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method [`get_utxoby_account`]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetUtxobyAccountError {
+    Status400(crate::models::Error),
+    Status401(crate::models::Error),
+    Status404(crate::models::Error),
+    Status413(crate::models::Error),
+    Status429(crate::models::Error),
+    Status500(crate::models::Error),
+    Status503(crate::models::Error),
+    UnknownValue(serde_json::Value),
+}
+
 /// struct for typed errors of method [`tx_create`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum TxCreateError {
+    Status400(crate::models::Error),
     Status401(crate::models::Error),
     Status429(crate::models::Error),
-    Status400(crate::models::Error),
+    Status500(crate::models::Error),
+    Status503(crate::models::Error),
     UnknownValue(serde_json::Value),
 }
 
@@ -203,8 +233,8 @@ pub async fn get_tx_output_by_hash_and_index(configuration: &configuration::Conf
     }
 }
 
-/// Get a List of transactions, starting with the lastest one. Each call returns an array of the entire list.  The response is paginated: use the returned `next_page_token` token as a query parameter to get the next page. 
-pub async fn get_txs(configuration: &configuration::Configuration, protocol: &str, network: &str, block_hash: Option<&str>, assets: Option<&str>, order: Option<&str>, page_token: Option<&str>, page_size: Option<i32>) -> Result<crate::models::TxPage, Error<GetTxsError>> {
+/// Get a List of transactions, starting with the lastest one. Each call returns an array of the entire list. 
+pub async fn get_txs(configuration: &configuration::Configuration, protocol: &str, network: &str, block_hash: Option<&str>, block_number: Option<i32>, assets: Option<&str>, order: Option<&str>, page_token: Option<&str>, page_size: Option<i32>) -> Result<crate::models::TxPage, Error<GetTxsError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -214,6 +244,9 @@ pub async fn get_txs(configuration: &configuration::Configuration, protocol: &st
 
     if let Some(ref local_var_str) = block_hash {
         local_var_req_builder = local_var_req_builder.query(&[("block_hash", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = block_number {
+        local_var_req_builder = local_var_req_builder.query(&[("block_number", &local_var_str.to_string())]);
     }
     if let Some(ref local_var_str) = assets {
         local_var_req_builder = local_var_req_builder.query(&[("assets", &local_var_str.to_string())]);
@@ -257,7 +290,124 @@ pub async fn get_txs(configuration: &configuration::Configuration, protocol: &st
     }
 }
 
-/// Creates an unsigned transaction for BTC, DOT and ETH.  **Note** that Ethereum currently only supports singular transaction destinations 
+/// Returns the transactions that an address was involved with, from newest to oldest. 
+pub async fn get_txs_by_address(configuration: &configuration::Configuration, protocol: &str, network: &str, address: &str, assets: Option<&str>, from: Option<i32>, to: Option<i32>, order: Option<&str>, page_token: Option<&str>, page_size: Option<i32>) -> Result<crate::models::TxPage, Error<GetTxsByAddressError>> {
+    let local_var_configuration = configuration;
+
+    let local_var_client = &local_var_configuration.client;
+
+    let local_var_uri_str = format!("{}/{protocol}/{network}/account/{address}/txs", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network), address=crate::apis::urlencode(address));
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
+
+    if let Some(ref local_var_str) = assets {
+        local_var_req_builder = local_var_req_builder.query(&[("assets", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = from {
+        local_var_req_builder = local_var_req_builder.query(&[("from", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = to {
+        local_var_req_builder = local_var_req_builder.query(&[("to", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = order {
+        local_var_req_builder = local_var_req_builder.query(&[("order", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = page_token {
+        local_var_req_builder = local_var_req_builder.query(&[("page_token", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = page_size {
+        local_var_req_builder = local_var_req_builder.query(&[("page_size", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+    }
+    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
+        let local_var_key = local_var_apikey.key.clone();
+        let local_var_value = match local_var_apikey.prefix {
+            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+            None => local_var_key,
+        };
+        local_var_req_builder = local_var_req_builder.header("X-API-Key", local_var_value);
+    };
+    if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
+    };
+
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
+
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        serde_json::from_str(&local_var_content).map_err(Error::from)
+    } else {
+        let local_var_entity: Option<GetTxsByAddressError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
+    }
+}
+
+/// Returns the transaction inputs and outputs following the BTC's UTXO model definition by a user-definied account address. 
+pub async fn get_utxoby_account(configuration: &configuration::Configuration, protocol: &str, network: &str, address: &str, spent: Option<bool>, check_mempool: Option<bool>, from: Option<i32>, to: Option<i32>, order: Option<&str>, page_token: Option<&str>, page_size: Option<i32>) -> Result<crate::models::TxOutputs, Error<GetUtxobyAccountError>> {
+    let local_var_configuration = configuration;
+
+    let local_var_client = &local_var_configuration.client;
+
+    let local_var_uri_str = format!("{}/{protocol}/{network}/account/{address}/utxo", local_var_configuration.base_path, protocol=crate::apis::urlencode(protocol), network=crate::apis::urlencode(network), address=crate::apis::urlencode(address));
+    let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
+
+    if let Some(ref local_var_str) = spent {
+        local_var_req_builder = local_var_req_builder.query(&[("spent", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = check_mempool {
+        local_var_req_builder = local_var_req_builder.query(&[("check_mempool", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = from {
+        local_var_req_builder = local_var_req_builder.query(&[("from", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = to {
+        local_var_req_builder = local_var_req_builder.query(&[("to", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = order {
+        local_var_req_builder = local_var_req_builder.query(&[("order", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = page_token {
+        local_var_req_builder = local_var_req_builder.query(&[("page_token", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = page_size {
+        local_var_req_builder = local_var_req_builder.query(&[("page_size", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+    }
+    if let Some(ref local_var_apikey) = local_var_configuration.api_key {
+        let local_var_key = local_var_apikey.key.clone();
+        let local_var_value = match local_var_apikey.prefix {
+            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+            None => local_var_key,
+        };
+        local_var_req_builder = local_var_req_builder.header("X-API-Key", local_var_value);
+    };
+    if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
+    };
+
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
+
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
+
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+        serde_json::from_str(&local_var_content).map_err(Error::from)
+    } else {
+        let local_var_entity: Option<GetUtxobyAccountError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
+    }
+}
+
+/// Creates an unsigned transaction.  **Note** that Ethereum currently only supports singular transaction destinations. 
 pub async fn tx_create(configuration: &configuration::Configuration, protocol: &str, network: &str, tx_create: crate::models::TxCreate) -> Result<crate::models::UnsignedTx, Error<TxCreateError>> {
     let local_var_configuration = configuration;
 

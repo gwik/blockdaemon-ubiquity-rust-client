@@ -1,0 +1,124 @@
+{
+  "protocols": [
+    {
+      "handle": "algorand",
+      "network": "mainnet"
+    },
+    {
+      "handle": "avalanche",
+      "network": "mainnet-c"
+    },
+    {
+      "handle": "avalanche",
+      "network": "testnet-c"
+    },
+    {
+      "handle": "bitcoin",
+      "network": "mainnet"
+    },
+    {
+      "handle": "bitcoin",
+      "network": "testnet"
+    },
+    {
+      "handle": "bitcoincash",
+      "network": "mainnet"
+    },
+    {
+      "handle": "bitcoincash",
+      "network": "testnet"
+    },
+    {
+      "handle": "dogecoin",
+      "network": "mainnet"
+    },
+    {
+      "handle": "dogecoin",
+      "network": "testnet"
+    },
+    {
+      "handle": "ethereum",
+      "network": "holesky"
+    },
+    {
+      "handle": "ethereum",
+      "network": "mainnet"
+    },
+    {
+      "handle": "ethereum",
+      "network": "sepolia"
+    },
+    {
+      "handle": "fantom",
+      "network": "mainnet"
+    },
+    {
+      "handle": "fantom",
+      "network": "testnet"
+    },
+    {
+      "handle": "litecoin",
+      "network": "mainnet"
+    },
+    {
+      "handle": "litecoin",
+      "network": "testnet"
+    },
+    {
+      "handle": "near",
+      "network": "mainnet"
+    },
+    {
+      "handle": "optimism",
+      "network": "mainnet"
+    },
+    {
+      "handle": "polkadot",
+      "network": "mainnet"
+    },
+    {
+      "handle": "polkadot",
+      "network": "westend"
+    },
+    {
+      "handle": "polygon",
+      "network": "amoy"
+    },
+    {
+      "handle": "polygon",
+      "network": "mainnet"
+    },
+    {
+      "handle": "solana",
+      "network": "mainnet"
+    },
+    {
+      "handle": "solana",
+      "network": "testnet"
+    },
+    {
+      "handle": "stellar",
+      "network": "mainnet"
+    },
+    {
+      "handle": "stellar",
+      "network": "testnet"
+    },
+    {
+      "handle": "tezos",
+      "network": "mainnet"
+    },
+    {
+      "handle": "tron",
+      "network": "mainnet"
+    },
+    {
+      "handle": "tron",
+      "network": "nile"
+    },
+    {
+      "handle": "xrp",
+      "network": "mainnet"
+    }
+  ]
+}

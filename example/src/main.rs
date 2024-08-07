@@ -1,4 +1,4 @@
-use ubiquity::api::{accounts_api, blocks_api};
+use ubiquity::api::{balances_utxo_api, blocks_api, transactions_api};
 use ubiquity::configuration;
 
 #[tokio::main]
@@ -6,7 +6,7 @@ async fn main() {
     println!("Example started");
 
     let token = "<add token here>".to_string();
-    let platform = "litecoin";
+    let protocol = "litecoin";
     let network = "mainnet";
     let addr = "LLucub4nwTdmSd2dhi4fnPLj9vaV6V2Bfw";
 
@@ -19,14 +19,14 @@ async fn main() {
         ..configuration::Configuration::new()
     };
 
-    let result = blocks_api::get_current_block_hash(&cg, platform, network).await;
+    let result = blocks_api::get_current_block_hash(&cg, protocol, network).await;
     match result {
         Ok(id) => println!("current block: {}", id),
         Err(e) => panic!("{}", e),
     }
 
     let balance_map =
-        accounts_api::get_list_of_balances_by_address(&cg, platform, network, addr, None).await;
+        balances_utxo_api::get_list_of_balances_by_address(&cg, protocol, network, addr, None).await;
 
     match balance_map {
         Ok(b) => {
@@ -38,7 +38,7 @@ async fn main() {
         Err(e) => panic!("{}", e),
     }
 
-    let utxos_result = accounts_api::get_utxoby_account(&cg, platform, network, addr, Some(false), None, None, None, None, Some(10)).await;
+    let utxos_result = transactions_api::get_utxoby_account(&cg, protocol, network, addr, Some(false), Some(false), None, None, None, None, Some(10)).await;
     match utxos_result {
         Ok(utxos) => {
             println!("Total UTXO: {:?} - Continuation: {:?}", utxos.total.unwrap(), utxos.meta);

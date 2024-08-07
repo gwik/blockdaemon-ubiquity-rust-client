@@ -1,7 +1,7 @@
 /*
- * Universal REST API
+ * Blockdaemon REST API
  *
- * Universal API provides a RESTful and uniform way to access blockchain resources, with a rich and reusable model across multiple protocols/cryptocurrencies.  [Documentation](https://app.blockdaemon.com/docs/ubiquity)  ### Currently supported protocols:  * algorand   * mainnet * bitcoin   * mainnet/testnet * bitcoincash   * mainnet/testnet * dogecoin   * mainnet/testnet * ethereum   * mainnet/goerli * litecoin   * mainnet/testnet * near   * mainnet/testnet * oasis   * mainnet * optimism   * mainnet * polkadot   * mainnet/westend * polygon   * mainnet/amoy * solana   * mainnet/testnet * stellar   * mainnet/testnet * tezos   * mainnet * xrp   * mainnet  ##### Pagination Certain resources contain a lot of data, more than what's practical to return for a single request. With the help of pagination, the data is split across multiple responses. Each response returns a subset of the items requested, and a continuation token.  To get the next batch of items, copy the returned continuation token to the continuation query parameter and repeat the request with the new URL. In case no continuation token is returned, there is no more data available. 
+ * Blockdaemon REST API provides a RESTful and uniform way to access blockchain resources, with a rich and reusable model across multiple protocols/cryptocurrencies.  [Documentation](https://docs.blockdaemon.com/reference/rest-api-overview)  ### Currently supported protocols:  * algorand   * mainnet * avalanche    * mainnet-c/testnet-c * bitcoin   * mainnet/testnet * bitcoincash   * mainnet/testnet * dogecoin   * mainnet/testnet * ethereum   * mainnet/holesky/sepolia * fantom   * mainnet/testnet * litecoin   * mainnet/testnet * near   * mainnet * optimism   * mainnet * polkadot   * mainnet/westend * polygon   * mainnet/amoy * solana   * mainnet/testnet * stellar   * mainnet/testnet * tezos   * mainnet * tron   * mainnet/nile * xrp   * mainnet  ### Pagination Certain resources contain a lot of data, more than what's practical to return for a single request. With the help of pagination, the data is split across multiple responses. Each response returns a subset of the items requested, and a continuation token.  To get the next batch of items, copy the returned continuation token to the continuation query parameter and repeat the request with the new URL. In case no continuation token is returned, there is no more data available. 
  *
  * The version of the OpenAPI document: 3.0.0
  * Contact: support@blockdaemon.com
@@ -13,51 +13,50 @@
 
 #[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
 pub struct Event {
-    /// Coin amount transfered in the event
-    #[serde(rename = "amount", skip_serializing_if = "Option::is_none")]
-    pub amount: Option<bigdecimal::BigDecimal>,
-    /// Event date in unix timestamp format
-    #[serde(rename = "date", skip_serializing_if = "Option::is_none")]
-    pub date: Option<i64>,
-    /// Coin amount transfered in the event
-    #[serde(rename = "decimals", skip_serializing_if = "Option::is_none")]
-    pub decimals: Option<i32>,
-    /// Symbol of currency, can be natibe currency or token currency
-    #[serde(rename = "denomination", skip_serializing_if = "Option::is_none")]
-    pub denomination: Option<String>,
-    /// Destination address of the event
-    #[serde(rename = "destination", skip_serializing_if = "Option::is_none")]
-    pub destination: Option<String>,
-    /// Event identifier
+    /// The event identifier.
     #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
     pub id: Option<String>,
-    /// Protocol specific data that doesn't fit into a standard model.
-    #[serde(rename = "meta", skip_serializing_if = "Option::is_none")]
-    pub meta: Option<serde_json::Value>,
-    /// Source address of the event
-    #[serde(rename = "source", skip_serializing_if = "Option::is_none")]
-    pub source: Option<String>,
-    /// Transaction identifer this event is presented
+    /// The transaction identifer this event is presented.
     #[serde(rename = "transaction_id", skip_serializing_if = "Option::is_none")]
     pub transaction_id: Option<String>,
-    /// Event type
+    /// The event type.
     #[serde(rename = "type", skip_serializing_if = "Option::is_none")]
     pub _type: Option<String>,
+    /// The Symbol of currency, can be natibe currency or token currency.
+    #[serde(rename = "denomination", skip_serializing_if = "Option::is_none")]
+    pub denomination: Option<String>,
+    /// The destination address of the event.
+    #[serde(rename = "destination", skip_serializing_if = "Option::is_none")]
+    pub destination: Option<String>,
+    /// The source address of the event.
+    #[serde(rename = "source", skip_serializing_if = "Option::is_none")]
+    pub source: Option<String>,
+    #[serde(rename = "meta", skip_serializing_if = "Option::is_none")]
+    pub meta: Option<Box<crate::models::EventMeta>>,
+    /// The event date in unix timestamp format.
+    #[serde(rename = "date", skip_serializing_if = "Option::is_none")]
+    pub date: Option<i64>,
+    /// The coin amount transfered in the event.
+    #[serde(rename = "amount", skip_serializing_if = "Option::is_none")]
+    pub amount: Option<bigdecimal::BigDecimal>,
+    /// The coin amount transfered in the event.
+    #[serde(rename = "decimals", skip_serializing_if = "Option::is_none")]
+    pub decimals: Option<i32>,
 }
 
 impl Event {
     pub fn new() -> Event {
         Event {
-            amount: None,
-            date: None,
-            decimals: None,
-            denomination: None,
-            destination: None,
             id: None,
-            meta: None,
-            source: None,
             transaction_id: None,
             _type: None,
+            denomination: None,
+            destination: None,
+            source: None,
+            meta: None,
+            date: None,
+            amount: None,
+            decimals: None,
         }
     }
 }

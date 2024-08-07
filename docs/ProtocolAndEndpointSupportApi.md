@@ -21,7 +21,7 @@ Provides information about supported endpoints and generic protocol information.
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**protocol** | **String** | Protocol handle, one of:  `algorand`, `bitcoin`, `bitcoincash`, `dogecoin`, `ethereum`, `litecoin`, `near`, `oasis`, `optimism`, `polkadot`, `polygon`, `solana`, `stellar`, `tezos`, `xrp`.  | [required] |[default to bitcoin]
+**protocol** | **String** | Protocol handle, one of:  `algorand`, `avalanche`, `bitcoin`, `bitcoincash`, `dogecoin`, `ethereum`, `fantom`, `litecoin`, `near`, `optimism`, `polkadot`, `polygon`, `solana`, `stellar`, `tezos`, `xrp`.  | [required] |[default to bitcoin]
 **network** | **String** | Which network to target. Available networks can be found in the list of supported protocols or with /{protocol}. | [required] |[default to mainnet]
 
 ### Return type

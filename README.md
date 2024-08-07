@@ -93,7 +93,7 @@ use ubiquity::models::block;
 async fn get_block(token: String) -> Option<()>{
     let token = "<token>";
     let conf = configuration::Configuration {
-        base_path: "https://ubiquity.api.blockdaemon.com/v1".to_string(),
+        base_path: "https://svc.blockdaemon.com/v1".to_string(),
         bearer_access_token: Some(token.to_string()),
         ..configuration::Configuration::new()
     };

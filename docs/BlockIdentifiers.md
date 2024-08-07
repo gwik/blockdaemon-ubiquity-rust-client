@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**total** | Option<**i32**> | Number of items in block identifiers | [optional]
+**total** | Option<**i32**> | The number of items in block identifiers. | [optional]
 **data** | Option<[**Vec<crate::models::BlockIdentifier>**](block_identifier.md)> |  | [optional]
 **meta** | Option<[**crate::models::Meta**](meta.md)> |  | [optional]
 

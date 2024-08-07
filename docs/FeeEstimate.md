@@ -4,8 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**most_recent_block** | Option<**i32**> | Most recent block | [optional]
-**estimated_fees** | Option<[**crate::models::FeeEstimateEstimatedFees**](fee_estimate_estimated_fees.md)> |  | [optional]
+**fast** | Option<[**bigdecimal::BigDecimal**](bigdecimal::BigDecimal.md)> | The fast maximum priority fee. | [optional]
+**medium** | Option<[**bigdecimal::BigDecimal**](bigdecimal::BigDecimal.md)> | The medium maximum priority fee. | [optional]
+**slow** | Option<[**bigdecimal::BigDecimal**](bigdecimal::BigDecimal.md)> | The slow maximum priority fee. | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

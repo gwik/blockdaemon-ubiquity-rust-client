@@ -15,11 +15,12 @@ pub use ubiquity_openapi_client;
 ///         ..configuration::Configuration::new()
 ///     };
 ///
-///     let platform = "ethereum";
+///     let protocol = "ethereum";
 ///     let network = "mainnet";
 ///     let ident = "current";
+///     let option = "";
 ///
-///     let block_result = blocks_api::get_block_by_number(&conf, platform, network, ident).await.ok()?;
+///     let block_result = blocks_api::get_block_by_number(&conf, protocol, network, ident).await.ok()?;
 ///
 ///     let block_id = block_result.id.as_ref()?;
 ///     let block_txs = block_result.txs.as_ref()?;
@@ -47,7 +48,7 @@ pub use ubiquity_openapi_client;
 ///
 /// async fn get_continuated_txs(
 ///     conf: &configuration::Configuration,
-///     platform: &str,
+///     protocol: &str,
 ///     network: &str,
 ///     order: Option<&str>,
 ///     limit: Option<i32>,
@@ -55,8 +56,9 @@ pub use ubiquity_openapi_client;
 /// ) -> Result<TxPage, String> {
 ///     return transactions_api::get_txs(
 ///         conf,
-///         platform,
+///         protocol,
 ///         network,
+///         None,
 ///         None,
 ///         None,
 ///         order,
@@ -77,14 +79,14 @@ pub use ubiquity_openapi_client;
 ///
 /// async fn print_and_get_continuated_txs(
 ///     conf: &configuration::Configuration,
-///     platform: &str,
+///     protocol: &str,
 ///     network: &str,
 ///     order: Option<&str>,
 ///     limit: Option<i32>,
 ///     tx_page: &TxPage,
 /// ) -> Result<TxPage, String> {
 ///     print_tx_page_ids(tx_page)?;
-///     return get_continuated_txs(&conf, platform, network, order, limit, &tx_page).await;
+///     return get_continuated_txs(&conf, protocol, network, order, limit, &tx_page).await;
 /// }
 ///
 /// async fn get_paginated_txs(token: String) -> Result<(), String> {
@@ -93,7 +95,7 @@ pub use ubiquity_openapi_client;
 ///         ..configuration::Configuration::new()
 ///     };
 ///
-///     let platform = "ethereum";
+///     let protocol = "ethereum";
 ///     let network = "mainnet";
 ///
 ///     let order = Some("desc");
@@ -102,10 +104,10 @@ pub use ubiquity_openapi_client;
 ///
 ///     // get last 10 transactions
 ///     let tx_result =
-///         transactions_api::get_txs(&conf, platform, network, None, None, order, continuation, limit).await.map_err(format_get_tx_error)?;
+///         transactions_api::get_txs(&conf, protocol, network, None, None, None, order, continuation, limit).await.map_err(format_get_tx_error)?;
 ///
 ///     let tx_page = print_and_get_continuated_txs(
-///         &conf, platform, network, order, limit, &tx_result,
+///         &conf, protocol, network, order, limit, &tx_result,
 ///     ).await?;
 ///
 ///     print_tx_page_ids(&tx_page)
